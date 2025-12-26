@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.5)
+project(offboard_control_cpp)
+
+# 使用 C++17 或以上
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 找到依赖包
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(px4_msgs REQUIRED)
+
+# 包含头文件目录
+include_directories(
+  include
+  ${px4_msgs_INCLUDE_DIRS}
+)
+
+# 源文件列表
+set(SRC_FILES
+  src/main.cpp
+  src/offboard_control_lib/offboard_control.cpp
+  src/offboard_control_lib/vehicle.cpp
+)
+
+# 生成可执行文件
+add_executable(offboard_control_cpp_node ${SRC_FILES})
+
+# 链接依赖库
+target_link_libraries(offboard_control_cpp_node
+  PUBLIC
+  rclcpp::rclcpp
+  ${px4_msgs_TARGETS}
+)
+
+# 安装节点到ROS2的可执行路径
+install(TARGETS
+  offboard_control_cpp_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# 安装头文件（供其他包使用）
+install(DIRECTORY include/
+  DESTINATION include/
+)
+
+ament_package()
