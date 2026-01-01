@@ -48,6 +48,8 @@ class OffboardControl(Node):
         self.get_logger().info("🚀 [INIT] Initializing OffboardControl node...")
 
         # 配置 QoS：最佳努力传输 + 瞬时本地持久化（适用于 PX4 快速状态流）
+        # 核心原则：Subscriber 的 QoS 要求不能比 Publisher 更“严格”。
+        # reliability=RELIABLE 会显著增加 CPU、内存和网络开销。
         # Configure QoS: Best-effort reliability + transient local durability (suitable for PX4 fast streams)
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
