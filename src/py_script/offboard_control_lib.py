@@ -130,6 +130,7 @@ class OffboardControl(Node):
         """启动心跳线程：以固定频率发布控制模式与轨迹点，维持 Offboard 模式"""
         """Start heartbeat thread: publish control mode & setpoints at fixed rate to maintain offboard mode"""
         self.stop_heartbeat = threading.Event()
+        # 位置环与速度环运行频率为 50Hz,位置姿态控制超过没有意义。对于小型飞控，机载通信频率过高，会报cpu load too high错误，导致无法解锁
         self.heartbeat_hz = 20
         self.heartbeat_thread = threading.Thread(target=self.heartbeat_loop, daemon=True)
         self.heartbeat_thread.start()
