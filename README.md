@@ -1,6 +1,104 @@
 
-# 🛠️ offboard_control_lib 使用说明（详细版）  
-# 🛠️ Detailed Usage Guide for offboard_control_lib  
+# � PX4 ROS2 Vehicle Offboard Control
+
+一键部署系统 | One-Click Deployment System
+
+---
+
+## 📚 部署文档导航 / Documentation Navigation
+
+欢迎使用本项目的部署系统！请根据您的需要选择相应的文档。  
+Welcome to our deployment system! Please choose the documentation that matches your needs.
+
+### 🌟 快速导航 / Quick Links
+
+| 您的需求 / Your Need | 推荐文档 / Recommended Doc | 说明 / Description |
+|---|---|---|
+| **新手用户** / New Users | [📖 快速开始指南](docs/01-QuickStart.md) | 3步快速上手 / 3-step quick start |
+| **日常使用** / Daily Usage | [⚡ 快速参考](docs/02-QuickReference.md) | 常用命令速查表 / Command cheat sheet |
+| **完整学习** / Deep Learning | [📘 完整部署指南](docs/03-DeploymentGuide.md) | 详细功能说明 / Detailed guide |
+| **遇到问题** / Troubleshooting | [🆘 常见问题](docs/04-FAQ.md) | Q&A 和解决方案 / Q&A with solutions |
+| **查看示例** / See Examples | [📝 使用示例](docs/05-Examples.md) | 13个实际场景 / 13 real scenarios |
+| **了解文件结构** / Understand Files | [📁 文件结构](docs/06-FileStructure.md) | 项目组织说明 / Project organization |
+| **功能总结** / Feature Summary | [📊 部署总结](docs/07-DeploymentSummary.md) | 功能清单和统计 / Feature checklist |
+
+### 🎯 常见入口 / Common Entry Points
+
+**👤 如果您是新手 / If you're new:**
+```bash
+# 1. 阅读快速开始指南
+cat docs/01-QuickStart.md
+
+# 2. 运行快速菜单
+./deploy/quick_deploy.sh
+
+# 3. 查看实际示例
+cat docs/05-Examples.md
+```
+
+**🔧 如果您是高级用户 / If you're advanced:**
+```bash
+# 1. 查看完整部署指南
+cat docs/03-DeploymentGuide.md
+
+# 2. 编辑配置文件
+vim deploy/deploy_config.sh
+
+# 3. 运行主脚本
+./deploy/deploy_offboard.sh -h
+```
+
+**🪟 如果您使用Windows / If you're on Windows:**
+```cmd
+# 运行启动器
+deploy\deploy_offboard.bat
+```
+
+### 📂 项目结构 / Project Structure
+
+```
+├── 📁 deploy/                    ⭐ 部署脚本目录 / Deployment scripts
+│   ├── deploy_offboard.sh        主脚本 / Main script
+│   ├── quick_deploy.sh           快速菜单 / Quick menu
+│   ├── deploy_offboard.bat       Windows启动器 / Windows launcher
+│   └── deploy_config.sh          配置文件 / Configuration
+│
+├── 📁 docs/                      📚 文档目录 / Documentation
+│   ├── README.md                 📖 文档导航 / Documentation index
+│   ├── 01-QuickStart.md          快速开始 / Quick start
+│   ├── 02-QuickReference.md      快速参考 / Quick reference
+│   ├── 03-DeploymentGuide.md     完整指南 / Complete guide
+│   ├── 04-FAQ.md                 常见问题 / FAQ
+│   ├── 05-Examples.md            使用示例 / Usage examples
+│   ├── 06-FileStructure.md       文件结构 / File structure
+│   └── 07-DeploymentSummary.md   功能总结 / Feature summary
+│
+└── 📁 src/                       💻 源代码 / Source code
+    ├── offboard_control_cpp/     C++ 实现
+    ├── py_script/                Python 脚本
+    └── startup/                  启动脚本
+```
+
+### 🚀 快速开始 / Get Started Now
+
+```bash
+# 方式 1: 快速菜单（推荐新手）/ Method 1: Quick menu (recommended for beginners)
+./deploy/quick_deploy.sh
+
+# 方式 2: 完整脚本控制 / Method 2: Full script control
+./deploy/deploy_offboard.sh
+
+# 方式 3: 自定义部署 / Method 3: Custom deployment
+./deploy/deploy_offboard.sh -m "Your custom message"
+
+# 获取帮助 / Get help
+./deploy/deploy_offboard.sh -h
+```
+
+---
+
+## 🛠️ offboard_control_lib 使用说明（详细版）  
+## 🛠️ Detailed Usage Guide for offboard_control_lib  
 
 ---
 
