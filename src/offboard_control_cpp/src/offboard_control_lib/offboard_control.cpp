@@ -276,41 +276,42 @@ void OffboardControl::arm() {
     publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
     RCLCPP_INFO(this->get_logger(), "✅ Arm command sent");
 
+    // 等待位置数据,但设置 10 秒超时(室内环境可能没有位置)
     if (!vehicle_local_position_received_) {
-        RCLCPP_WARN(this->get_logger(), "⚠️ Waiting for first local position message...");
-        RCLCPP_WARN(this->get_logger(), "   💡 If this hangs, check: MicroXRCEAgent, serial connection, PX4 status");
-        RCLCPP_WARN(this->get_logger(), "   📍 Expected topic: /fmu/out/vehicle_local_position_v1");
+        RCLCPP_WARN(this->get_logger(), "⚠️ Waiting for position data (may not be available in indoor environments)...");
     }
 
     int wait_count = 0;
-    int max_wait_count = 40; // 20 seconds timeout (500ms * 40)
+    int max_wait_count = 20; // 10 seconds timeout (500ms * 20)
     
     while (!vehicle_local_position_received_ && rclcpp::ok() && wait_count < max_wait_count) {
         wait_count++;
-        if (wait_count % 4 == 0) {  // Log every 2 seconds
-            RCLCPP_WARN(this->get_logger(), "   ⏳ Still waiting... (%d/%d s)", wait_count/2, max_wait_count/2);
+        if (wait_count % 2 == 0) {  // Log every second
+            RCLCPP_WARN(this->get_logger(), "   ⏳ Still waiting for position... (%d/%d s)", wait_count/2, max_wait_count/2);
         }
         std::this_thread::sleep_for(500ms);
     }
     
+    // 不再强制要求位置数据 - 室内环境可能没有
     if (!vehicle_local_position_received_) {
-        RCLCPP_ERROR(this->get_logger(), "❌ TIMEOUT: Position messages never received!");
-        RCLCPP_ERROR(this->get_logger(), "   ⚠️  Flight will not be possible without position feedback");
-        RCLCPP_ERROR(this->get_logger(), "   🔧 Troubleshooting:");
-        RCLCPP_ERROR(this->get_logger(), "      1. Check MicroXRCEAgent status: ps aux | grep MicroXRCEAgent");
-        RCLCPP_ERROR(this->get_logger(), "      2. Check serial connection: ls -la /dev/ttyUSB*");
-        RCLCPP_ERROR(this->get_logger(), "      3. Check PX4 logs in QGC");
-        RCLCPP_ERROR(this->get_logger(), "      4. Try: ros2 topic echo /fmu/out/vehicle_local_position_v1");
-        return;  // Early exit if no position received
+        RCLCPP_WARN(this->get_logger(), "⚠️  Position data not available (expected in indoor/GPS-denied environments)");
+        RCLCPP_WARN(this->get_logger(), "   Using attitude-only control mode");
+        // 继续执行,不返回
     } else {
         RCLCPP_INFO(this->get_logger(), "✅ Position feedback established!");
     }
 
     {
         std::lock_guard<std::mutex> guard(lock_);
-        home_position_ = {vehicle_local_position_enu_.x, vehicle_local_position_enu_.y, vehicle_local_position_enu_.z};
+        if (vehicle_local_position_received_) {
+            home_position_ = {vehicle_local_position_enu_.x, vehicle_local_position_enu_.y, vehicle_local_position_enu_.z};
+            RCLCPP_INFO(this->get_logger(), "🏠 Home position recorded: (%f, %f, %f) (ENU)", 
+                        home_position_[0], home_position_[1], home_position_[2]);
+        } else {
+            home_position_ = {0.0, 0.0, 0.0};
+            RCLCPP_WARN(this->get_logger(), "⚠️ Using default home position (0,0,0) - no position data available");
+        }
     }
-    RCLCPP_INFO(this->get_logger(), "🏠 Home position recorded: (%f, %f, %f) (ENU)", home_position_[0], home_position_[1], home_position_[2]);
 }
 
 void OffboardControl::disarm() {

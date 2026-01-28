@@ -7,8 +7,10 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "════════════════════════════════════════════════════════" << std::endl;
-    std::cout << "🚀 PX4 Offboard Control - Starting Application" << std::endl;
+    std::cout << "🚀 PX4 Offboard Control - Attitude Control Mode" << std::endl;
     std::cout << "════════════════════════════════════════════════════════" << std::endl;
+    std::cout << "⚠️  Note: Using attitude control (no position feedback)" << std::endl;
+    std::cout << "         Suitable for GPS-denied/indoor environments" << std::endl;
 
     // 创建 Vehicle 实例（会自动初始化 ROS2 和启动心跳线程）
     std::cout << "📍 Initializing Vehicle..." << std::endl;
@@ -17,7 +19,7 @@ int main(int argc, char* argv[]) {
     try {
         // 等待足够的时间让心跳线程稳定工作和订阅器连接
         std::cout << "⏳ Waiting for system initialization (10 seconds)..." << std::endl;
-        std::cout << "   心跳线程应该已启动，正在发送 offboard control signals..." << std::endl;
+        std::cout << "   Offboard control signals should be transmitting..." << std::endl;
         for (int i = 0; i < 10; i++) {
             std::cout << "   [" << i+1 << "/10]" << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -28,30 +30,20 @@ int main(int argc, char* argv[]) {
         std::cout << "✅ ARM command sent, waiting 2 seconds..." << std::endl;
         std::this_thread::sleep_for(std::chrono::seconds(2));
 
-        std::cout << "\n📍 Preparing for takeoff..." << std::endl;
-        bool ok = vehicle->drone()->takeoff_command_global(
-            1.5,      // altitude_m
-            0.0,      // pitch deg
-            0.0,      // yaw deg
-            NAN,      // lat
-            NAN,      // lon
-            300.0     // timeout
-        );
+        // 使用姿态控制而非位置控制(适合室内无 GPS 环境)
+        std::cout << "\n📍 Setting up attitude control..." << std::endl;
+        vehicle->drone()->set_control_mode("attitude");
+        
+        // 悬停 5 秒 - 发送小的姿态命令保持平衡
+        std::cout << "🛸 Hovering for 5 seconds (attitude control)..." << std::endl;
+        vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.5); // 50% 油门
+        std::this_thread::sleep_for(std::chrono::seconds(5));
 
-        if (ok) {
-            std::cout << "✅ Takeoff successful! Reached target altitude." << std::endl;
-            
-            std::cout << "\n🛸 Flying to waypoint..." << std::endl;
-            vehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0, 100);
-            std::cout << "✅ Waypoint reached!" << std::endl;
-        } else {
-            std::cout << "❌ Takeoff failed!" << std::endl;
-        }
+        std::cout << "✅ Hover test complete!" << std::endl;
 
         std::cout << "\n🛬 Landing..." << std::endl;
-        vehicle->drone()->land();
-        std::cout << "✅ Landing complete." << std::endl;
-        
+        // 降油门到 0
+        vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
         std::this_thread::sleep_for(std::chrono::seconds(2));
         
         std::cout << "\n🔒 Disarming..." << std::endl;
