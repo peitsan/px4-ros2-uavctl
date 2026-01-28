@@ -14,7 +14,17 @@ Vehicle::Vehicle() {
     executor_->add_node(drone_);
     spin_thread_ = std::thread([this]() { executor_->spin(); });
     RCLCPP_INFO(drone_->get_logger(), "🌀 Vehicle node spinning in background thread");
+    
+    // 等待一些时间让 spin 开始工作
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    
     drone_->heartbeat_thread_start();
+    
+    // 等待足够的时间让心跳信号建立（重要！）
+    std::cout << "⏳ Waiting for heartbeat signals to establish (5 seconds)..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    
+    std::cout << "🔄 Engaging OFFBOARD mode..." << std::endl;
     drone_->engage_offboard_mode(10, 2.0);
 }
 

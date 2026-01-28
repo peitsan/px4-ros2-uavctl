@@ -282,22 +282,35 @@ void OffboardControl::disarm() {
 
 void OffboardControl::engage_offboard_mode(int prewarm_count, double prewarm_timeout) {
     RCLCPP_INFO(this->get_logger(), "🔄 Engaging OFFBOARD mode (prewarm: %d msgs or %f s)", prewarm_count, prewarm_timeout);
+    RCLCPP_INFO(this->get_logger(), "   Current setpoint counter: %d", offboard_setpoint_counter_);
 
     auto start = std::chrono::system_clock::now();
+    int last_counter = offboard_setpoint_counter_;
+    
     while (offboard_setpoint_counter_ < prewarm_count && 
            std::chrono::duration<double>(std::chrono::system_clock::now() - start).count() < prewarm_timeout && 
            rclcpp::ok()) {
         std::this_thread::sleep_for(50ms);
+        
+        // 每秒输出一次进度
+        double elapsed = std::chrono::duration<double>(std::chrono::system_clock::now() - start).count();
+        if ((int)elapsed % 1 == 0 && offboard_setpoint_counter_ != last_counter) {
+            RCLCPP_INFO(this->get_logger(), "   [Prewarm] Progress: %d/%d setpoints (%f s)", 
+                        offboard_setpoint_counter_, prewarm_count, elapsed);
+            last_counter = offboard_setpoint_counter_;
+        }
     }
 
     if (offboard_setpoint_counter_ < prewarm_count) {
-        RCLCPP_WARN(this->get_logger(), "⚠️ Prewarm insufficient: only %d/%d setpoints sent", offboard_setpoint_counter_, prewarm_count);
+        RCLCPP_WARN(this->get_logger(), "⚠️ Prewarm insufficient: only %d/%d setpoints sent (may still work)", 
+                    offboard_setpoint_counter_, prewarm_count);
     } else {
         RCLCPP_INFO(this->get_logger(), "✅ Prewarm complete: %d setpoints sent", offboard_setpoint_counter_);
     }
 
+    RCLCPP_INFO(this->get_logger(), "🔄 Sending OFFBOARD mode command (VEHICLE_CMD_DO_SET_MODE)...");
     publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
-    RCLCPP_INFO(this->get_logger(), "✅ Switched to OFFBOARD mode!");
+    RCLCPP_INFO(this->get_logger(), "✅ OFFBOARD mode command sent!");
 }
 
 bool OffboardControl::hover(double duration, double timeout) {

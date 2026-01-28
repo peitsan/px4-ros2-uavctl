@@ -41,7 +41,6 @@ REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 
 # 本地项目信息（获取deploy脚本所在目录的父目录）
 LOCAL_PROJECT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PROJECT_NAME="px4-ros2-vehicle-offboardcontrol"
 
 # 颜色定义
 RED='\033[0;31m'
