@@ -27,7 +27,7 @@ DEPLOY_REMOTE_PORT="22"
 DEPLOY_REMOTE_PASSWORD="orangepi"
 
 # 香橙派项目目录
-DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/px4-ros2-vehicle-offboardcontrol"
+DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 
 # ============================================================================
 # 本地项目配置

@@ -223,7 +223,7 @@ $ ./deploy/deploy_offboard.sh
 
 # 然后手动在香橙派上编译：
 $ ssh orangepi@192.168.3.17
-$ cd /home/orangepi/px4-ros2-vehicle-offboardcontrol
+$ cd /home/orangepi/uav_ws/src/px4_hexctl
 $ source /opt/ros/humble/setup.bash
 $ colcon build --symlink-install
 ```

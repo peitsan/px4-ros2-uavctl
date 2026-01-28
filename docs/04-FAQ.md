@@ -227,14 +227,14 @@ git commit -m "resolve merge conflict"
 2. **手动编译测试**
    ```bash
    ssh orangepi@192.168.3.17
-   cd /home/orangepi/px4-ros2-vehicle-offboardcontrol
+   cd /home/orangepi/uav_ws/src/px4_hexctl
    source /opt/ros/humble/setup.bash
    colcon build --symlink-install
    ```
 
 3. **查看详细错误**
    ```bash
-   cd /home/orangepi/px4-ros2-vehicle-offboardcontrol
+   cd /home/orangepi/uav_ws/src/px4_hexctl
    colcon build --symlink-install --log-level debug
    ```
 
@@ -301,7 +301,7 @@ git commit -m "resolve merge conflict"
 DEPLOY_REMOTE_USER="orangepi"
 DEPLOY_REMOTE_IP="192.168.3.17"
 DEPLOY_REMOTE_PASSWORD="orangepi"
-DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/px4-ros2-vehicle-offboardcontrol"
+DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 ```
 
 ---

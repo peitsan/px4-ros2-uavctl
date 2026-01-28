@@ -37,7 +37,7 @@ REMOTE_USER="orangepi"
 REMOTE_IP="192.168.3.17"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 REMOTE_PASSWORD="orangepi"
-REMOTE_PROJECT_PATH="/home/orangepi/px4-ros2-vehicle-offboardcontrol"
+REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 
 # 本地项目信息（获取deploy脚本所在目录的父目录）
 LOCAL_PROJECT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -270,22 +270,76 @@ sync_code_to_remote() {
 build_on_remote() {
     log_info "在远端执行编译..."
     
-    local build_cmd="cd ${REMOTE_PROJECT_PATH} && \
-        source /opt/ros/humble/setup.bash && \
-        colcon build --symlink-install 2>&1"
+    # 获取工作空间根目录（去掉 /src/px4_hexctl 部分）
+    local workspace_root="/home/orangepi/uav_ws"
     
-    log_info "执行远端编译命令..."
+    # 创建符号链接以便 ROS2 能找到 offboard_control_cpp 包
+    local setup_link_cmd="cd ${workspace_root}/src && \
+        ln -sf px4_hexctl/src/offboard_control_cpp offboard_control_cpp 2>/dev/null || true"
+    
+    log_info "设置 ROS2 包符号链接..."
+    if [ $USE_SSHPASS -eq 1 ]; then
+        sshpass -p "${REMOTE_PASSWORD}" ssh "${REMOTE_HOST}" "${setup_link_cmd}"
+    else
+        ssh "${REMOTE_HOST}" "${setup_link_cmd}"
+    fi
+    
+    # 按依赖顺序编译包
+    # 1. 先编译 px4_msgs (消息定义包，其他包依赖它)
+    log_info "步骤 1/3: 编译 px4_msgs..."
+    local build_px4_msgs="cd ${workspace_root} && \
+        source /opt/ros/humble/setup.bash && \
+        colcon build --packages-select px4_msgs --symlink-install 2>&1"
     
     if [ $USE_SSHPASS -eq 1 ]; then
-        sshpass -p "${REMOTE_PASSWORD}" ssh -t "${REMOTE_HOST}" "${build_cmd}"
+        sshpass -p "${REMOTE_PASSWORD}" ssh -t "${REMOTE_HOST}" "${build_px4_msgs}"
     else
-        ssh -t "${REMOTE_HOST}" "${build_cmd}"
+        ssh -t "${REMOTE_HOST}" "${build_px4_msgs}"
+    fi
+    
+    if [ $? -ne 0 ]; then
+        log_error "px4_msgs 编译失败"
+        exit 1
+    fi
+    log_info "px4_msgs 编译成功✓"
+    
+    # 2. 编译 px4_ros_com (依赖 px4_msgs)
+    log_info "步骤 2/3: 编译 px4_ros_com..."
+    local build_px4_ros_com="cd ${workspace_root} && \
+        source /opt/ros/humble/setup.bash && \
+        source install/setup.bash && \
+        colcon build --packages-select px4_ros_com --symlink-install 2>&1"
+    
+    if [ $USE_SSHPASS -eq 1 ]; then
+        sshpass -p "${REMOTE_PASSWORD}" ssh -t "${REMOTE_HOST}" "${build_px4_ros_com}"
+    else
+        ssh -t "${REMOTE_HOST}" "${build_px4_ros_com}"
+    fi
+    
+    if [ $? -ne 0 ]; then
+        log_warn "px4_ros_com 编译失败（可能不存在，继续...）"
+    else
+        log_info "px4_ros_com 编译成功✓"
+    fi
+    
+    # 3. 最后编译 offboard_control_cpp (依赖 px4_msgs)
+    log_info "步骤 3/3: 编译 offboard_control_cpp..."
+    local build_offboard="cd ${workspace_root} && \
+        source /opt/ros/humble/setup.bash && \
+        source install/setup.bash && \
+        colcon build --packages-select offboard_control_cpp --symlink-install 2>&1"
+    
+    if [ $USE_SSHPASS -eq 1 ]; then
+        sshpass -p "${REMOTE_PASSWORD}" ssh -t "${REMOTE_HOST}" "${build_offboard}"
+    else
+        ssh -t "${REMOTE_HOST}" "${build_offboard}"
     fi
     
     if [ $? -eq 0 ]; then
-        log_info "远端编译成功✓"
+        log_info "offboard_control_cpp 编译成功✓"
+        log_info "远端编译全部完成✓"
     else
-        log_error "远端编译失败"
+        log_error "offboard_control_cpp 编译失败"
         exit 1
     fi
 }

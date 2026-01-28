@@ -72,7 +72,7 @@ IP:       192.168.3.17
 User:     orangepi
 Pass:     orangepi
 Port:     22
-Path:     /home/orangepi/px4-ros2-vehicle-offboardcontrol
+Path:     /home/orangepi/uav_ws/src/px4_hexctl
 ```
 
 ---

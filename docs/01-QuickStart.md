@@ -21,7 +21,7 @@ brew install git openssh rsync        # macOS
 
 ```bash
 ssh orangepi@192.168.3.17
-mkdir -p /home/orangepi/px4-ros2-vehicle-offboardcontrol
+mkdir -p /home/orangepi/uav_ws/src/px4_hexctl
 exit
 ```
 
@@ -97,7 +97,7 @@ ssh orangepi@192.168.3.17 "echo OK"
 - **IP**: 192.168.3.17
 - **用户**: orangepi
 - **密码**: orangepi
-- **项目路径**: `/home/orangepi/px4-ros2-vehicle-offboardcontrol`
+- **项目路径**: `/home/orangepi/uav_ws/src/px4_hexctl`
 
 ---
 
