@@ -166,11 +166,8 @@ echo "================================================================"
 start_micro_agent
 
 # 2. 启动远端 Offboard Control
-read -p "是否启动 Offboard Control 节点? (y/n): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    start_offboard_control
-fi
+echo -e "${YELLOW}=== 2️⃣ 启动远端 Offboard Control (自动) ===${NC}"
+start_offboard_control
 
 # 3. 启动本机 QGroundControl 地面站
 read -p "是否启动 QGroundControl 地面站? (y/n): " -n 1 -r
