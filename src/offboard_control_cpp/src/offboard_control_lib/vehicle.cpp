@@ -22,6 +22,9 @@ Vehicle::Vehicle() {
     
     // 等待足够的时间让心跳信号建立（重要！）
     std::cout << "⏳ Waiting for heartbeat signals to establish (5 seconds)..." << std::endl;
+    std::cout << "   🔌 Make sure MicroXRCEAgent is running on this device!" << std::endl;
+    std::cout << "   🔍 Check: ps aux | grep MicroXRCEAgent" << std::endl;
+    std::cout << "   🔍 Check: ros2 topic list | grep fmu/out" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(5));
     
     std::cout << "🔄 Engaging OFFBOARD mode..." << std::endl;

@@ -115,12 +115,24 @@ void OffboardControl::heartbeat_thread_start() {
 void OffboardControl::heartbeat_loop() {
     double rate = 1.0 / static_cast<double>(heartbeat_hz_);
     RCLCPP_DEBUG(this->get_logger(), "[HEARTBEAT] Entering heartbeat loop...");
+    int heartbeat_count = 0;
+    auto last_log_time = std::chrono::system_clock::now();
+    
     while (!stop_heartbeat_ && rclcpp::ok()) {
         try {
             publish_offboard_control_heartbeat_signal(control_mode_);
             publish_current_setpoint();
             offboard_setpoint_counter_++;
-            throttle_log(5.0, "[HEARTBEAT] Published setpoint #" + std::to_string(offboard_setpoint_counter_), "info", "heartbeat");
+            heartbeat_count++;
+            
+            // Every 100 heartbeats (5 seconds at 20Hz), show status
+            auto now = std::chrono::system_clock::now();
+            if (std::chrono::duration<double>(now - last_log_time).count() >= 5.0) {
+                RCLCPP_INFO(this->get_logger(), "💓 [HEARTBEAT] Steady: %d signals sent, Counter: %d", 
+                            heartbeat_count, offboard_setpoint_counter_);
+                heartbeat_count = 0;
+                last_log_time = now;
+            }
         } catch (const std::exception& e) {
             RCLCPP_ERROR(this->get_logger(), "[HEARTBEAT] Exception in loop: %s", e.what());
         }
@@ -233,6 +245,11 @@ void OffboardControl::vehicle_local_position_callback(const px4_msgs::msg::Vehic
             vehicle_local_position_enu_.y = y_enu;
             vehicle_local_position_enu_.z = z_enu;
             vehicle_local_position_enu_.heading = heading_enu;
+            
+            // 首次接收到位置数据时输出
+            if (!vehicle_local_position_received_) {
+                RCLCPP_INFO(this->get_logger(), "✅ [POSITION] FIRST POSITION RECEIVED! ENU=(%f, %f, %f)", x_enu, y_enu, z_enu);
+            }
             vehicle_local_position_received_ = true;
         }
         std::string log_msg = "[POSITION] ENU=(" + std::to_string(x_enu) + ", " + std::to_string(y_enu) + ", " + std::to_string(z_enu) + "), heading=" + std::to_string(heading_enu * 180 / M_PI) + "°";
@@ -261,10 +278,32 @@ void OffboardControl::arm() {
 
     if (!vehicle_local_position_received_) {
         RCLCPP_WARN(this->get_logger(), "⚠️ Waiting for first local position message...");
+        RCLCPP_WARN(this->get_logger(), "   💡 If this hangs, check: MicroXRCEAgent, serial connection, PX4 status");
+        RCLCPP_WARN(this->get_logger(), "   📍 Expected topic: /fmu/out/vehicle_local_position_v1");
     }
 
-    while (!vehicle_local_position_received_ && rclcpp::ok()) {
+    int wait_count = 0;
+    int max_wait_count = 40; // 20 seconds timeout (500ms * 40)
+    
+    while (!vehicle_local_position_received_ && rclcpp::ok() && wait_count < max_wait_count) {
+        wait_count++;
+        if (wait_count % 4 == 0) {  // Log every 2 seconds
+            RCLCPP_WARN(this->get_logger(), "   ⏳ Still waiting... (%d/%d s)", wait_count/2, max_wait_count/2);
+        }
         std::this_thread::sleep_for(500ms);
+    }
+    
+    if (!vehicle_local_position_received_) {
+        RCLCPP_ERROR(this->get_logger(), "❌ TIMEOUT: Position messages never received!");
+        RCLCPP_ERROR(this->get_logger(), "   ⚠️  Flight will not be possible without position feedback");
+        RCLCPP_ERROR(this->get_logger(), "   🔧 Troubleshooting:");
+        RCLCPP_ERROR(this->get_logger(), "      1. Check MicroXRCEAgent status: ps aux | grep MicroXRCEAgent");
+        RCLCPP_ERROR(this->get_logger(), "      2. Check serial connection: ls -la /dev/ttyUSB*");
+        RCLCPP_ERROR(this->get_logger(), "      3. Check PX4 logs in QGC");
+        RCLCPP_ERROR(this->get_logger(), "      4. Try: ros2 topic echo /fmu/out/vehicle_local_position_v1");
+        return;  // Early exit if no position received
+    } else {
+        RCLCPP_INFO(this->get_logger(), "✅ Position feedback established!");
     }
 
     {
