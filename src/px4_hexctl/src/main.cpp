@@ -17,21 +17,12 @@ int main(int argc, char* argv[]) {
     auto drone = vehicle->drone();
 
     try {
-        // 2. 等待并同步当前位置 (防止解锁瞬间的坐标突跳)
-        std::cout << "⏳ Waiting for valid EKF position..." << std::endl;
-        while (rclcpp::ok() && !drone->is_position_valid()) {
-            std::this_thread::sleep_for(200ms);
-        }
-        
-        auto current_pos = drone->get_local_position();
-        std::cout << "📍 EKF Position Synchronized: (" << current_pos.x << ", " << current_pos.y << ", " << current_pos.z << ")" << std::endl;
+        // 2. 直接使用坐标系原点 (0, 0, 0) 作为初始位置 (Hardcoded Origin)
+        std::cout << "📍 Using hardcoded origin (0, 0, 0) as initial position..." << std::endl;
 
-        // 重置 Home 点为当前位置，确保 takeoff() 基准正确
-        drone->reset_home();
-
-        // 设置当前控制模式为 position，并把目标锁定在当前位置
+        // 设置当前控制模式为 position，并把目标锁定在原点
         drone->set_control_mode("position");
-        drone->update_position_setpoint(current_pos.x, current_pos.y, current_pos.z, current_pos.heading);
+        drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
 
         // 3. 预热阶段 (Pre-warm)
         // 在切换 Offboard 模式前，后台心跳已经在持续发送 Setpoint 数据
