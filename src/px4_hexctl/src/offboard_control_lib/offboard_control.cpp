@@ -36,31 +36,36 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
     RCLCPP_INFO(this->get_logger(), "🚀 [INIT] Initializing OffboardControl node '%s' with namespace '%s'...", 
                 node_name.c_str(), namespace_.c_str());
 
-    rclcpp::QoS qos_profile(1);
-    qos_profile.reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
-    qos_profile.durability(RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
-    qos_profile.history(RMW_QOS_POLICY_HISTORY_KEEP_LAST);
+    // QoS Setup
+    // 1. 标准传感器/状态数据 (Best Effort, Volatile)
+    rclcpp::QoS sensor_qos(10);
+    sensor_qos.reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
+    sensor_qos.durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    // 2. 命令发布 (Reliable, Volatile)
+    rclcpp::QoS cmd_qos(10);
+    cmd_qos.reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE);
+    cmd_qos.durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
 
     // Publishers
     offboard_control_mode_publisher_ = this->create_publisher<px4_msgs::msg::OffboardControlMode>(
-        namespace_ + "/fmu/in/offboard_control_mode", qos_profile);
+        namespace_ + "/fmu/in/offboard_control_mode", sensor_qos);
     vehicle_command_publisher_ = this->create_publisher<px4_msgs::msg::VehicleCommand>(
-        namespace_ + "/fmu/in/vehicle_command", qos_profile);
+        namespace_ + "/fmu/in/vehicle_command", cmd_qos);
     trajectory_setpoint_publisher_ = this->create_publisher<px4_msgs::msg::TrajectorySetpoint>(
-        namespace_ + "/fmu/in/trajectory_setpoint", qos_profile);
+        namespace_ + "/fmu/in/trajectory_setpoint", sensor_qos);
     vehicle_attitude_setpoint_publisher_ = this->create_publisher<px4_msgs::msg::VehicleAttitudeSetpoint>(
-        namespace_ + "/fmu/in/vehicle_attitude_setpoint", qos_profile);
+        namespace_ + "/fmu/in/vehicle_attitude_setpoint", sensor_qos);
 
     RCLCPP_INFO(this->get_logger(), "[PUB] Created publishers under namespace: '%s'", namespace_.empty() ? "default" : namespace_.c_str());
 
     // Subscribers
-    // 尝试订阅位置数据（部分固件版本使用 _v1，部分不带）
     vehicle_local_position_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleLocalPosition>(
-        namespace_ + "/fmu/out/vehicle_local_position", qos_profile,
+        namespace_ + "/fmu/out/vehicle_local_position", sensor_qos,
         std::bind(&OffboardControl::vehicle_local_position_callback, this, std::placeholders::_1));
     
     vehicle_status_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
-        namespace_ + "/fmu/out/vehicle_status", qos_profile,
+        namespace_ + "/fmu/out/vehicle_status", sensor_qos,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "[SUB] Subscribed to vehicle_local_position and vehicle_status");

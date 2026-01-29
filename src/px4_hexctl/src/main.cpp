@@ -40,6 +40,16 @@ int main(int argc, char* argv[]) {
             bool is_offboard = (status.nav_state == 14); // NAVIGATION_STATE_OFFBOARD
             bool is_armed = (status.arming_state == 2);   // ARMING_STATE_ARMED
 
+            // 每 1.5 秒打印一次状态，帮助诊断
+            static auto last_print = std::chrono::steady_clock::now();
+            if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_print).count() >= 1500) {
+                std::cout << "DEBUG: [nav_state=" << (int)status.nav_state 
+                          << ", arming_state=" << (int)status.arming_state 
+                          << "] Offboard=" << (is_offboard ? "Y" : "N") 
+                          << ", Armed=" << (is_armed ? "Y" : "N") << std::endl;
+                last_print = now;
+            }
+
             if (is_offboard && is_armed) {
                 std::cout << "✅ System Ready & Armed!" << std::endl;
                 break;
@@ -50,10 +60,10 @@ int main(int argc, char* argv[]) {
                 last_request = now;
 
                 if (!is_offboard) {
-                    std::cout << "🔄 Requesting OFFBOARD mode..." << std::endl;
+                    std::cout << "🔄 Requesting OFFBOARD mode (Current nav_state=" << (int)status.nav_state << ")..." << std::endl;
                     drone->publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
                 } else if (!is_armed) {
-                    std::cout << "🔓 Requesting ARM..." << std::endl;
+                    std::cout << "🔓 Requesting ARM (Current arming_state=" << (int)status.arming_state << ")..." << std::endl;
                     drone->arm();
                 }
             }
