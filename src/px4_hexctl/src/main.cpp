@@ -55,16 +55,14 @@ int main(int argc, char* argv[]) {
             // 每 2 秒发送一次请求
             if (std::chrono::duration_cast<std::chrono::seconds>(now - last_request).count() >= 2) {
                 last_request = now;
-                
+                std::cout << "🔓 Requesting ARM..." << std::endl;
+                    vehicle->drone()->arm();
                 if (!is_offboard) {
                     std::cout << "🔄 Requesting OFFBOARD (" << mode << " mode)..." << std::endl;
                     // PX4 v1.14+ 推荐的模式切换参数
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
-                } else if (!is_armed) {
-                    std::cout << "🔓 Requesting ARM..." << std::endl;
-                    vehicle->drone()->arm(); 
-                }
+                } 
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
