@@ -68,21 +68,20 @@ public:
     const px4_msgs::msg::VehicleLocalPosition& get_local_position() const { return vehicle_local_position_enu_; }
 
     /**
-     * @brief Check if position data has been received (critical for Offboard position control)
+     * @brief Check if position data is valid (checked by EKF)
      */
-    bool is_position_received() const { 
-        return (vehicle_local_position_enu_.timestamp > 0); 
+    bool is_position_valid() const { 
+        return (vehicle_local_position_enu_.timestamp > 0 && xy_valid_ && z_valid_); 
     }
 
-    /**
-     * @brief Publish a vehicle command
-     */
     void publish_vehicle_command(uint16_t command, double param1 = 0.0, double param2 = 0.0,
                                  double param3 = 0.0, double param4 = 0.0, double param5 = 0.0,
                                  double param6 = 0.0, double param7 = 0.0);
 
 private:
-    // Utility methods
+    bool xy_valid_ = false;
+    bool z_valid_ = false;
+    // ...existing code...
     void throttle_log(double interval_sec, const std::string &msg, const std::string &level = "info", const std::string &tag = "default");
     void heartbeat_loop();
     void publish_offboard_control_heartbeat_signal(const std::string &control_mode);

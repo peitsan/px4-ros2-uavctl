@@ -15,19 +15,22 @@ int main(int argc, char* argv[]) {
 
     try {
         // 1. 自动根据定位状态选择模式
-        bool has_pos = vehicle->drone()->is_position_received();
-        std::string mode = has_pos ? "position" : "attitude"; 
+        // 注意：is_position_valid() 检查 EKF 是否真正对位置有信心
+        bool pos_ok = vehicle->drone()->is_position_valid();
+        std::string mode = pos_ok ? "position" : "attitude"; 
         
-        std::cout << "📍 Position status: " << (has_pos ? "VALID" : "INVALID (Indoor/No GPS)") << std::endl;
-        std::cout << "📍 Auto-selecting [" << mode << "] mode..." << std::endl;
+        std::cout << "📍 Position status: " << (pos_ok ? "VALID (Ready for Position mode)" : "INVALID (Using Attitude mode)") << std::endl;
+        if (!pos_ok && vehicle->drone()->get_local_position().timestamp > 0) {
+            std::cout << "⚠️ Warning: Received position data but EKF flags it as UNRELIABLE (xy_valid=0)." << std::endl;
+        }
+        
+        std::cout << "📍 Final Mission Mode: [" << mode << "]" << std::endl;
         
         vehicle->drone()->set_control_mode(mode);
         
         if (mode == "attitude") {
-            // 姿态模式初始化：平飞，零油门
             vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
         } else {
-            // 定点模式初始化：当前位置悬停
             auto pos = vehicle->drone()->get_local_position();
             vehicle->drone()->update_position_setpoint(pos.x, pos.y, pos.z, pos.heading);
         }
@@ -54,63 +57,64 @@ int main(int argc, char* argv[]) {
                 
                 if (!is_offboard) {
                     std::cout << "🔄 Requesting OFFBOARD (" << mode << " mode)..." << std::endl;
+                    // PX4 v1.14+ 推荐的模式切换参数
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
                 } else if (!is_armed) {
                     std::cout << "🔓 Requesting ARM..." << std::endl;
-                    vehicle->drone()->arm(); // 使用库提供的 arm() 方法
+                    vehicle->drone()->arm(); 
                 }
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
 
-        // 3. 执行飞行任务 (根据模式自动判断)
-        if (rclcpp::ok() && mode == "position") {
-            std::cout << "🚀 Mission Start [POSITION MODE]" << std::endl;
-            std::cout << "🛸 Taking off to 2.0m..." << std::endl;
-            if (vehicle->drone()->takeoff(2.0, 15.0)) { // 缩短超时时间
-                std::cout << "⏳ Hovering for 5 seconds..." << std::endl;
-                
-                auto hover_start = std::chrono::steady_clock::now();
-                while (rclcpp::ok() && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - hover_start).count() < 5) {
+        // 3. 执行飞行任务
+        if (rclcpp::ok()) {
+            if (mode == "position") {
+                std::cout << "🚀 Mission Start [POSITION MODE]" << std::endl;
+                std::cout << "🛸 Taking off to 2.0m..." << std::endl;
+                if (vehicle->drone()->takeoff(2.0, 15.0)) {
+                    std::cout << "⏳ Hovering for 5 seconds..." << std::endl;
+                    auto hover_start = std::chrono::steady_clock::now();
+                    while (rclcpp::ok() && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - hover_start).count() < 5) {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    }
+                    
+                    if (rclcpp::ok()) {
+                        std::cout << "✅ Flying to target..." << std::endl;
+                        vehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0, 10.0);
+                    }
+                }
+            } else {
+                std::cout << "🚀 Mission Start [ATTITUDE MODE]" << std::endl;
+                std::cout << "📶 Ramping up thrust..." << std::endl;
+                for (int i = 0; rclcpp::ok() && i < 20; i++) {
+                    double thrust = 0.1 + (i * 0.015);
+                    vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, thrust);
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 }
-                
                 if (rclcpp::ok()) {
-                    std::cout << "✅ Flying to target (5.0, 0.0, 2.0)..." << std::endl;
-                    vehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0, 10.0);
-                }
-                
-                if (rclcpp::ok()) {
-                    std::cout << "🛬 Landing..." << std::endl;
-                    vehicle->drone()->land();
+                    auto start = std::chrono::steady_clock::now();
+                    while (rclcpp::ok() && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start).count() < 3) {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    }
                 }
             }
-        } else if (rclcpp::ok()) {
-            std::cout << "🚀 Mission Start [ATTITUDE MODE]" << std::endl;
-            std::cout << "⚠️ Running indoor attitude sequence..." << std::endl;
-            
-            // 态模式下的安全测试
-            for (int i = 0; rclcpp::ok() && i < 20; i++) {
-                double thrust = 0.1 + (i * 0.015);
-                vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, thrust);
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-
-            if (rclcpp::ok()) {
-                auto ramp_end = std::chrono::steady_clock::now();
-                while(rclcpp::ok() && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - ramp_end).count() < 2) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                }
-                vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.1); 
-            }
-            
-            std::cout << "🔒 Disarming..." << std::endl;
-            vehicle->drone()->disarm();
         }
-        
+
+        // 4. 程序结束或 Ctrl+C 后的清理
         if (!rclcpp::ok()) {
-            std::cout << "🛑 Mission interrupted by user (Ctrl+C)." << std::endl;
+            std::cout << "\n🛑 Interrupted! Performing emergency landing..." << std::endl;
+        } else {
+            std::cout << "🛬 Mission complete. Landing..." << std::endl;
+        }
+
+        if (mode == "position") {
+            vehicle->drone()->land();
+        } else {
+            vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.1); // 降油门
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            vehicle->drone()->disarm();
         }
         
     } catch (const std::exception& e) {

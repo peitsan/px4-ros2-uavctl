@@ -247,16 +247,15 @@ void OffboardControl::vehicle_local_position_callback(const px4_msgs::msg::Vehic
             vehicle_local_position_enu_.y = y_enu;
             vehicle_local_position_enu_.z = z_enu;
             vehicle_local_position_enu_.heading = heading_enu;
-            vehicle_local_position_enu_.timestamp = msg->timestamp; // Update timestamp
-            
-            // 首次接收到位置数据时输出
-            if (!vehicle_local_position_received_) {
-                RCLCPP_INFO(this->get_logger(), "✅ [POSITION] FIRST POSITION RECEIVED! ENU=(%f, %f, %f)", x_enu, y_enu, z_enu);
-                vehicle_local_position_received_ = true;
-            }
+            vehicle_local_position_enu_.timestamp = msg->timestamp; 
+            xy_valid_ = msg->xy_valid;
+            z_valid_ = msg->z_valid;
         }
-        std::string log_msg = "[POSITION] ENU=(" + std::to_string(x_enu) + ", " + std::to_string(y_enu) + ", " + std::to_string(z_enu) + "), heading=" + std::to_string(heading_enu * 180 / M_PI) + "°";
-        throttle_log(2.0, log_msg, "info", "position");
+
+        if (!vehicle_local_position_received_) {
+            vehicle_local_position_received_ = true;
+            RCLCPP_INFO(this->get_logger(), "✅ [POSITION] FIRST POSITION RECEIVED! ENU=(%f, %f, %f), VALID:(XY:%d, Z:%d)", x_enu, y_enu, z_enu, msg->xy_valid, msg->z_valid);
+        }
     } catch (const std::exception& e) {
         RCLCPP_ERROR(this->get_logger(), "[POSITION] Callback error: %s", e.what());
     }
