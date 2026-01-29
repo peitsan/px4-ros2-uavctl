@@ -64,17 +64,17 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
         namespace_ + "/fmu/out/vehicle_local_position", sensor_qos,
         std::bind(&OffboardControl::vehicle_local_position_callback, this, std::placeholders::_1));
     
-    // 冗余订阅状态话题，解决不同 PX4 版本的兼容性问题
+    // 冗余订阅状态话题，解决不同 PX4 版本的兼容性问题 (例如 v1.14+ 可能带有 _v1 后缀)
     vehicle_status_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
         namespace_ + "/fmu/out/vehicle_status", sensor_qos,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
-    // 尝试订阅旧版或替代路径
+    // 尝试订阅带 _v1 后缀的路径 (用户环境下实际存在的话题)
     vehicle_status_alt_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
-        namespace_ + "/fmu/vehicle_status/out", sensor_qos,
+        namespace_ + "/fmu/out/vehicle_status_v1", sensor_qos,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "[SUB] Status subscribers established (Dual-path mode)");
+    RCLCPP_INFO(this->get_logger(), "[SUB] Status subscribers established (Binding to /fmu/out/vehicle_status_v1)");
 
     // State variables
     offboard_setpoint_counter_ = 0;
