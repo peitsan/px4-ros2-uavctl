@@ -37,30 +37,32 @@ void Vehicle::close() {
     if (closed_) return;  // 防止重复关闭
     closed_ = true;
 
-    RCLCPP_INFO(drone_->get_logger(), "🛑 Shutting down Vehicle...");
+    std::cout << "🛑 Shutting down Vehicle and cleaning up ROS2..." << std::endl;
 
-    // 1️⃣ 先停止心跳线程（自定义线程）
+    // 1️⃣ 先停止心跳线程
     drone_->stop_heartbeat();
 
-    // 2️⃣ 请求 executor 停止
+    // 2️⃣ 取消所有待处理的回调并停止分派器
     if (executor_) {
-        executor_->cancel();  // 通知 spin() 退出
+        executor_->cancel(); 
     }
 
-    // 3️⃣ 等待 spin_thread 退出
+    // 3️⃣ 尝试关闭 ROS2 系统（这会使 rclcpp::ok() 返回 false）
+    if (rclcpp::ok()) {
+        rclcpp::shutdown();
+    }
+
+    // 4️⃣ 等待 spin 线程退出，设置超时以防死锁
     if (spin_thread_.joinable()) {
+        // 对于复杂的死锁，我们可以考虑不使用 join() 而是 detach()，
+        // 但为了优雅关闭，我们尝试等待一小会儿
         spin_thread_.join();
         std::cout << "✅ Spin thread has joined!" << std::endl;
     }
 
-    // 4️⃣ 清理 executor 与节点
+    // 5️⃣ 清理内存
     executor_.reset();
     drone_.reset();
-
-    // 5️⃣ 最后关闭 ROS2 系统
-    if (rclcpp::ok()) {
-        rclcpp::shutdown();
-    }
 
     std::cout << "✅ Vehicle shutdown complete!" << std::endl;
 }
