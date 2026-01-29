@@ -26,7 +26,7 @@ px4-ros2-vehicle-offboardcontrol/
 │   └── 07-DeploymentSummary.md   📊 功能总结
 │
 ├── src/
-│   ├── offboard_control_cpp/
+│   ├── px4_hexctl/
 │   ├── py_script/
 │   └── startup/
 │

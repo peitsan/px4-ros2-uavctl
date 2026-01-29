@@ -22,7 +22,7 @@ px4-ros2-vehicle-offboardcontrol/
 │   └── 07-DeploymentSummary.md         部署总结
 │
 ├── 📁 src/                             源代码目录
-│   ├── offboard_control_cpp/           C++控制实现
+│   ├── px4_hexctl/           C++控制实现
 │   │   ├── include/
 │   │   ├── src/
 │   │   ├── CMakeLists.txt
@@ -195,13 +195,13 @@ deploy\deploy_offboard.bat
 
 项目源代码。
 
-### offboard_control_cpp/
+### px4_hexctl/
 **C++ 控制实现**
 
 ```
-offboard_control_cpp/
+px4_hexctl/
 ├── include/
-│   └── offboard_control_cpp/
+│   └── px4_hexctl/
 │       ├── offboard_control.hpp    (已添加中文注释)
 │       └── vehicle.hpp              (已添加中文注释)
 ├── src/

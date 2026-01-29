@@ -121,7 +121,7 @@ $ cd ~/px4-ros2-vehicle-offboardcontrol
 $ git status
 On branch main
 Changes not staged for commit:
-  modified:   src/offboard_control_cpp/src/offboard_control.cpp
+  modified:   src/px4_hexctl/src/offboard_control.cpp
   modified:   src/py_script/main.py
 
 # 步骤3：运行部署脚本
@@ -139,7 +139,7 @@ $ ./deploy/deploy_offboard.sh
 [INFO] 同步代码到远端香橙派...
 [INFO] 使用rsync进行增量文件同步...
 sending incremental file list
-src/offboard_control_cpp/src/offboard_control.cpp
+src/px4_hexctl/src/offboard_control.cpp
 src/py_script/main.py
 sent 2,345 bytes  received 1,234 bytes
 

@@ -25,7 +25,7 @@
 │                                                         │
 │  ├─ MicroXRCEAgent ──────→ PX4 飞控通信                 │
 │  └─ ROS2 Humble                                         │
-│      └─ offboard_control_cpp                            │
+│      └─ px4_hexctl                            │
 │          ├─ 发送心跳信号 (20Hz)                         │
 │          ├─ 接收飞控反馈                                │
 │          └─ 执行飞行命令                                │
@@ -55,7 +55,7 @@
    - px4_msgs
    - px4_ros_com
    - MicroXRCEAgent
-   - offboard_control_cpp 包
+   - px4_hexctl 包
 
 3. **硬件连接**:
    - PX4 飞控 → USB 连接到香橙派
@@ -119,9 +119,9 @@ bash deploy/deploy_offboard.sh
 
 | 文件 | 功能 |
 |------|------|
-| `src/offboard_control_cpp/src/main.cpp` | 主程序入口 |
-| `src/offboard_control_cpp/src/offboard_control_lib/offboard_control.cpp` | 控制核心库 |
-| `src/offboard_control_cpp/src/offboard_control_lib/vehicle.cpp` | 无人机对象 |
+| `src/px4_hexctl/src/main.cpp` | 主程序入口 |
+| `src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp` | 控制核心库 |
+| `src/px4_hexctl/src/offboard_control_lib/vehicle.cpp` | 无人机对象 |
 
 ### 文档
 
@@ -195,7 +195,7 @@ ssh orangepi@192.168.3.17 "
 
 ```bash
 # 1. 编辑本地代码
-vim src/offboard_control_cpp/src/main.cpp
+vim src/px4_hexctl/src/main.cpp
 
 # 2. 部署到远端
 bash deploy/quick_deploy.sh

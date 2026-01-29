@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.5)
+project(px4_hexctl)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(px4_msgs REQUIRED)
+
+include_directories(
+	src/px4_hexctl/include
+	${px4_msgs_INCLUDE_DIRS}
+)
+
+add_library(offboard_control_lib
+	src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp
+	src/px4_hexctl/src/offboard_control_lib/vehicle.cpp
+)
+
+target_link_libraries(offboard_control_lib
+	PUBLIC
+	rclcpp::rclcpp
+	${px4_msgs_TARGETS}
+)
+
+add_executable(offboard_control_main
+	src/px4_hexctl/src/main.cpp
+)
+
+target_link_libraries(offboard_control_main PRIVATE offboard_control_lib)
+
+install(TARGETS
+	offboard_control_main
+	DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
+	offboard_control_lib
+	DESTINATION lib
+)
+
+install(DIRECTORY src/px4_hexctl/include/
+	DESTINATION include/
+)
+
+install(PROGRAMS
+	src/py_script/main.py
+	src/py_script/main2.py
+	src/py_script/main_srv.py
+	src/py_script/offboard_control_lib.py
+	src/py_script/test_rect.py
+	DESTINATION lib/${PROJECT_NAME}
+)
+
+ament_package()

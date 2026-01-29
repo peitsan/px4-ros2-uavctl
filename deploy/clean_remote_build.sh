@@ -47,7 +47,7 @@ ${BLUE}===============================================================${NC}
 示例：
   ./deploy/clean_remote_build.sh -a                    # 清理所有
   ./deploy/clean_remote_build.sh -p px4_msgs           # 仅清理px4_msgs
-  ./deploy/clean_remote_build.sh -p offboard_control_cpp
+  ./deploy/clean_remote_build.sh -p px4_hexctl
 
 EOF
 }

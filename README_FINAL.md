@@ -93,7 +93,7 @@ bash deploy/diagnose_offboard.sh
 - ROS2 Humble
 - PX4 ROS2 消息包
 - MicroXRCEAgent
-- offboard_control_cpp 包
+- px4_hexctl 包
 
 ### 硬件
 - PX4 飞控 (USB 连接)

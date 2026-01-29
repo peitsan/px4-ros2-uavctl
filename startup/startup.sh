@@ -8,11 +8,12 @@
 set -e  # 遇到错误时退出
 
 # === 配置路径（根据你的环境调整） ===
-GZ_WORLD_PATH="$HOME/.simulation-gazebo/worlds"
-PX4_PATH="$HOME/PX4-Autopilot"
-PYTHON_ENV_PATH="$HOME/myenv/bin/activate"
-QGC_PATH="$HOME/bin/QGroundControl-x86_64.AppImage"
-ROS_DISTRO="rolling"  # 或 iron, jazzy
+PAT="/home/ubuntu"
+GZ_WORLD_PATH="$PAT/Desktop/prometheus_px4/Tools/sitl_gazebo/worlds"
+PX4_PATH="$PAT/PX4-Autopilot"
+PYTHON_ENV_PATH="$PAT/myenv/bin/activate"
+QGC_PATH="$PAT/bin/QGroundControl-x86_64.AppImage"
+ROS_DISTRO="humble"  # 或 iron, jazzy
 
 # 仿真参数
 WORLD_NAME="default"

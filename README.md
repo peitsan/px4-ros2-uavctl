@@ -74,7 +74,7 @@ deploy\deploy_offboard.bat
 │   └── 07-DeploymentSummary.md   功能总结 / Feature summary
 │
 └── 📁 src/                       💻 源代码 / Source code
-    ├── offboard_control_cpp/     C++ 实现
+    ├── px4_hexctl/     C++ 实现
     ├── py_script/                Python 脚本
     └── startup/                  启动脚本
 ```

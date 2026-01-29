@@ -1,0 +1,56 @@
+[0.000000] (-) TimerEvent: {}
+[0.000337] (px4_hexctl) JobQueued: {'identifier': 'px4_hexctl', 'dependencies': OrderedDict()}
+[0.000425] (px4_hexctl) JobStarted: {'identifier': 'px4_hexctl'}
+[0.010261] (px4_hexctl) JobProgress: {'identifier': 'px4_hexctl', 'progress': 'cmake'}
+[0.011600] (px4_hexctl) JobProgress: {'identifier': 'px4_hexctl', 'progress': 'build'}
+[0.011865] (px4_hexctl) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl', '--', '-j16', '-l16'], 'cwd': '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl', 'env': OrderedDict([('HOSTNAME', 'paxon'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/lib:/home/ubuntu/Prometheus/install/prometheus_uav_control/lib:/home/ubuntu/Prometheus/install/prometheus_msgs/lib:/root/UAV-PX4/install/px4_ros_com/lib:/root/UAV-PX4/install/px4_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/home/ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/home/ubuntu/Prometheus/install:/root/UAV-PX4/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/scripts/bin/'), ('DISPLAY', 'unix:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble'), ('PWD', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/local/lib/python3.10/dist-packages:/home/ubuntu/Prometheus/install/prometheus_msgs/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_ros_com/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble')]), 'shell': False}
+[0.077387] (px4_hexctl) StdoutLine: {'line': b'[ 60%] Built target offboard_control_lib\n'}
+[0.089152] (px4_hexctl) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target offboard_control_main\x1b[0m\n'}
+[0.099848] (-) TimerEvent: {}
+[0.107539] (px4_hexctl) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/offboard_control_main.dir/src/px4_hexctl/src/main.cpp.o\x1b[0m\n'}
+[0.200119] (-) TimerEvent: {}
+[0.300531] (-) TimerEvent: {}
+[0.401408] (-) TimerEvent: {}
+[0.502308] (-) TimerEvent: {}
+[0.602618] (-) TimerEvent: {}
+[0.702880] (-) TimerEvent: {}
+[0.803168] (-) TimerEvent: {}
+[0.903513] (-) TimerEvent: {}
+[1.004064] (-) TimerEvent: {}
+[1.104368] (-) TimerEvent: {}
+[1.204665] (-) TimerEvent: {}
+[1.304956] (-) TimerEvent: {}
+[1.405261] (-) TimerEvent: {}
+[1.505903] (-) TimerEvent: {}
+[1.606185] (-) TimerEvent: {}
+[1.706639] (-) TimerEvent: {}
+[1.806902] (-) TimerEvent: {}
+[1.907412] (-) TimerEvent: {}
+[2.010649] (-) TimerEvent: {}
+[2.110948] (-) TimerEvent: {}
+[2.211266] (-) TimerEvent: {}
+[2.311602] (-) TimerEvent: {}
+[2.415114] (-) TimerEvent: {}
+[2.515702] (-) TimerEvent: {}
+[2.616389] (-) TimerEvent: {}
+[2.716707] (-) TimerEvent: {}
+[2.818077] (-) TimerEvent: {}
+[2.834264] (px4_hexctl) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable offboard_control_main\x1b[0m\n'}
+[2.918178] (-) TimerEvent: {}
+[3.018413] (-) TimerEvent: {}
+[3.119407] (-) TimerEvent: {}
+[3.219753] (-) TimerEvent: {}
+[3.320026] (-) TimerEvent: {}
+[3.420321] (-) TimerEvent: {}
+[3.421179] (px4_hexctl) StdoutLine: {'line': b'[100%] Built target offboard_control_main\n'}
+[3.433394] (px4_hexctl) CommandEnded: {'returncode': 0}
+[3.471274] (px4_hexctl) JobProgress: {'identifier': 'px4_hexctl', 'progress': 'install'}
+[3.479422] (px4_hexctl) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl'], 'cwd': '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl', 'env': OrderedDict([('HOSTNAME', 'paxon'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/lib:/home/ubuntu/Prometheus/install/prometheus_uav_control/lib:/home/ubuntu/Prometheus/install/prometheus_msgs/lib:/root/UAV-PX4/install/px4_ros_com/lib:/root/UAV-PX4/install/px4_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/home/ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/home/ubuntu/Prometheus/install:/root/UAV-PX4/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/scripts/bin/'), ('DISPLAY', 'unix:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble'), ('PWD', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/local/lib/python3.10/dist-packages:/home/ubuntu/Prometheus/install/prometheus_msgs/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_ros_com/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble')]), 'shell': False}
+[3.486530] (px4_hexctl) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[3.486794] (px4_hexctl) StdoutLine: {'line': b'-- Up-to-date: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/include/\n'}
+[3.486864] (px4_hexctl) StdoutLine: {'line': b'-- Up-to-date: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/include//px4_hexctl\n'}
+[3.486920] (px4_hexctl) StdoutLine: {'line': b'-- Installing: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/package.dsv\n'}
+[3.489591] (px4_hexctl) CommandEnded: {'returncode': 0}
+[3.520740] (-) TimerEvent: {}
+[3.551886] (px4_hexctl) JobEnded: {'identifier': 'px4_hexctl', 'rc': 0}
+[3.552316] (-) EventReactorShutdown: {}

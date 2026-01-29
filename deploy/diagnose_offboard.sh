@@ -118,5 +118,5 @@ echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros
 echo -e "\n   # 查看飞控状态"
 echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_status'"
 echo -e "\n   # 手动启动 Offboard Control 节点"
-echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run offboard_control_cpp offboard_control_main'"
+echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'"
 echo -e "\n${BLUE}================================================================${NC}"

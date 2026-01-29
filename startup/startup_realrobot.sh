@@ -98,7 +98,7 @@ start_offboard_control() {
         echo '地址: $REMOTE_HOST';
         echo '等待 PX4 话题数据...';
         sleep 2;
-        ssh -t '${REMOTE_HOST}' 'source /opt/ros/$REMOTE_ROS_DISTRO/setup.bash && source $REMOTE_WORKSPACE_PATH/install/setup.bash && sleep 3 && ros2 run offboard_control_cpp offboard_control_main';
+        ssh -t '${REMOTE_HOST}' 'source /opt/ros/$REMOTE_ROS_DISTRO/setup.bash && source $REMOTE_WORKSPACE_PATH/install/setup.bash && sleep 3 && ros2 run px4_hexctl offboard_control_main';
         echo 'Offboard Control 已停止，按 Enter 关闭窗口...';
         read;
     " &

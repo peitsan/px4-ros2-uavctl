@@ -60,6 +60,9 @@ A: ssh orangepi@192.168.3.17 "echo 'test'"
 Q: "编译失败"
 A: bash ./deploy/clean_remote_build.sh
    bash ./deploy/deploy_offboard.sh -n
+   # 或者直接在远端编译指定包(注意realsense-ros不是包名)
+   ssh orangepi@192.168.3.17 "cd ~/uav_ws && colcon build --packages-select px4_hexctl --symlink-install"
+   ssh orangepi@192.168.3.17 "cd ~/uav_ws && colcon build --packages-select realsense2_camera realsense2_description realsense2_camera_msgs --symlink-install"
 
 Q: "Offboard 节点崩溃"
 A: 查看日志:
@@ -103,6 +106,10 @@ A: 运行诊断:
 
 # 部署代码
 bash ./deploy/quick_deploy.sh
+
+# 远端编译(建议)
+ssh orangepi@192.168.3.17 "cd ~/uav_ws && colcon build --packages-select px4_hexctl --symlink-install"
+ssh orangepi@192.168.3.17 "cd ~/uav_ws && colcon build --packages-select realsense2_camera realsense2_description realsense2_camera_msgs --symlink-install"
 
 # 启动系统
 ./startup/startup_realrobot.sh

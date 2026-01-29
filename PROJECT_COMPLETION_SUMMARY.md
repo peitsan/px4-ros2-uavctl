@@ -10,8 +10,8 @@
 ### 2. 代码部署系统
 - ✅ `deploy_offboard.sh` - 完整部署脚本(git + rsync + 编译)
 - ✅ `quick_deploy.sh` - 快速部署菜单(场景化选择)
-- ✅ 自动选择编译 `offboard_control_cpp` 包
-- ✅ 创建 `/home/orangepi/uav_ws/src/offboard_control_cpp` 符号链接
+- ✅ 自动选择编译 `px4_hexctl` 包
+- ✅ 创建 `/home/orangepi/uav_ws/src/px4_hexctl` 符号链接
 - ✅ 编译成功,包可在 ROS2 中识别
 
 ### 3. 无人机启动脚本
@@ -126,7 +126,7 @@ px4-ros2-uavctl/
 │   └── 09-QuickStart-Offboard.md      # Offboard 快速启动 ⭐
 │
 └── src/                                # 源代码
-    ├── offboard_control_cpp/          # 主要包
+    ├── px4_hexctl/          # 主要包
     │   ├── src/
     │   │   ├── main.cpp               # 程序入口 ⭐
     │   │   └── offboard_control_lib/
@@ -157,7 +157,7 @@ ssh orangepi@192.168.3.17 "
 # 终端 2: 启动 Offboard Control
 ssh orangepi@192.168.3.17 "
     source ~/uav_ws/install/setup.bash
-    ros2 run offboard_control_cpp offboard_control_main
+    ros2 run px4_hexctl offboard_control_main
 "
 
 # 终端 3: 启动 QGroundControl
@@ -174,7 +174,7 @@ bash ~/Desktop/px4-ros2-uavctl/deploy/diagnose_offboard.sh
 | 指标 | 值 | 状态 |
 |------|-----|------|
 | SSH 连接 | 192.168.3.17 | ✅ |
-| 编译状态 | offboard_control_cpp | ✅ |
+| 编译状态 | px4_hexctl | ✅ |
 | 心跳频率 | 20 Hz | ✅ |
 | 预热消息 | 10+ | ✅ |
 | 波特率 | 115200 | ✅ |

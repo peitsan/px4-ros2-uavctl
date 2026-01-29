@@ -19,5 +19,5 @@ ssh -t "${REMOTE_HOST}" "
     source ${WORKSPACE_PATH}/install/setup.bash
     
     echo '📍 启动 Offboard Control 节点...'
-    ros2 run offboard_control_cpp offboard_control_main
+    ros2 run px4_hexctl offboard_control_main
 "

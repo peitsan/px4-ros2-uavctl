@@ -95,7 +95,7 @@ drone_->engage_offboard_mode(10, 2.0);
 ```bash
 ssh orangepi@192.168.3.17
 source ~/uav_ws/install/setup.bash
-ros2 run offboard_control_cpp offboard_control_main
+ros2 run px4_hexctl offboard_control_main
 ```
 
 预期输出：
@@ -104,9 +104,9 @@ ros2 run offboard_control_cpp offboard_control_main
 - 应该成功执行轨迹点飞行
 
 ## 修改的文件
-1. `/src/offboard_control_cpp/src/main.cpp` - 添加初始化延迟和日志
-2. `/src/offboard_control_cpp/src/offboard_control_lib/vehicle.cpp` - 改进构造函数
-3. `/src/offboard_control_cpp/src/offboard_control_lib/offboard_control.cpp` - 增强 engage_offboard_mode 日志
+1. `/src/px4_hexctl/src/main.cpp` - 添加初始化延迟和日志
+2. `/src/px4_hexctl/src/offboard_control_lib/vehicle.cpp` - 改进构造函数
+3. `/src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp` - 增强 engage_offboard_mode 日志
 
 ## 相关 PX4 文档
 - [PX4 Offboard Mode](https://docs.px4.io/main/en/flight_modes/offboard.html)

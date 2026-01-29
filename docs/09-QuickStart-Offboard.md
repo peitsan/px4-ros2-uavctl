@@ -45,7 +45,7 @@ MicroXRCEAgent serial -D /dev/ttyUSB0 -b 115200
 ssh orangepi@192.168.3.17 "
     source /opt/ros/humble/setup.bash
     source ~/uav_ws/install/setup.bash
-    ros2 run offboard_control_cpp offboard_control_main
+    ros2 run px4_hexctl offboard_control_main
 "
 ```
 

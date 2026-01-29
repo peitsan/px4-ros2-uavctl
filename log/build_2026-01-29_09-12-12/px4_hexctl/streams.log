@@ -1,0 +1,69 @@
+[0.013s] Invoking command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/ubuntu/Desktop/px4-ros2-uavctl -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl
+[0.119s] -- The C compiler identification is GNU 11.4.0
+[0.192s] -- The CXX compiler identification is GNU 11.4.0
+[0.205s] -- Detecting C compiler ABI info
+[0.289s] -- Detecting C compiler ABI info - done
+[0.295s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.295s] -- Detecting C compile features
+[0.296s] -- Detecting C compile features - done
+[0.298s] -- Detecting CXX compiler ABI info
+[0.369s] -- Detecting CXX compiler ABI info - done
+[0.374s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.374s] -- Detecting CXX compile features
+[0.374s] -- Detecting CXX compile features - done
+[0.378s] -- Found ament_cmake: 1.3.2 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.529s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.593s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.649s] -- Found rclcpp: 16.0.1 (/opt/ros/humble/share/rclcpp/cmake)
+[0.731s] -- Found rosidl_generator_c: 3.1.3 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.740s] -- Found rosidl_adapter: 3.1.3 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.751s] -- Found rosidl_generator_cpp: 3.1.3 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.770s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.808s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.883s] -- Found rmw_implementation_cmake: 6.1.0 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.886s] -- Found rmw_fastrtps_cpp: 6.2.1 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.019s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.058s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.115s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.248s] -- Found px4_msgs: 2.0.1 (/root/UAV-PX4/install/px4_msgs/share/px4_msgs/cmake)
+[1.324s] -- Configuring done
+[1.336s] -- Generating done
+[1.337s] -- Build files have been written to: /home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl
+[1.346s] Invoked command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/ubuntu/Desktop/px4-ros2-uavctl -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl
+[1.347s] Invoking command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl -- -j16 -l16
+[1.391s] [ 40%] [32mBuilding CXX object CMakeFiles/offboard_control_lib.dir/src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp.o[0m
+[1.391s] [ 40%] [32mBuilding CXX object CMakeFiles/offboard_control_lib.dir/src/px4_hexctl/src/offboard_control_lib/vehicle.cpp.o[0m
+[11.327s] [ 60%] [32m[1mLinking CXX static library liboffboard_control_lib.a[0m
+[11.540s] [ 60%] Built target offboard_control_lib
+[11.561s] [ 80%] [32mBuilding CXX object CMakeFiles/offboard_control_main.dir/src/px4_hexctl/src/main.cpp.o[0m
+[14.200s] [100%] [32m[1mLinking CXX executable offboard_control_main[0m
+[14.801s] [100%] Built target offboard_control_main
+[14.812s] Invoked command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl -- -j16 -l16
+[14.857s] Invoking command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl
+[14.864s] -- Install configuration: ""
+[14.864s] -- Execute custom install script
+[14.864s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/offboard_control_main
+[14.874s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/liboffboard_control_lib.a
+[14.889s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/include//px4_hexctl/offboard_control.hpp
+[14.898s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/include//px4_hexctl/vehicle.hpp
+[14.907s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/main.py
+[14.915s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/main2.py
+[14.924s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/main_srv.py
+[14.931s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/offboard_control_lib.py
+[14.939s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/lib/px4_hexctl/test_rect.py
+[14.947s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/ament_index/resource_index/package_run_dependencies/px4_hexctl
+[14.954s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/ament_index/resource_index/parent_prefix_path/px4_hexctl
+[14.964s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/environment/ament_prefix_path.sh
+[14.975s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/environment/ament_prefix_path.dsv
+[14.984s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/environment/path.sh
+[14.993s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/environment/path.dsv
+[15.003s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/local_setup.bash
+[15.013s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/local_setup.sh
+[15.022s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/local_setup.zsh
+[15.032s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/local_setup.dsv
+[15.039s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/package.dsv
+[15.047s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/ament_index/resource_index/packages/px4_hexctl
+[15.057s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/cmake/px4_hexctlConfig.cmake
+[15.067s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/cmake/px4_hexctlConfig-version.cmake
+[15.075s] -- Symlinking: /home/ubuntu/Desktop/px4-ros2-uavctl/install/px4_hexctl/share/px4_hexctl/package.xml
+[15.087s] Invoked command in '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl

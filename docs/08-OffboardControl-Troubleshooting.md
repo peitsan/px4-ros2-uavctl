@@ -123,7 +123,7 @@ ls -la /dev/ttyUSB*
 ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_local_position_v1' &
 
 # 在另一个终端,启动 Offboard Control
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run offboard_control_cpp offboard_control_main'
+ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'
 ```
 
 位置数据应该继续输出。

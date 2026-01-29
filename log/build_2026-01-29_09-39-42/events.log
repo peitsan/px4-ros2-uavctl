@@ -1,0 +1,622 @@
+[0.000000] (-) TimerEvent: {}
+[0.000269] (px4_hexctl) JobQueued: {'identifier': 'px4_hexctl', 'dependencies': OrderedDict()}
+[0.000356] (px4_hexctl) JobStarted: {'identifier': 'px4_hexctl'}
+[0.009611] (px4_hexctl) JobProgress: {'identifier': 'px4_hexctl', 'progress': 'cmake'}
+[0.010764] (px4_hexctl) JobProgress: {'identifier': 'px4_hexctl', 'progress': 'build'}
+[0.010939] (px4_hexctl) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl', '--', '-j16', '-l16'], 'cwd': '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl', 'env': OrderedDict([('HOSTNAME', 'paxon'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/lib:/home/ubuntu/Prometheus/install/prometheus_uav_control/lib:/home/ubuntu/Prometheus/install/prometheus_msgs/lib:/root/UAV-PX4/install/px4_ros_com/lib:/root/UAV-PX4/install/px4_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/home/ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/home/ubuntu/Prometheus/install:/root/UAV-PX4/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/scripts/bin/'), ('DISPLAY', 'unix:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble'), ('PWD', '/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs/local/lib/python3.10/dist-packages:/home/ubuntu/Prometheus/install/prometheus_msgs/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_ros_com/local/lib/python3.10/dist-packages:/root/UAV-PX4/install/px4_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/ubuntu/Prometheus/install/quadrotor_msgs:/home/ubuntu/Prometheus/install/prometheus_uav_control:/home/ubuntu/Prometheus/install/prometheus_msgs:/root/UAV-PX4/install/px4_ros_com:/root/UAV-PX4/install/px4_msgs:/opt/ros/humble')]), 'shell': False}
+[0.071169] (px4_hexctl) StdoutLine: {'line': b'[ 60%] Built target offboard_control_lib\n'}
+[0.082040] (px4_hexctl) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target offboard_control_main\x1b[0m\n'}
+[0.099804] (-) TimerEvent: {}
+[0.102232] (px4_hexctl) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/offboard_control_main.dir/src/px4_hexctl/src/main.cpp.o\x1b[0m\n'}
+[0.199892] (-) TimerEvent: {}
+[0.300156] (-) TimerEvent: {}
+[0.331770] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:33:22:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kmissing terminating " character\n'}
+[0.331962] (px4_hexctl) StderrLine: {'line': b'   33 |         std::cout << \x1b[01;35m\x1b[K"\x1b[m\x1b[Khis_thread::sleep_for(std::chrono::seconds(5));\n'}
+[0.332008] (px4_hexctl) StderrLine: {'line': b'      |                      \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[0.332041] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:33:22:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kmissing terminating " character\n'}
+[0.332074] (px4_hexctl) StderrLine: {'line': b'   33 |         std::cout << \x1b[01;31m\x1b[K"his_thread::sleep_for(std::chrono::seconds(5));\x1b[m\x1b[K\n'}
+[0.332104] (px4_hexctl) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[0.400246] (-) TimerEvent: {}
+[0.500525] (-) TimerEvent: {}
+[0.600965] (-) TimerEvent: {}
+[0.701258] (-) TimerEvent: {}
+[0.801545] (-) TimerEvent: {}
+[0.902691] (-) TimerEvent: {}
+[1.002968] (-) TimerEvent: {}
+[1.103392] (-) TimerEvent: {}
+[1.203700] (-) TimerEvent: {}
+[1.303983] (-) TimerEvent: {}
+[1.404264] (-) TimerEvent: {}
+[1.504509] (-) TimerEvent: {}
+[1.604790] (-) TimerEvent: {}
+[1.705183] (-) TimerEvent: {}
+[1.806582] (-) TimerEvent: {}
+[1.906984] (-) TimerEvent: {}
+[2.007415] (-) TimerEvent: {}
+[2.108050] (-) TimerEvent: {}
+[2.208717] (-) TimerEvent: {}
+[2.309195] (-) TimerEvent: {}
+[2.314381] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kint main(int, char**)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.314992] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:33:19:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno match for \xe2\x80\x98\x1b[01m\x1b[Koperator<<\x1b[m\x1b[K\xe2\x80\x99 (operand types are \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} and \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99})\n'}
+[2.315195] (px4_hexctl) StderrLine: {'line': b'   33 |         \x1b[32m\x1b[Kstd::cout\x1b[m\x1b[K \x1b[01;31m\x1b[K<<\x1b[m\x1b[K "his_thread::sleep_for(std::chrono::seconds(5));\n'}
+[2.315862] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[32m\x1b[K~~~~~~~~~\x1b[m\x1b[K \x1b[01;31m\x1b[K^~\x1b[m\x1b[K\n'}
+[2.316703] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[32m\x1b[K|\x1b[m\x1b[K\n'}
+[2.316877] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[32m\x1b[Kbasic_ostream<[...]>\x1b[m\x1b[K\n'}
+[2.316970] (px4_hexctl) StderrLine: {'line': b'   34 | \n'}
+[2.317033] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[34m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.317099] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[34m\x1b[K~~~~~~~~~\x1b[m\x1b[K  \n'}
+[2.317161] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[34m\x1b[K|\x1b[m\x1b[K\n'}
+[2.317216] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[34m\x1b[Kbasic_ostream<[...]>\x1b[m\x1b[K\n'}
+[2.317270] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:33:19:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Koperator<<(int, int)\x1b[m\x1b[K\xe2\x80\x99 (built-in)\n'}
+[2.317355] (px4_hexctl) StderrLine: {'line': b'   33 |         \x1b[01;36m\x1b[Kstd::cout << "his_thread::sleep_for(std::chrono::seconds(5));\x1b[m\x1b[K\n'}
+[2.317411] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.317459] (px4_hexctl) StderrLine: {'line': b'   34 | \n'}
+[2.317511] (px4_hexctl) StderrLine: {'line': b'      |                    \n'}
+[2.317553] (px4_hexctl) StderrLine: {'line': b'   35 | \x1b[01;36m\x1b[K        std::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.317605] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~~~~~\x1b[m\x1b[K  \n'}
+[2.317658] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:33:19:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 2 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.317723] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.318375] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.318505] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.318550] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.318597] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.318646] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.318681] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:108:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ostream_type& (*)(std::basic_ostream<_CharT, _Traits>::__ostream_type&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.318727] (px4_hexctl) StderrLine: {'line': b'  108 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(__ostream_type& (*__pf)(__ostream_type&))\n'}
+[2.318763] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.318797] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:108:36:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>::__ostream_type& (*)(std::basic_ostream<char>::__ostream_type&)\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>& (*)(std::basic_ostream<char>&)\x1b[m\x1b[K\xe2\x80\x99}\n'}
+[2.318836] (px4_hexctl) StderrLine: {'line': b'  108 |       operator<<(\x1b[01;36m\x1b[K__ostream_type& (*__pf)(__ostream_type&)\x1b[m\x1b[K)\n'}
+[2.318868] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.318963] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:117:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ios_type& (*)(std::basic_ostream<_CharT, _Traits>::__ios_type&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>; std::basic_ostream<_CharT, _Traits>::__ios_type = std::basic_ios<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319055] (px4_hexctl) StderrLine: {'line': b'  117 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(__ios_type& (*__pf)(__ios_type&))\n'}
+[2.319088] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.319119] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:117:32:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>::__ios_type& (*)(std::basic_ostream<char>::__ios_type&)\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ios<char>& (*)(std::basic_ios<char>&)\x1b[m\x1b[K\xe2\x80\x99}\n'}
+[2.319160] (px4_hexctl) StderrLine: {'line': b'  117 |       operator<<(\x1b[01;36m\x1b[K__ios_type& (*__pf)(__ios_type&)\x1b[m\x1b[K)\n'}
+[2.319199] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.319232] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:127:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::ios_base& (*)(std::ios_base&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319268] (px4_hexctl) StderrLine: {'line': b'  127 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(ios_base& (*__pf) (ios_base&))\n'}
+[2.319299] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.319328] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:127:30:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kstd::ios_base& (*)(std::ios_base&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319361] (px4_hexctl) StderrLine: {'line': b'  127 |       operator<<(\x1b[01;36m\x1b[Kios_base& (*__pf) (ios_base&)\x1b[m\x1b[K)\n'}
+[2.319392] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~^~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.319423] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:166:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319456] (px4_hexctl) StderrLine: {'line': b'  166 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(long __n)\n'}
+[2.319486] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.319517] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:166:23:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Klong int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319551] (px4_hexctl) StderrLine: {'line': b'  166 |       operator<<(\x1b[01;36m\x1b[Klong __n\x1b[m\x1b[K)\n'}
+[2.319583] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~^~~\x1b[m\x1b[K\n'}
+[2.319620] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:170:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319669] (px4_hexctl) StderrLine: {'line': b'  170 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(unsigned long __n)\n'}
+[2.319704] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.319740] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:170:32:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319776] (px4_hexctl) StderrLine: {'line': b'  170 |       operator<<(\x1b[01;36m\x1b[Kunsigned long __n\x1b[m\x1b[K)\n'}
+[2.319806] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.319836] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:174:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(bool) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319871] (px4_hexctl) StderrLine: {'line': b'  174 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(bool __n)\n'}
+[2.319897] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.319926] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:174:23:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kbool\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.319960] (px4_hexctl) StderrLine: {'line': b'  174 |       operator<<(\x1b[01;36m\x1b[Kbool __n\x1b[m\x1b[K)\n'}
+[2.319988] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~^~~\x1b[m\x1b[K\n'}
+[2.320016] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/ostream:829\x1b[m\x1b[K,\n'}
+[2.320046] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.320075] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.320105] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.320148] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.320185] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.320223] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.320262] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:91:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_Ch, _Tr>& std::basic_ostream<_CharT, _Traits>::operator<<(short int) [with _CharT = char; _Traits = std::char_traits<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.320308] (px4_hexctl) StderrLine: {'line': b'   91 |     \x1b[01;36m\x1b[Kbasic_ostream<_CharT, _Traits>\x1b[m\x1b[K::\n'}
+[2.320345] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.320384] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:92:22:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kshort int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.320429] (px4_hexctl) StderrLine: {'line': b'   92 |     operator<<(\x1b[01;36m\x1b[Kshort __n\x1b[m\x1b[K)\n'}
+[2.320469] (px4_hexctl) StderrLine: {'line': b'      |                \x1b[01;36m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.320509] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.320547] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.320584] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.320622] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.320669] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.320708] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.320745] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:181:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(short unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.320783] (px4_hexctl) StderrLine: {'line': b'  181 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(unsigned short __n)\n'}
+[2.320823] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.320861] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:181:33:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kshort unsigned int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.320908] (px4_hexctl) StderrLine: {'line': b'  181 |       operator<<(\x1b[01;36m\x1b[Kunsigned short __n\x1b[m\x1b[K)\n'}
+[2.320946] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.320980] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/ostream:829\x1b[m\x1b[K,\n'}
+[2.321018] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.321056] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.321094] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.321131] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.321168] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.321210] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.321247] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:105:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_Ch, _Tr>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char; _Traits = std::char_traits<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.321294] (px4_hexctl) StderrLine: {'line': b'  105 |     \x1b[01;36m\x1b[Kbasic_ostream<_CharT, _Traits>\x1b[m\x1b[K::\n'}
+[2.321331] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.321370] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:106:20:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.321411] (px4_hexctl) StderrLine: {'line': b'  106 |     operator<<(\x1b[01;36m\x1b[Kint __n\x1b[m\x1b[K)\n'}
+[2.321449] (px4_hexctl) StderrLine: {'line': b'      |                \x1b[01;36m\x1b[K~~~~^~~\x1b[m\x1b[K\n'}
+[2.321484] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.321521] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.321560] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.321605] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.321659] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.321693] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.321726] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:192:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.321759] (px4_hexctl) StderrLine: {'line': b'  192 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(unsigned int __n)\n'}
+[2.321797] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.321843] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:192:31:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kunsigned int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.321884] (px4_hexctl) StderrLine: {'line': b'  192 |       operator<<(\x1b[01;36m\x1b[Kunsigned int __n\x1b[m\x1b[K)\n'}
+[2.321921] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.321965] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:201:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322020] (px4_hexctl) StderrLine: {'line': b'  201 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(long long __n)\n'}
+[2.322060] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.322099] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:201:28:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Klong long int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322141] (px4_hexctl) StderrLine: {'line': b'  201 |       operator<<(\x1b[01;36m\x1b[Klong long __n\x1b[m\x1b[K)\n'}
+[2.322182] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.322222] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:205:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322270] (px4_hexctl) StderrLine: {'line': b'  205 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(unsigned long long __n)\n'}
+[2.322312] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.322353] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:205:37:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Klong long unsigned int\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322396] (px4_hexctl) StderrLine: {'line': b'  205 |       operator<<(\x1b[01;36m\x1b[Kunsigned long long __n\x1b[m\x1b[K)\n'}
+[2.322438] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.322479] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:220:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(double) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322522] (px4_hexctl) StderrLine: {'line': b'  220 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(double __f)\n'}
+[2.322562] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.322601] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:220:25:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kdouble\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322658] (px4_hexctl) StderrLine: {'line': b'  220 |       operator<<(\x1b[01;36m\x1b[Kdouble __f\x1b[m\x1b[K)\n'}
+[2.322699] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.322740] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:224:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(float) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322784] (px4_hexctl) StderrLine: {'line': b'  224 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(float __f)\n'}
+[2.322834] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.322873] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:224:24:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kfloat\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.322915] (px4_hexctl) StderrLine: {'line': b'  224 |       operator<<(\x1b[01;36m\x1b[Kfloat __f\x1b[m\x1b[K)\n'}
+[2.322954] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.322995] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:232:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long double) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323037] (px4_hexctl) StderrLine: {'line': b'  232 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(long double __f)\n'}
+[2.323079] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.323124] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:232:30:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Klong double\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323168] (px4_hexctl) StderrLine: {'line': b'  232 |       operator<<(\x1b[01;36m\x1b[Klong double __f\x1b[m\x1b[K)\n'}
+[2.323209] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.323252] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:245:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(const void*) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323299] (px4_hexctl) StderrLine: {'line': b'  245 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(const void* __p)\n'}
+[2.323340] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.323381] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:245:30:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kconst void*\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323422] (px4_hexctl) StderrLine: {'line': b'  245 |       operator<<(\x1b[01;36m\x1b[Kconst void* __p\x1b[m\x1b[K)\n'}
+[2.323468] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.323508] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:250:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::nullptr_t) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>; std::nullptr_t = std::nullptr_t]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323551] (px4_hexctl) StderrLine: {'line': b'  250 |       \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(nullptr_t)\n'}
+[2.323590] (px4_hexctl) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.323639] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:250:18:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kstd::nullptr_t\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.323684] (px4_hexctl) StderrLine: {'line': b'  250 |       operator<<(\x1b[01;36m\x1b[Knullptr_t\x1b[m\x1b[K)\n'}
+[2.323725] (px4_hexctl) StderrLine: {'line': b'      |                  \x1b[01;36m\x1b[K^~~~~~~~~\x1b[m\x1b[K\n'}
+[2.323769] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/ostream:829\x1b[m\x1b[K,\n'}
+[2.323811] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.323854] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.323896] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.323938] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.323980] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.324028] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.324071] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:119:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<_Ch, _Tr>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__streambuf_type*) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__streambuf_type = std::basic_streambuf<char>]\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.324122] (px4_hexctl) StderrLine: {'line': b'  119 |     \x1b[01;36m\x1b[Kbasic_ostream<_CharT, _Traits>\x1b[m\x1b[K::\n'}
+[2.324166] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.324208] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:120:34:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  no known conversion for argument 1 from \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} to \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>::__streambuf_type*\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_streambuf<char>*\x1b[m\x1b[K\xe2\x80\x99}\n'}
+[2.324256] (px4_hexctl) StderrLine: {'line': b'  120 |     operator<<(\x1b[01;36m\x1b[K__streambuf_type* __sbin\x1b[m\x1b[K)\n'}
+[2.324300] (px4_hexctl) StderrLine: {'line': b'      |                \x1b[01;36m\x1b[K~~~~~~~~~~~~~~~~~~^~~~~~\x1b[m\x1b[K\n'}
+[2.324343] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/memory:77\x1b[m\x1b[K,\n'}
+[2.324387] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153\x1b[m\x1b[K,\n'}
+[2.324432] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.324476] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/shared_ptr.h:70:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Ch, class _Tr, class _Tp, __gnu_cxx::_Lock_policy _Lp> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, const std::__shared_ptr<_Tp, _Lp>&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.324527] (px4_hexctl) StderrLine: {'line': b'   70 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(std::basic_ostream<_Ch, _Tr>& __os,\n'}
+[2.324573] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.324618] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/shared_ptr.h:70:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.324666] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} is not derived from \xe2\x80\x98\x1b[01m\x1b[Kconst std::__shared_ptr<_Tp, _Lp>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.324715] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.324790] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.324831] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/bits/basic_string.h:48\x1b[m\x1b[K,\n'}
+[2.324880] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/string:55\x1b[m\x1b[K,\n'}
+[2.324924] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/stdexcept:39\x1b[m\x1b[K,\n'}
+[2.324967] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/system_error:41\x1b[m\x1b[K,\n'}
+[2.325009] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/mutex:42\x1b[m\x1b[K,\n'}
+[2.325052] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/future:38\x1b[m\x1b[K,\n'}
+[2.325096] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:18\x1b[m\x1b[K,\n'}
+[2.325140] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.325183] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.325232] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/string_view:667:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::basic_string_view<_CharT, _Traits>)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.325279] (px4_hexctl) StderrLine: {'line': b'  667 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os,\n'}
+[2.325326] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.325368] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/string_view:667:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.325414] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99 is not derived from \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_string_view<_CharT, _Traits>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.325457] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.325501] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.325543] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/string:55\x1b[m\x1b[K,\n'}
+[2.325572] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/stdexcept:39\x1b[m\x1b[K,\n'}
+[2.325605] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/system_error:41\x1b[m\x1b[K,\n'}
+[2.325658] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/mutex:42\x1b[m\x1b[K,\n'}
+[2.325702] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/future:38\x1b[m\x1b[K,\n'}
+[2.325742] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:18\x1b[m\x1b[K,\n'}
+[2.325780] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.325810] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.325848] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/basic_string.h:6531:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits, class _Alloc> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, const std::__cxx11::basic_string<_CharT, _Traits, _Allocator>&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.325881] (px4_hexctl) StderrLine: {'line': b' 6531 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os,\n'}
+[2.325914] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.325942] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/basic_string.h:6531:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.325983] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99} is not derived from \xe2\x80\x98\x1b[01m\x1b[Kconst std::__cxx11::basic_string<_CharT, _Traits, _Allocator>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.326031] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.326065] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.326105] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/mutex:42\x1b[m\x1b[K,\n'}
+[2.326136] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/future:38\x1b[m\x1b[K,\n'}
+[2.326165] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:18\x1b[m\x1b[K,\n'}
+[2.326195] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.326225] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.326255] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/system_error:279:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, const std::error_code&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.326290] (px4_hexctl) StderrLine: {'line': b'  279 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, const error_code& __e)\n'}
+[2.326319] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.326349] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/system_error:279:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.326381] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kconst std::error_code&\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.326421] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.326471] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.326510] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.326557] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.326608] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.326855] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.327057] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/thread:92:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::thread::id)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.327191] (px4_hexctl) StderrLine: {'line': b'   92 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __out, thread::id __id)\n'}
+[2.327271] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.327320] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/thread:92:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.327388] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::thread::id\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.327459] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.327510] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.327558] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.327606] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.327674] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.327756] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.327793] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.327827] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.327857] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:513:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, _CharT)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.327892] (px4_hexctl) StderrLine: {'line': b'  513 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __out, _CharT __c)\n'}
+[2.327922] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.327955] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:513:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.327986] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  deduced conflicting types for parameter \xe2\x80\x98\x1b[01m\x1b[K_CharT\x1b[m\x1b[K\xe2\x80\x99 (\xe2\x80\x98\x1b[01m\x1b[Kchar\x1b[m\x1b[K\xe2\x80\x99 and \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99)\n'}
+[2.328017] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.328048] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.328079] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.328110] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.328141] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.328173] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.328207] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.328236] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.328266] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:518:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, char)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.328296] (px4_hexctl) StderrLine: {'line': b'  518 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __out, char __c)\n'}
+[2.328325] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.328355] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:518:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.328384] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kchar\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.328416] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.328449] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.328480] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.328509] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.328538] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.328569] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.328600] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.328635] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.328672] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:524:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.328714] (px4_hexctl) StderrLine: {'line': b'  524 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, char __c)\n'}
+[2.328744] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.328773] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:524:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.328803] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kchar\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.328838] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.328870] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.328899] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.328928] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.328956] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.328988] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.329015] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.329043] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.329071] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:530:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, signed char)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.329101] (px4_hexctl) StderrLine: {'line': b'  530 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, signed char __c)\n'}
+[2.329130] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.329158] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:530:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.329187] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Ksigned char\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.329222] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.329252] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.329280] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.329309] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.329338] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.329368] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.329396] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.329425] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.329458] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:535:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, unsigned char)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.329489] (px4_hexctl) StderrLine: {'line': b'  535 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, unsigned char __c)\n'}
+[2.329518] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.329545] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:535:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.329573] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kunsigned char\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.329603] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.329639] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.329678] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.329706] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.329743] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.329774] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.329803] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.329832] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.329865] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:594:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, const _CharT*)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.329913] (px4_hexctl) StderrLine: {'line': b'  594 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __out, const _CharT* __s)\n'}
+[2.329951] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.329985] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:594:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.330029] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  mismatched types \xe2\x80\x98\x1b[01m\x1b[Kconst _CharT*\x1b[m\x1b[K\xe2\x80\x99 and \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.330062] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.330100] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.330132] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/ostream:829\x1b[m\x1b[K,\n'}
+[2.330161] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.330188] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.330216] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.330246] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.330275] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.330303] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.330332] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:321:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, const char*)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.330363] (px4_hexctl) StderrLine: {'line': b'  321 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __out, const char* __s)\n'}
+[2.330393] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.330422] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/bits/ostream.tcc:321:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.330451] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kconst char*\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.330481] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.330509] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.330536] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.330564] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.330595] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.330623] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.330663] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.330691] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.330723] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:611:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char*)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.330755] (px4_hexctl) StderrLine: {'line': b'  611 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, const char* __s)\n'}
+[2.330785] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.330812] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:611:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.330840] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kconst char*\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.330869] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.330898] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.330923] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.330954] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.330982] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.331010] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.331040] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.331068] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.331097] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:624:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const signed char*)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.331163] (px4_hexctl) StderrLine: {'line': b'  624 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, const signed char* __s)\n'}
+[2.331202] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.331245] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:624:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.331288] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kconst signed char*\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.331333] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.331376] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.331416] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.331454] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.331494] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.331533] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.331570] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.331606] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.331651] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:629:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const unsigned char*)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.331694] (px4_hexctl) StderrLine: {'line': b'  629 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<char, _Traits>& __out, const unsigned char* __s)\n'}
+[2.331734] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.331773] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:629:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.331861] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kconst unsigned char*\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.331908] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.331942] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.331973] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/c++/11/iostream:39\x1b[m\x1b[K,\n'}
+[2.332003] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:22\x1b[m\x1b[K,\n'}
+[2.332034] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.332063] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.332092] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.332121] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.332156] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:750:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Ostream, class _Tp> _Ostream&& std::operator<<(_Ostream&&, const _Tp&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.332186] (px4_hexctl) StderrLine: {'line': b'  750 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(_Ostream&& __os, const _Tp& __x)\n'}
+[2.332216] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.332244] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:750:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.332271] (px4_hexctl) StderrLine: {'line': b'/usr/include/c++/11/ostream: In substitution of \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _Ostream, class _Tp> _Ostream&& std::operator<<(_Ostream&&, const _Tp&) [with _Ostream = std::basic_ostream<char>&; _Tp = std::basic_ostream<char>]\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.332300] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K   required from here\n'}
+[2.332332] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/ostream:750:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno type named \xe2\x80\x98\x1b[01m\x1b[Ktype\x1b[m\x1b[K\xe2\x80\x99 in \xe2\x80\x98\x1b[01m\x1b[Kstruct std::enable_if<false, void>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.332362] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.332399] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.332459] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.332519] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.332577] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.332646] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.332706] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.332779] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.332858] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.332937] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.333013] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.333090] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.333165] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.333241] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.333318] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.333393] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.333477] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.333553] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:79:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Resetiosflags)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.333618] (px4_hexctl) StderrLine: {'line': b'   79 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Resetiosflags __f)\n'}
+[2.333692] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.333739] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:79:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.333781] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::_Resetiosflags\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.333823] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.333866] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.333909] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.333952] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.333997] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.334054] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.334098] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.334138] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.334178] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.334219] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.334273] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.334313] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.334354] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.334392] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.334420] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.334449] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.334482] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.334516] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.334566] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.334607] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:109:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Setiosflags)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.334654] (px4_hexctl) StderrLine: {'line': b'  109 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Setiosflags __f)\n'}
+[2.334692] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.334747] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:109:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.334794] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::_Setiosflags\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.334844] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.334883] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.334922] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.334961] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.335012] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.335068] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.335122] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.335169] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.335210] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.335251] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.335293] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.335335] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.335377] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.335412] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.335451] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.335494] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.335534] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.335576] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.335618] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.335667] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:143:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Setbase)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.335713] (px4_hexctl) StderrLine: {'line': b'  143 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Setbase __f)\n'}
+[2.335754] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.335793] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:143:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.335833] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::_Setbase\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.335884] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.335925] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.335964] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.336009] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.336048] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.336091] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.336139] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.336181] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.336224] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.336267] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.336311] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.336362] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.336404] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.336449] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.336493] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.336536] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.336579] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.336620] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.336668] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.336711] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:178:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Setfill<_CharT>)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.336756] (px4_hexctl) StderrLine: {'line': b'  178 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Setfill<_CharT> __f)\n'}
+[2.336793] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.336861] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:178:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.336908] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99 is not derived from \xe2\x80\x98\x1b[01m\x1b[Kstd::_Setfill<_CharT>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.336954] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.336997] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.337041] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.337087] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.337130] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.337172] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.337218] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.337262] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.337303] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.337346] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.337384] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.337425] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.337471] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.337513] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.337554] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.337598] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.337647] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.337690] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.337737] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.337778] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:208:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Setprecision)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.337819] (px4_hexctl) StderrLine: {'line': b'  208 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Setprecision __f)\n'}
+[2.337857] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.337895] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:208:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.337939] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::_Setprecision\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.337982] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.338021] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.338059] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.338293] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.338343] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.338388] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.338435] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.338476] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.338518] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.338566] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.338608] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.338656] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.338699] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.338741] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.338782] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.338823] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.338865] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.338906] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.338947] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.338990] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:238:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Setw)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.339034] (px4_hexctl) StderrLine: {'line': b'  238 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Setw __f)\n'}
+[2.339076] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.339141] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:238:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.339226] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  cannot convert \xe2\x80\x98\x1b[01m\x1b[Kstd::cout\x1b[m\x1b[K\xe2\x80\x99 (type \xe2\x80\x98\x1b[01m\x1b[Kstd::ostream\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99}) to type \xe2\x80\x98\x1b[01m\x1b[Kstd::_Setw\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.339470] (px4_hexctl) StderrLine: {'line': b'   35 |         \x1b[01;36m\x1b[Kstd::cout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.339556] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;36m\x1b[K~~~~~^~~~\x1b[m\x1b[K\n'}
+[2.339635] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.339744] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.339822] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.339897] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.339970] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.340040] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.340118] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.340209] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.340292] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.340370] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.340442] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.340487] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.340532] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.340574] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.340618] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.340717] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.340762] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.340807] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:311:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits, class _MoneyT> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Put_money<_MoneyT>)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.340851] (px4_hexctl) StderrLine: {'line': b'  311 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Put_money<_MoneyT> __f)\n'}
+[2.340896] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.340941] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:311:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.340983] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99 is not derived from \xe2\x80\x98\x1b[01m\x1b[Kstd::_Put_money<_MoneyT>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.341028] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.341072] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.341116] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp:19\x1b[m\x1b[K,\n'}
+[2.341158] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:15\x1b[m\x1b[K,\n'}
+[2.341204] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:9\x1b[m\x1b[K,\n'}
+[2.341247] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:20\x1b[m\x1b[K,\n'}
+[2.341289] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/qos.hpp:20\x1b[m\x1b[K,\n'}
+[2.341331] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:32\x1b[m\x1b[K,\n'}
+[2.341379] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:42\x1b[m\x1b[K,\n'}
+[2.341421] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:23\x1b[m\x1b[K,\n'}
+[2.341464] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.341506] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.341549] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.341593] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.341771] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.341824] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.341869] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.341910] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.341952] (px4_hexctl) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:1\x1b[m\x1b[K:\n'}
+[2.341995] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:363:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class _CharT, class _Traits> std::basic_ostream<_Ch, _Tr>& std::operator<<(std::basic_ostream<_Ch, _Tr>&, std::_Put_time<_CharT>)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.342043] (px4_hexctl) StderrLine: {'line': b'  363 |     \x1b[01;36m\x1b[Koperator\x1b[m\x1b[K<<(basic_ostream<_CharT, _Traits>& __os, _Put_time<_CharT> __f)\n'}
+[2.342088] (px4_hexctl) StderrLine: {'line': b'      |     \x1b[01;36m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.342132] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/c++/11/iomanip:363:5:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[2.342175] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:35:14:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  \xe2\x80\x98\x1b[01m\x1b[Kstd::basic_ostream<char>\x1b[m\x1b[K\xe2\x80\x99 is not derived from \xe2\x80\x98\x1b[01m\x1b[Kstd::_Put_time<_CharT>\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.342222] (px4_hexctl) StderrLine: {'line': b'   35 |         std::\x1b[01;36m\x1b[Kcout\x1b[m\x1b[K << "\xe2\x8f\xb3 Hovering for 5 seconds..." << std::endl;\n'}
+[2.342265] (px4_hexctl) StderrLine: {'line': b'      |              \x1b[01;36m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.342307] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:39:53:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno matching function for call to \xe2\x80\x98\x1b[01m\x1b[KOffboardControl::fly_to_trajectory_setpoint(double, double, double, double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.342356] (px4_hexctl) StderrLine: {'line': b'   39 |         \x1b[01;31m\x1b[Kvehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0)\x1b[m\x1b[K  ;\n'}
+[2.342398] (px4_hexctl) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.342440] (px4_hexctl) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/src/main.cpp:2\x1b[m\x1b[K:\n'}
+[2.342484] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/include/px4_hexctl/offboard_control.hpp:49:10:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool OffboardControl::fly_to_trajectory_setpoint(double, double, double, double, double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.342528] (px4_hexctl) StderrLine: {'line': b'   49 |     bool \x1b[01;36m\x1b[Kfly_to_trajectory_setpoint\x1b[m\x1b[K(double x, double y, double z, double yaw, double timeout);\n'}
+[2.342570] (px4_hexctl) StderrLine: {'line': b'      |          \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.342611] (px4_hexctl) StderrLine: {'line': b'\x1b[01m\x1b[K/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/include/px4_hexctl/offboard_control.hpp:49:10:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  candidate expects 5 arguments, 4 provided\n'}
+[2.409268] (-) TimerEvent: {}
+[2.509546] (-) TimerEvent: {}
+[2.609889] (-) TimerEvent: {}
+[2.701455] (px4_hexctl) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/offboard_control_main.dir/build.make:76: CMakeFiles/offboard_control_main.dir/src/px4_hexctl/src/main.cpp.o] Error 1\n'}
+[2.701883] (px4_hexctl) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/offboard_control_main.dir/all] Error 2\n'}
+[2.702033] (px4_hexctl) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[2.705928] (px4_hexctl) CommandEnded: {'returncode': 2}
+[2.710010] (-) TimerEvent: {}
+[2.760604] (px4_hexctl) JobEnded: {'identifier': 'px4_hexctl', 'rc': 2}
+[2.770947] (-) EventReactorShutdown: {}
