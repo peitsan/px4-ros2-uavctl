@@ -14,9 +14,14 @@ int main(int argc, char* argv[]) {
     auto vehicle = std::make_shared<Vehicle>();
 
     try {
-        // 1. 设置控制模式（定点模式需要位置）
-        std::cout << "📍 Setting up position control mode..." << std::endl;
-        vehicle->drone()->set_control_mode("attitude");
+        // 1. 设置控制模式
+        // 在室内无GPS环境下，必须使用 attitude 模式。
+        // target_ 格式: [roll, pitch, yaw, thrust] (前三个弧度，最后一个 0.0~1.0)
+        std::string mode = "attitude"; 
+        std::cout << "📍 Setting up [" << mode << "] control mode..." << std::endl;
+        vehicle->drone()->set_control_mode(mode);
+        // 初始化一个安全的姿态：平飞，不给油门（直到解锁后才给）
+        vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
         
         // 2. 状态机：循环检查并请求 OFFBOARD 模式和解锁
         auto start_time = std::chrono::steady_clock::now();
@@ -39,24 +44,14 @@ int main(int argc, char* argv[]) {
             // 检查位置数据状态
             bool has_pos = vehicle->drone()->is_position_received();
             
-            // 如果超过10秒没有位置数据且处于 position 模式，提示用户
-            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
-            if (!has_pos && elapsed > 10) {
-                static bool warned = false;
-                if (!warned) {
-                    std::cout << "\n❌ [ERROR] NO POSITION DATA RECEIVED FOR 10s!" << std::endl;
-                    std::cout << "💡 If you are INDOORS without GPS/VIO, you CANNOT use 'position' mode." << std::endl;
-                    std::cout << "💡 Please change vehicle->drone()->set_control_mode(\"position\") to \"attitude\" in main.cpp" << std::endl;
-                    warned = true;
-                }
-            }
-
-            // 每 2 秒发送一次请求，避免过于频繁
+            // 每 2 秒发送一次请求
             if (std::chrono::duration_cast<std::chrono::seconds>(now - last_request).count() >= 2) {
                 last_request = now;
                 
                 if (!is_offboard) {
-                    std::cout << "🔄 Requesting OFFBOARD mode... " << (has_pos ? "(Position ready)" : "(WAITING FOR POSITION)") << std::endl;
+                    std::cout << "🔄 Requesting OFFBOARD... " 
+                              << (mode == "position" ? (has_pos ? "(Pos-Ready)" : "(WAITING-POS)") : "(Attitude-Ready)") 
+                              << std::endl;
                     // 发送切换模式指令
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);

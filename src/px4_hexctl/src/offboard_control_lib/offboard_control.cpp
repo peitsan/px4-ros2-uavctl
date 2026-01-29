@@ -49,7 +49,7 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
     trajectory_setpoint_publisher_ = this->create_publisher<px4_msgs::msg::TrajectorySetpoint>(
         namespace_ + "/fmu/in/trajectory_setpoint", qos_profile);
     vehicle_attitude_setpoint_publisher_ = this->create_publisher<px4_msgs::msg::VehicleAttitudeSetpoint>(
-        namespace_ + "/fmu/in/vehicle_attitude_setpoint_v1", qos_profile);
+        namespace_ + "/fmu/in/vehicle_attitude_setpoint", qos_profile);
 
     RCLCPP_INFO(this->get_logger(), "[PUB] Created publishers under namespace: '%s'", namespace_.empty() ? "default" : namespace_.c_str());
 
