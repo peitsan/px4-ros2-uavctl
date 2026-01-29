@@ -19,10 +19,14 @@ void signal_handler(int signum) {
 }
 
 int main(int argc, char* argv[]) {
-    // 1. 显式初始化 ROS2 并禁用默认信号处理，这样我们的 std::signal 才能生效
+    // 1. 显式初始化 ROS2。我们手动设置信号处理以拦截 Ctrl+C
     if (!rclcpp::ok()) {
-        rclcpp::init(argc, argv, rclcpp::InitOptions().install_signal_handlers(false));
+        auto options = rclcpp::InitOptions();
+        // 在 Humble 中，shutdown_on_sigint 是控制是否在信号发生时自动关机的属性
+        options.shutdown_on_sigint = false; 
+        rclcpp::init(argc, argv, options);
     }
+    // 注册我们自己的信号处理函数（覆盖 ROS2 的）
     std::signal(SIGINT, signal_handler);
 
     std::cout << "════════════════════════════════════════════════════════" << std::endl;

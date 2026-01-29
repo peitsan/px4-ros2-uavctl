@@ -61,8 +61,11 @@ void Vehicle::close() {
     // 4️⃣ 线程回收 (带超时保护)
     if (spin_thread_.joinable()) {
         std::cout << "  - Joining spin thread..." << std::endl;
-        // 如果 1 秒内没能回收，说明死锁了，直接分离
-        auto future = std::async(std::launch::async, &std::thread::join, &spin_thread_);
+        // 使用 lambda 表达式正确调用 join
+        auto future = std::async(std::launch::async, [this]() { 
+            if (spin_thread_.joinable()) spin_thread_.join(); 
+        });
+        
         if (future.wait_for(std::chrono::seconds(1)) == std::future_status::timeout) {
             std::cout << "  ⚠️ Spin thread join timed out! Detaching..." << std::endl;
             spin_thread_.detach();
