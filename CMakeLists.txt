@@ -7,10 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 include_directories(
 	src/px4_hexctl/include
 	${px4_msgs_INCLUDE_DIRS}
+	${EIGEN3_INCLUDE_DIRS}
 )
 
 add_library(offboard_control_lib
@@ -22,6 +24,7 @@ target_link_libraries(offboard_control_lib
 	PUBLIC
 	rclcpp::rclcpp
 	${px4_msgs_TARGETS}
+	Eigen3::Eigen
 )
 
 add_executable(offboard_control_main
