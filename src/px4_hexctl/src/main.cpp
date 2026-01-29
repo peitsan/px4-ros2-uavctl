@@ -14,25 +14,32 @@ int main(int argc, char* argv[]) {
     auto vehicle = std::make_shared<Vehicle>();
 
     try {
-        // 1. 设置控制模式
-        // 在室内无GPS环境下，必须使用 attitude 模式。
-        // target_ 格式: [roll, pitch, yaw, thrust] (前三个弧度，最后一个 0.0~1.0)
-        std::string mode = "attitude"; 
-        std::cout << "📍 Setting up [" << mode << "] control mode..." << std::endl;
+        // 1. 自动根据定位状态选择模式
+        bool has_pos = vehicle->drone()->is_position_received();
+        std::string mode = has_pos ? "position" : "attitude"; 
+        
+        std::cout << "📍 Position status: " << (has_pos ? "VALID" : "INVALID (Indoor/No GPS)") << std::endl;
+        std::cout << "📍 Auto-selecting [" << mode << "] mode..." << std::endl;
+        
         vehicle->drone()->set_control_mode(mode);
-        // 初始化一个安全的姿态：平飞，不给油门（直到解锁后才给）
-        vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
+        
+        if (mode == "attitude") {
+            // 姿态模式初始化：平飞，零油门
+            vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
+        } else {
+            // 定点模式初始化：当前位置悬停
+            auto pos = vehicle->drone()->get_local_position();
+            vehicle->drone()->update_position_setpoint(pos.x, pos.y, pos.z, pos.heading);
+        }
         
         // 2. 状态机：循环检查并请求 OFFBOARD 模式和解锁
-        auto start_time = std::chrono::steady_clock::now();
         auto last_request = std::chrono::steady_clock::now();
-        std::cout << "⏳ Waiting for Offboard and Arming (State Machine)..." << std::endl;
+        std::cout << "⏳ Waiting for Offboard and Arming..." << std::endl;
 
         while (rclcpp::ok()) {
             auto now = std::chrono::steady_clock::now();
             auto status = vehicle->drone()->get_vehicle_status();
             
-            // PX4 常量: NAVIGATION_STATE_OFFBOARD = 14, ARMING_STATE_ARMED = 2
             bool is_offboard = (status.nav_state == 14);
             bool is_armed = (status.arming_state == 2);
 
@@ -41,53 +48,53 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            // 检查位置数据状态
-            bool has_pos = vehicle->drone()->is_position_received();
-            
             // 每 2 秒发送一次请求
             if (std::chrono::duration_cast<std::chrono::seconds>(now - last_request).count() >= 2) {
                 last_request = now;
                 
                 if (!is_offboard) {
-                    std::cout << "🔄 Requesting OFFBOARD... " 
-                              << (mode == "position" ? (has_pos ? "(Pos-Ready)" : "(WAITING-POS)") : "(Attitude-Ready)") 
-                              << std::endl;
-                    // 发送切换模式指令
+                    std::cout << "🔄 Requesting OFFBOARD (" << mode << " mode)..." << std::endl;
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
                 } else if (!is_armed) {
                     std::cout << "🔓 Requesting ARM..." << std::endl;
-                    // 在解锁前，心跳线程已经在持续发送 setpoint (在 Vehicle 构造中已启动)
-                    vehicle->drone()->publish_vehicle_command(
-                        px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
+                    vehicle->drone()->arm(); // 使用库提供的 arm() 方法
                 }
             }
-
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
 
-        // 3. 执行飞行任务
-        std::cout << "🚀 Proceeding with mission..." << std::endl;
-
-        std::cout << "🛸 Taking off to 2.0m..." << std::endl;
-        if (!vehicle->drone()->takeoff(2.0)) {
-            std::cerr << "❌ Takeoff failed!" << std::endl;
+        // 3. 执行飞行任务 (根据模式自动判断)
+        if (mode == "position") {
+            std::cout << "🚀 Mission Start [POSITION MODE]" << std::endl;
+            std::cout << "🛸 Taking off to 2.0m..." << std::endl;
+            if (vehicle->drone()->takeoff(2.0)) {
+                std::cout << "⏳ Hovering for 5 seconds..." << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(5));
+                
+                std::cout << "✅ Flying to target (5.0, 0.0, 2.0)..." << std::endl;
+                vehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0, 10.0);
+                
+                std::cout << "🛬 Landing..." << std::endl;
+                vehicle->drone()->land();
+            }
+        } else {
+            std::cout << "🚀 Mission Start [ATTITUDE MODE]" << std::endl;
+            std::cout << "⚠️ Running indoor attitude sequence..." << std::endl;
+            std::cout << "📈 Ramping up thrust for 2s (Manual monitor required!)..." << std::endl;
+            
+            // 姿态模式下的简单测试：缓慢增加油门
+            for (int i = 0; i < 20; i++) {
+                double thrust = 0.1 + (i * 0.015); // 从 0.1 增加到约 0.4
+                vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, thrust);
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            std::this_thread::sleep_for(std::chrono::seconds(2));
+            vehicle->drone()->update_attitude_setpoint(0.0, 0.0, 0.0, 0.1); // 降回怠速
+            
+            std::cout << "🔒 Disarming (Attitude mode complete)..." << std::endl;
+            vehicle->drone()->disarm();
         }
-        
-        std::cout << "⏳ Hovering for 5 seconds..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-
-        std::cout << "✅ Flying to the target 1!" << std::endl;
-        vehicle->drone()->fly_to_trajectory_setpoint(5.0, 0.0, 2.0, 0.0, 10.0);
-
-        std::cout << "🛬 Landing..." << std::endl;
-        if (!vehicle->drone()->land()) {
-            std::cerr << "❌ Land command failed or timed out!" << std::endl;
-        }
-        
-        std::cout << "🔒 Disarming..." << std::endl;
-        vehicle->drone()->disarm();
-        std::cout << "✅ Disarm command sent." << std::endl;
         
     } catch (const std::exception& e) {
         std::cerr << "❌ Exception caught: " << e.what() << std::endl;
