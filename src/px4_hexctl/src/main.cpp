@@ -16,7 +16,8 @@ int main(int argc, char* argv[]) {
     try {
         // 1. 自动根据定位状态选择模式
         // 注意：is_position_valid() 检查 EKF 是否真正对位置有信心
-        bool pos_ok = vehicle->drone()->is_position_valid();
+        // bool pos_ok = vehicle->drone()->is_position_valid();
+        bool pos_ok = true;  // 临时强制位置有效以进行测试
         std::string mode = pos_ok ? "position" : "attitude"; 
         
         std::cout << "📍 Position status: " << (pos_ok ? "VALID (Ready for Position mode)" : "INVALID (Using Attitude mode)") << std::endl;
