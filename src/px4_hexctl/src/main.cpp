@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
     // 1. 显式初始化 ROS2。我们手动设置信号处理以拦截 Ctrl+C
     if (!rclcpp::ok()) {
         auto options = rclcpp::InitOptions();
-        // 在 Humble 中，shutdown_on_sigint 是控制是否在信号发生时自动关机的属性
-        options.shutdown_on_sigint = false; 
+        // 根据编译器建议，在当前环境中使用 shutdown_on_signal
+        options.shutdown_on_signal = false; 
         rclcpp::init(argc, argv, options);
     }
     // 注册我们自己的信号处理函数（覆盖 ROS2 的）

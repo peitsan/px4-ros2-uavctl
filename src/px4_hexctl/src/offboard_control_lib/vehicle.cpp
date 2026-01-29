@@ -8,7 +8,9 @@
 Vehicle::Vehicle() {
     std::cout << "🌍 Initializing ROS2..." << std::endl;
     if (!rclcpp::ok()) {
-        rclcpp::init(0, nullptr);
+        auto options = rclcpp::InitOptions();
+        options.shutdown_on_signal = false;
+        rclcpp::init(0, nullptr, options);
     }
     drone_ = std::make_shared<OffboardControl>();
     executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
