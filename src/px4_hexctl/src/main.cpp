@@ -31,7 +31,24 @@ int main(int argc, char* argv[]) {
     auto drone = vehicle->drone();
 
     try {
-        // ...existing code...
+        // 2. 模式检测与自适应初始化
+        if (!drone->is_position_valid()) {
+            std::cout << "⚠️  EKF XY position is INVALID. Using ATTITUDE mode to bypass health checks for arming..." << std::endl;
+            drone->set_control_mode("attitude");
+            drone->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0); // 水平，零推力
+        } else {
+            std::cout << "📍 EKF Position is VALID. Using standard POSITION mode..." << std::endl;
+            drone->set_control_mode("position");
+            drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+        }
+
+        // 3. 预热阶段 (Pre-warm)
+        // 在切换 Offboard 模式前，后台心跳已经在持续发送 Setpoint 数据
+        std::cout << "📡 Pre-warming control signals (2 seconds)..." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+
+        // 4. 执行模式切换和解锁的状态机
+        auto last_request = std::chrono::steady_clock::now();
         std::cout << "⏳ Starting OFFBOARD & ARM sequence..." << std::endl;
 
         while (rclcpp::ok() && !g_signal_triggered) {
