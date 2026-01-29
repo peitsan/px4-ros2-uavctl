@@ -54,36 +54,43 @@ fi
 # 检查 ROS2 话题
 echo -e "\n${YELLOW}4. 检查 ROS2 话题...${NC}"
 echo -e "${BLUE}   发布话题（飞控→ROS2）:${NC}"
-ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && ros2 topic list 2>/dev/null | grep 'fmu/out' | head -5" || echo "   无输出"
+ssh "${REMOTE_HOST}" "export ROS_DOMAIN_ID=0 && source ~/uav_ws/install/setup.bash && ros2 topic list 2>/dev/null | grep 'fmu/out' | head -10" || echo "   无输出"
 
 echo -e "\n${BLUE}   订阅话题（ROS2→飞控）:${NC}"
-ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && ros2 topic list 2>/dev/null | grep 'fmu/in' | head -5" || echo "   无输出"
+ssh "${REMOTE_HOST}" "export ROS_DOMAIN_ID=0 && source ~/uav_ws/install/setup.bash && ros2 topic list 2>/dev/null | grep 'fmu/in' | head -10" || echo "   无输出"
 
 # 检查位置话题数据
 echo -e "\n${YELLOW}5. 检查位置话题是否有数据...${NC}"
-echo -e "${BLUE}   尝试读取 /fmu/out/vehicle_local_position_v1（3秒超时）${NC}"
-POSITION_DATA=$(ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && timeout 3 ros2 topic echo /fmu/out/vehicle_local_position_v1 2>&1" || true)
+echo -e "${BLUE}   尝试读取 /fmu/out/vehicle_local_position...${NC}"
+POSITION_DATA=$(ssh "${REMOTE_HOST}" "export ROS_DOMAIN_ID=0 && source ~/uav_ws/install/setup.bash && timeout 2 ros2 topic echo --once /fmu/out/vehicle_local_position 2>&1" || true)
+
 if [ -z "$POSITION_DATA" ] || echo "$POSITION_DATA" | grep -q "No messages"; then
-    echo -e "${RED}❌ 没有接收到位置数据${NC}"
-    echo -e "${YELLOW}   可能原因：${NC}"
-    echo -e "   1. MicroXRCEAgent 未运行或连接失败"
-    echo -e "   2. 飞控未启动或未连接"
-    echo -e "   3. 飞控固件不支持该话题"
+    echo -e "${BLUE}   尝试读取 /fmu/out/vehicle_local_position_v1...${NC}"
+    POSITION_DATA=$(ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && timeout 2 ros2 topic echo --once /fmu/out/vehicle_local_position_v1 2>&1" || true)
+fi
+
+if [ -z "$POSITION_DATA" ] || echo "$POSITION_DATA" | grep -q "No messages"; then
+    echo -e "${RED}❌ 没有接收到任何位置数据 (Local Position)${NC}"
+    echo -e "${YELLOW}   💡 这通常意味着：${NC}"
+    echo -e "   1. 无人机在室内，没有 GPS 且没有定位设备 (VIO/Flow)"
+    echo -e "   2. EKF2 尚未初始化完成"
+    echo -e "   3. ${RED}警告：没有位置数据，无法使用 'position' 定点控制模式！${NC}"
+    echo -e "   4. 建议尝试使用 'attitude' 模式进行测试。"
 else
     echo -e "${GREEN}✅ 接收到位置数据${NC}"
-    echo "$POSITION_DATA" | head -5
+    echo "$POSITION_DATA" | head -n 15
 fi
 
 # 检查 Offboard Control Mode 话题
 echo -e "\n${YELLOW}6. 检查 Offboard Control 话题...${NC}"
 echo -e "${BLUE}   尝试读取 /fmu/in/offboard_control_mode（3秒超时）${NC}"
-OFFBOARD_DATA=$(ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && timeout 3 ros2 topic info /fmu/in/offboard_control_mode 2>&1" || true)
+OFFBOARD_DATA=$(ssh "${REMOTE_HOST}" "export ROS_DOMAIN_ID=0 && source ~/uav_ws/install/setup.bash && timeout 3 ros2 topic info /fmu/in/offboard_control_mode 2>&1" || true)
 echo "$OFFBOARD_DATA"
 
 # 检查飞控状态
 echo -e "\n${YELLOW}7. 检查飞控状态...${NC}"
 echo -e "${BLUE}   尝试读取 /fmu/out/vehicle_status（3秒超时）${NC}"
-STATUS_DATA=$(ssh "${REMOTE_HOST}" "source ~/uav_ws/install/setup.bash && timeout 3 ros2 topic echo /fmu/out/vehicle_status 2>&1" || true)
+STATUS_DATA=$(ssh "${REMOTE_HOST}" "export ROS_DOMAIN_ID=0 && source ~/uav_ws/install/setup.bash && timeout 3 ros2 topic echo --once /fmu/out/vehicle_status 2>&1" || true)
 if [ -z "$STATUS_DATA" ] || echo "$STATUS_DATA" | grep -q "No messages"; then
     echo -e "${RED}❌ 没有接收到飞控状态${NC}"
 else

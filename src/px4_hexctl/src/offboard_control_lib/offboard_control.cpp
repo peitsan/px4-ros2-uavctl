@@ -54,14 +54,16 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
     RCLCPP_INFO(this->get_logger(), "[PUB] Created publishers under namespace: '%s'", namespace_.empty() ? "default" : namespace_.c_str());
 
     // Subscribers
+    // 尝试订阅位置数据（部分固件版本使用 _v1，部分不带）
     vehicle_local_position_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleLocalPosition>(
-        namespace_ + "/fmu/out/vehicle_local_position_v1", qos_profile,
+        namespace_ + "/fmu/out/vehicle_local_position", qos_profile,
         std::bind(&OffboardControl::vehicle_local_position_callback, this, std::placeholders::_1));
+    
     vehicle_status_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
         namespace_ + "/fmu/out/vehicle_status", qos_profile,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "[SUB] Subscribed to vehicle_local_position_v1 and vehicle_status");
+    RCLCPP_INFO(this->get_logger(), "[SUB] Subscribed to vehicle_local_position and vehicle_status");
 
     // State variables
     offboard_setpoint_counter_ = 0;

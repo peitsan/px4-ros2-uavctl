@@ -16,9 +16,10 @@ int main(int argc, char* argv[]) {
     try {
         // 1. 设置控制模式（定点模式需要位置）
         std::cout << "📍 Setting up position control mode..." << std::endl;
-        vehicle->drone()->set_control_mode("position");
+        vehicle->drone()->set_control_mode("attitude");
         
         // 2. 状态机：循环检查并请求 OFFBOARD 模式和解锁
+        auto start_time = std::chrono::steady_clock::now();
         auto last_request = std::chrono::steady_clock::now();
         std::cout << "⏳ Waiting for Offboard and Arming (State Machine)..." << std::endl;
 
@@ -35,12 +36,27 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
+            // 检查位置数据状态
+            bool has_pos = vehicle->drone()->is_position_received();
+            
+            // 如果超过10秒没有位置数据且处于 position 模式，提示用户
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+            if (!has_pos && elapsed > 10) {
+                static bool warned = false;
+                if (!warned) {
+                    std::cout << "\n❌ [ERROR] NO POSITION DATA RECEIVED FOR 10s!" << std::endl;
+                    std::cout << "💡 If you are INDOORS without GPS/VIO, you CANNOT use 'position' mode." << std::endl;
+                    std::cout << "💡 Please change vehicle->drone()->set_control_mode(\"position\") to \"attitude\" in main.cpp" << std::endl;
+                    warned = true;
+                }
+            }
+
             // 每 2 秒发送一次请求，避免过于频繁
             if (std::chrono::duration_cast<std::chrono::seconds>(now - last_request).count() >= 2) {
                 last_request = now;
                 
                 if (!is_offboard) {
-                    std::cout << "🔄 Requesting OFFBOARD mode..." << std::endl;
+                    std::cout << "🔄 Requesting OFFBOARD mode... " << (has_pos ? "(Position ready)" : "(WAITING FOR POSITION)") << std::endl;
                     // 发送切换模式指令
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
@@ -49,14 +65,6 @@ int main(int argc, char* argv[]) {
                     // 在解锁前，心跳线程已经在持续发送 setpoint (在 Vehicle 构造中已启动)
                     vehicle->drone()->publish_vehicle_command(
                         px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
-                }
-            }
-
-            // 检查位置数据状态（警告性质）
-            if (!vehicle->drone()->is_position_received()) {
-                static int warn_counter = 0;
-                if (warn_counter++ % 50 == 0) {
-                    std::cout << "⚠️  Warning: Still no position data. Arming might be denied." << std::endl;
                 }
             }
 
