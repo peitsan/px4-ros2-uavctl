@@ -3,6 +3,7 @@
 #include "px4_hexctl/vehicle.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <thread>
+#include <future>
 
 Vehicle::Vehicle() {
     std::cout << "🌍 Initializing ROS2..." << std::endl;
@@ -34,36 +35,43 @@ Vehicle::~Vehicle() {
 
 
 void Vehicle::close() {
-    if (closed_) return;  // 防止重复关闭
+    if (closed_) return;
     closed_ = true;
 
-    std::cout << "🛑 Shutting down Vehicle and cleaning up ROS2..." << std::endl;
+    std::cout << "🛑 [Vehicle] Shutting down and cleaning up..." << std::endl;
 
-    // 1️⃣ 先停止心跳线程
-    drone_->stop_heartbeat();
-
-    // 2️⃣ 取消所有待处理的回调并停止分派器
-    if (executor_) {
-        executor_->cancel(); 
+    // 1️⃣ 停止心跳线程
+    if (drone_) {
+        std::cout << "  - Stopping heartbeat thread..." << std::endl;
+        drone_->stop_heartbeat();
     }
 
-    // 3️⃣ 尝试关闭 ROS2 系统（这会使 rclcpp::ok() 返回 false）
+    // 2️⃣ 取消执行器
+    if (executor_) {
+        std::cout << "  - Cancelling executor..." << std::endl;
+        executor_->cancel();
+    }
+
+    // 3️⃣ 关闭 ROS2 
     if (rclcpp::ok()) {
+        std::cout << "  - Calling rclcpp::shutdown()..." << std::endl;
         rclcpp::shutdown();
     }
 
-    // 4️⃣ 等待 spin 线程退出，设置超时以防死锁
+    // 4️⃣ 线程回收 (带超时保护)
     if (spin_thread_.joinable()) {
-        std::cout << "⏳ Joining spin thread..." << std::endl;
-        // 如果 spin 线程在执行一些阻塞操作，join 可能会卡死
-        // 我们改为在 close 之前确保 executor 已经停止
-        spin_thread_.join();
-        std::cout << "✅ Spin thread has joined!" << std::endl;
+        std::cout << "  - Joining spin thread..." << std::endl;
+        // 如果 1 秒内没能回收，说明死锁了，直接分离
+        auto future = std::async(std::launch::async, &std::thread::join, &spin_thread_);
+        if (future.wait_for(std::chrono::seconds(1)) == std::future_status::timeout) {
+            std::cout << "  ⚠️ Spin thread join timed out! Detaching..." << std::endl;
+            spin_thread_.detach();
+        } else {
+            std::cout << "  ✅ Spin thread joined successfully." << std::endl;
+        }
     }
 
-    // 5️⃣ 清理内存
     executor_.reset();
     drone_.reset();
-
-    std::cout << "✅ Vehicle shutdown complete!" << std::endl;
+    std::cout << "✅ [Vehicle] Cleanup finished." << std::endl;
 }

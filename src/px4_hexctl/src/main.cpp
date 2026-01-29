@@ -19,7 +19,10 @@ void signal_handler(int signum) {
 }
 
 int main(int argc, char* argv[]) {
-    // 注册自定义信号处理
+    // 1. 显式初始化 ROS2 并禁用默认信号处理，这样我们的 std::signal 才能生效
+    if (!rclcpp::ok()) {
+        rclcpp::init(argc, argv, rclcpp::InitOptions().install_signal_handlers(false));
+    }
     std::signal(SIGINT, signal_handler);
 
     std::cout << "════════════════════════════════════════════════════════" << std::endl;
