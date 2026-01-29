@@ -17,12 +17,18 @@ int main(int argc, char* argv[]) {
     auto drone = vehicle->drone();
 
     try {
-        // 2. 直接使用坐标系原点 (0, 0, 0) 作为初始位置 (Hardcoded Origin)
-        std::cout << "📍 Using hardcoded origin (0, 0, 0) as initial position..." << std::endl;
-
-        // 设置当前控制模式为 position，并把目标锁定在原点
-        drone->set_control_mode("position");
-        drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+        // 2. 模式检测与自适应初始化
+        // 如果 EKF XY 无效 (VALID: XY:0)，直接使用 Position 模式解锁会被拒绝。
+        // 我们根据传感器状态自动选择解锁时使用的控制流。
+        if (!drone->is_position_valid()) {
+            std::cout << "⚠️  EKF XY position is INVALID. Using ATTITUDE mode to bypass health checks for arming..." << std::endl;
+            drone->set_control_mode("attitude");
+            drone->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0); // 水平，零推力
+        } else {
+            std::cout << "📍 EKF Position is VALID. Using standard POSITION mode..." << std::endl;
+            drone->set_control_mode("position");
+            drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+        }
 
         // 3. 预热阶段 (Pre-warm)
         // 在切换 Offboard 模式前，后台心跳已经在持续发送 Setpoint 数据
@@ -56,6 +62,14 @@ int main(int argc, char* argv[]) {
 
             if (is_offboard && is_armed) {
                 std::cout << "✅ System Ready & Armed!" << std::endl;
+                
+                // 如果之前为了解锁使用了姿态模式，现在尝试切换回位置模式进行起飞
+                if (drone->is_position_valid()) {
+                    std::cout << "🔄 Switching back to POSITION mode for takeoff..." << std::endl;
+                    drone->set_control_mode("position");
+                    drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                    std::this_thread::sleep_for(500ms); 
+                }
                 break;
             }
 
