@@ -64,11 +64,17 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
         namespace_ + "/fmu/out/vehicle_local_position", sensor_qos,
         std::bind(&OffboardControl::vehicle_local_position_callback, this, std::placeholders::_1));
     
+    // 冗余订阅状态话题，解决不同 PX4 版本的兼容性问题
     vehicle_status_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
         namespace_ + "/fmu/out/vehicle_status", sensor_qos,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "[SUB] Subscribed to vehicle_local_position and vehicle_status");
+    // 尝试订阅旧版或替代路径
+    vehicle_status_alt_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleStatus>(
+        namespace_ + "/fmu/vehicle_status/out", sensor_qos,
+        std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
+
+    RCLCPP_INFO(this->get_logger(), "[SUB] Status subscribers established (Dual-path mode)");
 
     // State variables
     offboard_setpoint_counter_ = 0;
@@ -77,6 +83,7 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
     vehicle_local_position_enu_ = px4_msgs::msg::VehicleLocalPosition();
     vehicle_local_position_received_ = false;
     vehicle_status_ = px4_msgs::msg::VehicleStatus();
+    vehicle_status_.timestamp = 0; // 用来检测是否收到过数据
     control_mode_ = "position";
 
     // Flags and locks
@@ -267,6 +274,10 @@ void OffboardControl::vehicle_local_position_callback(const px4_msgs::msg::Vehic
 }
 
 void OffboardControl::vehicle_status_callback(const px4_msgs::msg::VehicleStatus::SharedPtr msg) {
+    if (vehicle_status_.timestamp == 0 && msg->timestamp > 0) {
+        RCLCPP_INFO(this->get_logger(), "✅ [STATUS] FIRST STATUS RECEIVED! nav_state=%d, arming_state=%d", msg->nav_state, msg->arming_state);
+    }
+    
     std::string old_nav, old_arm;
     {
         std::lock_guard<std::mutex> guard(lock_);

@@ -43,10 +43,14 @@ int main(int argc, char* argv[]) {
             // 每 1.5 秒打印一次状态，帮助诊断
             static auto last_print = std::chrono::steady_clock::now();
             if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_print).count() >= 1500) {
-                std::cout << "DEBUG: [nav_state=" << (int)status.nav_state 
-                          << ", arming_state=" << (int)status.arming_state 
-                          << "] Offboard=" << (is_offboard ? "Y" : "N") 
-                          << ", Armed=" << (is_armed ? "Y" : "N") << std::endl;
+                if (status.timestamp == 0) {
+                    std::cout << "⚠️  WARNING: No VehicleStatus message received yet! Check topic names." << std::endl;
+                } else {
+                    std::cout << "DEBUG: [nav_state=" << (int)status.nav_state 
+                              << ", arming_state=" << (int)status.arming_state 
+                              << "] Offboard=" << (is_offboard ? "Y" : "N") 
+                              << ", Armed=" << (is_armed ? "Y" : "N") << std::endl;
+                }
                 last_print = now;
             }
 
