@@ -54,8 +54,9 @@ void Vehicle::close() {
 
     // 4️⃣ 等待 spin 线程退出，设置超时以防死锁
     if (spin_thread_.joinable()) {
-        // 对于复杂的死锁，我们可以考虑不使用 join() 而是 detach()，
-        // 但为了优雅关闭，我们尝试等待一小会儿
+        std::cout << "⏳ Joining spin thread..." << std::endl;
+        // 如果 spin 线程在执行一些阻塞操作，join 可能会卡死
+        // 我们改为在 close 之前确保 executor 已经停止
         spin_thread_.join();
         std::cout << "✅ Spin thread has joined!" << std::endl;
     }
