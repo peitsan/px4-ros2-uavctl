@@ -51,9 +51,9 @@ int main(int argc, char* argv[]) {
         }
 
         // 3. 预热阶段 (Pre-warm)
-        // 在切换 Offboard 模式前，后台心跳已经在持续发送 Setpoint 数据
-        std::cout << "📡 Pre-warming control signals (2 seconds)..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        // 给飞控发送一段时间的心跳，证明外部控制器已在线
+        std::cout << "📡 Pre-warming control signals (1 second)..." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
 
         // 4. 执行模式切换和解锁的状态机
         auto last_request = std::chrono::steady_clock::now();
@@ -81,14 +81,39 @@ int main(int argc, char* argv[]) {
             }
 
             if (is_offboard && is_armed) {
-                std::cout << "✅ System Ready & Armed!" <<"Status:"<<drone->is_position_valid()<< std::endl;
+                std::cout << "✅ System Ready & Armed! EKF Valid: " << (drone->is_position_valid() ? "YES" : "NO") << std::endl;
                 
-                // 如果之前为了解锁使用了姿态模式，现在尝试切换回位置模式进行起飞
+                // 如果当前 EKF 未就绪，执行自适应姿态离地
+                if (!drone->is_position_valid()) {
+                    std::cout << "🚀 [ADAPTIVE] EKF not ready. Performing Attitude-based liftoff..." << std::endl;
+                    
+                    // 1. 爆发力爆发：确保离地 (0.7 推力，持续 1s)
+                    for (int i=0; i<10; ++i) { // 10 * 100ms = 1s
+                        drone->update_attitude_setpoint(0.0, 0.0, 0.0, 0.68); 
+                        std::this_thread::sleep_for(100ms);
+                        if (drone->is_position_valid()) break;
+                    }
+                    
+                    // 2. 悬停等待：保持基本推力，等待 EKF 收敛
+                    std::cout << "⏳ Waiting for EKF XY to stabilize while airborne..." << std::endl;
+                    auto liftoff_start = std::chrono::steady_clock::now();
+                    while (rclcpp::ok() && !drone->is_position_valid() && 
+                           std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - liftoff_start).count() < 5) {
+                        drone->update_attitude_setpoint(0.0, 0.0, 0.0, 0.58); // 维持悬停推力
+                        std::this_thread::sleep_for(200ms);
+                    }
+                }
+
+                // EKF 就绪后，切回位置模式进行精准控制
                 if (drone->is_position_valid()) {
-                    std::cout << "🔄 Switching back to POSITION mode for takeoff..." << std::endl;
+                    std::cout << "📍 EKF is now VALID. Switching to POSITION mode for stabilizing..." << std::endl;
                     drone->set_control_mode("position");
-                    drone->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                    drone->update_position_setpoint(0.0, 0.0, 1.0, 0.0); // 设定在 1m 处平衡
                     std::this_thread::sleep_for(500ms); 
+                } else {
+                    std::cout << "❌ EKF failed to normalize after liftoff. Safety Landing..." << std::endl;
+                    drone->land();
+                    break;
                 }
                 break;
             }
