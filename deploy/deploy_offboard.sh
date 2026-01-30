@@ -38,7 +38,7 @@ REMOTE_IP="192.168.3.17"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 REMOTE_PASSWORD="orangepi"
 REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
-
+REMOTE_WORKSPACE="/home/orangepi/uav_ws"
 # 本地项目信息（获取deploy脚本所在目录的父目录）
 LOCAL_PROJECT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
@@ -295,7 +295,7 @@ build_on_remote() {
     log_info "步骤 2/3: 编译 px4_ros_com..."
     local build_px4_ros_com="cd ${workspace_root} && \
         source /opt/ros/humble/setup.bash && \
-        source install/setup.bash && \
+        source ${REMOTE_WORKSPACE}/install/setup.bash && \
         colcon build --packages-select px4_ros_com --symlink-install 2>&1"
     
     if [ $USE_SSHPASS -eq 1 ]; then
@@ -314,7 +314,7 @@ build_on_remote() {
     log_info "步骤 3/3: 编译 px4_hexctl..."
     local build_px4_hexctl="cd ${workspace_root} && \
         source /opt/ros/humble/setup.bash && \
-        source install/setup.bash && \
+        source ${REMOTE_WORKSPACE}/install/setup.bash && \
         colcon build --packages-select px4_hexctl --symlink-install 2>&1"
     
     if [ $USE_SSHPASS -eq 1 ]; then
@@ -341,7 +341,7 @@ deploy_on_remote() {
     
     local deploy_cmd="cd ${REMOTE_PROJECT_PATH} && \
         source /opt/ros/humble/setup.bash && \
-        source install/setup.bash && \
+        source ${REMOTE_WORKSPACE}/install/setup.bash && \
         echo '部署完成' 2>&1"
     
     if [ $USE_SSHPASS -eq 1 ]; then
