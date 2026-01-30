@@ -16,8 +16,8 @@ echo ""
 ssh -t "${REMOTE_HOST}" "
     echo '🔄 设置 ROS2 环境...'
     source /opt/ros/humble/setup.bash
-    source ${WORKSPACE_PATH}/install/setup.bash
+    source ~/uav_ws/install/setup.bash
     
     echo '📍 启动 Offboard Control 节点...'
-    ros2 run px4_hexctl offboard_control_main
+    ros2 run px4_hexctl offboard_circle
 "
