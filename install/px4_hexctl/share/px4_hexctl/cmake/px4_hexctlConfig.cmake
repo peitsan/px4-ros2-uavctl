@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/px4-ros2-uavctl/build/px4_hexctl/ament_cmake_core/px4_hexctlConfig.cmake

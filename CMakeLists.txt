@@ -27,14 +27,20 @@ target_link_libraries(offboard_control_lib
 	Eigen3::Eigen
 )
 
-add_executable(offboard_control_main
+add_executable(offboard_takeoff
 	src/px4_hexctl/src/main.cpp
 )
 
-target_link_libraries(offboard_control_main PRIVATE offboard_control_lib)
+add_executable(offboard_circle
+	src/px4_hexctl/src/offboard_circle.cpp
+)
+
+target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
+target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
 
 install(TARGETS
-	offboard_control_main
+	offboard_takeoff
+	offboard_circle
 	DESTINATION lib/${PROJECT_NAME}
 )
 

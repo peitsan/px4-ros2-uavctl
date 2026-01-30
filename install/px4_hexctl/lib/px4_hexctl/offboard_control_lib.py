@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/px4-ros2-uavctl/src/py_script/offboard_control_lib.py

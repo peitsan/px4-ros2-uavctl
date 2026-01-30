@@ -608,7 +608,7 @@ class OffboardControl(Node):
 
 
     # ---------------- 高层飞行控制 | High-Level Motion Control ----------------
-    def takeoff(self, takeoff_height=2.0, timeout=20.0) -> bool:
+    def takeoff(self, takeoff_height=2.0, timeout=16.0) -> bool:
         """阻塞式起飞：从 Home 点垂直上升至指定高度"""
         '''使用 setpoint 来模拟起飞路径。'''
         """Blocking takeoff: ascend vertically from home to specified altitude"""

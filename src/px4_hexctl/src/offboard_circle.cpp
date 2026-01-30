@@ -6,6 +6,7 @@
 #include <iostream>
 #include <csignal>
 #include <atomic>
+#include <cmath>
 
 using namespace std::chrono_literals;
 
@@ -108,18 +109,55 @@ int main(int argc, char* argv[]) {
             std::this_thread::sleep_for(100ms);
         }
 
-        // 5. 执行起飞任务
+        // 5. 执行飞行任务
         if (rclcpp::ok() && !g_signal_triggered) {
             std::cout << "🚀 Mission Start: Taking off to 1.2m..." << std::endl;
-            if (drone->takeoff(1.2, 10.0)) {
-                std::cout << "✅ Takeoff successful, hovering 5s." << std::endl;
+            if (drone->takeoff(1.2, 30.0)) {
+                std::cout << "✅ Takeoff successful." << std::endl;
                 
-                auto hover_start = std::chrono::steady_clock::now();
+                // --- 第一步：前往起点 (2, 0, 1.2) ---
+                std::cout << "🚩 Moving to starting point (2, 0, 1.2)..." << std::endl;
+                drone->update_position_setpoint(2.0, 0.0, 1.2, 0.0);
+                
+                // 等待到达起点（大概给 5 秒，或者检查距离，这里简化处理）
+                auto move_start = std::chrono::steady_clock::now();
                 while (rclcpp::ok() && !g_signal_triggered && 
-                       std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - hover_start).count() < 5) {
+                       std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - move_start).count() < 5) {
                     std::this_thread::sleep_for(100ms);
                 }
-                
+
+                if (!g_signal_triggered) {
+                    // --- 第二步：绕圆飞行 (中心 0,0,1.2, 半径 2m, 两周) ---
+                    std::cout << "🌀 Starting circular trajectory (2 laps)..." << std::endl;
+                    
+                    const double radius = 2.0;
+                    const double center_x = 0.0;
+                    const double center_y = 0.0;
+                    const double altitude = 1.2;
+                    const double total_laps = 2.0;
+                    const double speed = 0.5; // rad/s, 约 1.0 m/s at 2m radius
+                    
+                    double theta = 0.0;
+                    auto lap_start = std::chrono::steady_clock::now();
+                    
+                    while (rclcpp::ok() && !g_signal_triggered && theta < (2.0 * M_PI * total_laps)) {
+                        auto current_time = std::chrono::steady_clock::now();
+                        double dt = std::chrono::duration<double>(current_time - lap_start).count();
+                        lap_start = current_time;
+                        
+                        theta += speed * dt;
+                        
+                        double x = center_x + radius * std::cos(theta);
+                        double y = center_y + radius * std::sin(theta);
+                        // Yaw 指向切线方向
+                        double yaw = theta + M_PI / 2.0; 
+                        
+                        drone->update_position_setpoint(x, y, altitude, yaw);
+                        
+                        std::this_thread::sleep_for(50ms); // 20Hz 更新频率
+                    }
+                }
+
                 if (!g_signal_triggered) {
                     std::cout << "🛬 Mission end, landing..." << std::endl;
                     drone->land();

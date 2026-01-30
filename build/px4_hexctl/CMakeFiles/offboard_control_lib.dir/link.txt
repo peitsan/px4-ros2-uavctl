@@ -1,2 +1,0 @@
-/usr/bin/ar qc liboffboard_control_lib.a CMakeFiles/offboard_control_lib.dir/src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp.o CMakeFiles/offboard_control_lib.dir/src/px4_hexctl/src/offboard_control_lib/vehicle.cpp.o
-/usr/bin/ranlib liboffboard_control_lib.a

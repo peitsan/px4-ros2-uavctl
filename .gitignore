@@ -1,0 +1,25 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE settings
+.vscode/
+
+# Local configuration
+deploy/deploy_config.sh
+deploy_config.sh
+
+# Temporary files
+*.swp
+*~
+.DS_Store
+
+# Git markers (Optional but usually not ignored this way)
+# .git is the repo itself
+

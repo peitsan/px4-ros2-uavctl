@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/px4-ros2-uavctl/src/px4_hexctl/include/px4_hexctl/vehicle.hpp
