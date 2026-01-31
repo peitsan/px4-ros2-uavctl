@@ -8,11 +8,15 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
 
 include_directories(
 	src/px4_hexctl/include
 	${px4_msgs_INCLUDE_DIRS}
 	${EIGEN3_INCLUDE_DIRS}
+	${OpenCV_INCLUDE_DIRS}
 )
 
 add_library(offboard_control_lib
@@ -35,12 +39,23 @@ add_executable(offboard_circle
 	src/px4_hexctl/src/offboard_circle.cpp
 )
 
+add_executable(qr_tracker
+	src/px4_hexctl/src/qr_tracker.cpp
+)
+
 target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
 target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
+target_link_libraries(qr_tracker 
+	PRIVATE 
+	offboard_control_lib 
+	${OpenCV_LIBRARIES}
+	cv_bridge::cv_bridge
+)
 
 install(TARGETS
 	offboard_takeoff
 	offboard_circle
+	qr_tracker
 	DESTINATION lib/${PROJECT_NAME}
 )
 
