@@ -11,6 +11,7 @@ find_package(Eigen3 REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(image_view_msgs QUIET)
 
 include_directories(
 	src/px4_hexctl/include
@@ -55,6 +56,10 @@ target_link_libraries(qr_tracker
 	${OpenCV_LIBRARIES}
 	cv_bridge::cv_bridge
 )
+if(image_view_msgs_FOUND)
+  ament_target_dependencies(qr_tracker image_view_msgs)
+  target_compile_definitions(qr_tracker PRIVATE HAS_IMAGE_VIEW_MSGS=1)
+endif()
 target_link_libraries(qr_tracker_alt
 	offboard_control_lib
 )

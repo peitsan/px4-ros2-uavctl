@@ -4,7 +4,9 @@
 # =========================================================
 
 PX4_PATH="/home/ubuntu/PX4-Autopilot"
-WORLD_NAME="tracking_qr_sitl"
+WORLD_NAME="aruco_6X6_250"
+WORLD_SOURCE="/home/ubuntu/Desktop/px4-ros2-uavctl/world/aruco_6X6_250.world"
+PROMETHEUS_MODELS="/home/ubuntu/Prometheus/Simulator/gazebo_simulator/gazebo_models"
 WS_PATH="/home/ubuntu/Desktop/px4-ros2-uavctl"
 UAV_PX4_WS="/root/UAV-PX4"
 
@@ -43,9 +45,11 @@ MicroXRCEAgent udp4 -p 8888 > /tmp/xrce.log 2>&1 &
 sleep 2
 
 echo "🛫 Starting PX4 SITL (x500_mono_cam) with world: $WORLD_NAME..."
+cp "$WORLD_SOURCE" "$PX4_PATH/Tools/simulation/gz/worlds/aruco_6X6_250.sdf"
+
 cd "$PX4_PATH"
 # Ensure the model path is included and no trailing colons
-export GZ_SIM_RESOURCE_PATH="$PX4_PATH/Tools/simulation/gz/models"
+export GZ_SIM_RESOURCE_PATH="$PX4_PATH/Tools/simulation/gz/models:$PROMETHEUS_MODELS/texture"
 export PX4_GZ_WORLD="$WORLD_NAME"
 
 # Clean up any potential leftover lock files from previous runs
@@ -78,4 +82,4 @@ bash -c "source /opt/ros/humble/setup.bash && ros2 run ros_gz_bridge parameter_b
 sleep 5
 
 echo "🎯 Starting QR Tracker..."
-bash -c "source /opt/ros/humble/setup.bash && source /root/UAV-PX4/install/setup.bash && source $WS_PATH/install/setup.bash && ros2 run px4_hexctl qr_tracker_alt --ros-args -p takeoff_thrust:=0.75"
+bash -c "source /opt/ros/humble/setup.bash && source /root/UAV-PX4/install/setup.bash && source $WS_PATH/install/setup.bash && ros2 run px4_hexctl qr_tracker --ros-args -p target_id:=100 -p altitude:=1.5 -p auto_track:=false -p rqt_mouse_topic:=/image_view/mouse_event -p qgc_mouse_topic:=/qgc/mouse_event -p rqt_click_point_topic:=/image_view/click_point -p qgc_click_point_topic:=/qgc/click_point -p tracking_delta_x:=2.5 -p tracking_delta_y:=0.0 -p tracking_delta_z:=0.0 -p marker_size:=0.2"
