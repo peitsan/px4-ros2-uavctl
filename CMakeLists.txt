@@ -32,7 +32,7 @@ target_link_libraries(offboard_control_lib
 )
 
 add_executable(offboard_takeoff
-	src/px4_hexctl/src/main.cpp
+	src/px4_hexctl/src/offboard_takeoff.cpp
 )
 
 add_executable(offboard_circle
@@ -43,6 +43,10 @@ add_executable(qr_tracker
 	src/px4_hexctl/src/qr_tracker.cpp
 )
 
+add_executable(qr_tracker_alt
+	src/px4_hexctl/src/qr_tracker_alt.cpp
+)
+
 target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
 target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
 target_link_libraries(qr_tracker 
@@ -51,11 +55,15 @@ target_link_libraries(qr_tracker
 	${OpenCV_LIBRARIES}
 	cv_bridge::cv_bridge
 )
+target_link_libraries(qr_tracker_alt
+	offboard_control_lib
+)
 
 install(TARGETS
 	offboard_takeoff
 	offboard_circle
 	qr_tracker
+	qr_tracker_alt
 	DESTINATION lib/${PROJECT_NAME}
 )
 

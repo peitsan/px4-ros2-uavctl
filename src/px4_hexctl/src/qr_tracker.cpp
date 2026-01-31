@@ -100,6 +100,33 @@ private:
         if (!drone_) return;
 
         auto status = drone_->get_vehicle_status();
+        
+        // --- Auto Start Logic ---
+        static bool initial_takeoff_done = false;
+        if (!initial_takeoff_done) {
+            if (status.nav_state != 14 || status.arming_state != 2) {
+                RCLCPP_INFO_ONCE(this->get_logger(), "🛫 Starting Auto-Takeoff sequence...");
+                drone_->arm();
+                drone_->engage_offboard_mode();
+                return;
+            } else {
+                // We are in offboard and armed. Check altitude.
+                auto pos = drone_->get_local_position();
+                // Target altitude for search/hover - negative Z in PX4 NED, but wait, library uses ENU?
+                // The library usually converts to/from NED internally.
+                if (std::abs(pos.z - target_alt_) > 0.3) {
+                    RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
+                        "🚀 Climbing to target altitude... (Current Z: %.2f)", pos.z);
+                    drone_->update_position_setpoint(0.0, 0.0, target_alt_, 0.0);
+                    return;
+                } else {
+                    RCLCPP_INFO(this->get_logger(), "✅ Target altitude reached. Starting QR tracking.");
+                    initial_takeoff_done = true;
+                }
+            }
+        }
+        // -------------------------
+
         if (status.nav_state != 14 || status.arming_state != 2) {
             return;
         }
@@ -152,20 +179,16 @@ private:
 int main(int argc, char* argv[]) {
     rclcpp::init(argc, argv);
     
+    // Create the vehicle/drone node (starts its own spinning background thread)
+    auto vehicle = std::make_shared<Vehicle>();
+    
     // Create the tracker node
     auto tracker = std::make_shared<QRTracker>();
-    
-    // Create the vehicle/drone node (using existing library)
-    auto vehicle = std::make_shared<Vehicle>();
     tracker->set_drone(vehicle->drone());
 
-    // Use a multi-threaded executor to run both nodes
-    rclcpp::executors::MultiThreadedExecutor executor;
-    executor.add_node(tracker);
-    executor.add_node(vehicle->drone()); // The drone() method returns the OffboardControl node
-
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Starting QR Tracker multi-threaded executor...");
-    executor.spin();
+    // Spin only the tracker node in the main thread
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Starting QR Tracker node...");
+    rclcpp::spin(tracker);
     
     rclcpp::shutdown();
     return 0;

@@ -9,6 +9,7 @@ PX4_PATH="/home/ubuntu/PX4-Autopilot"
 # Use the world provided by Prometheus as per user request
 WORLD_PATH="/home/ubuntu/Prometheus/Simulator/gazebo_simulator/gazebo_worlds/detection_worlds/Tracking_QR/Tracking_QR.world"
 WS_PATH="/home/ubuntu/Desktop/px4-ros2-uavctl"
+GZ_SIM_RESOURCE_PATH=/home/ubuntu/PX4-Autopilot/Tools/simulation/gz/models
 
 # Check dependencies
 echo "🔍 Checking environment..."
@@ -40,7 +41,7 @@ gnome-terminal --tab --title="🛫 PX4 SITL (x500)" -- bash -c "
     cd '$PX4_PATH';
     # Use gz-x500 and the specified world
     # Note: Modern PX4 uses 'gz' as the simulation backend (formerly Ignition)
-    PX4_GZ_WORLD='$WORLD_PATH' make px4_sitl gz_x500_mono_cam;
+    PX4_GZ_WORLD='tracking_qr_sitl' make px4_sitl gz_x500_mono_cam;
     exec bash
 " &
 
