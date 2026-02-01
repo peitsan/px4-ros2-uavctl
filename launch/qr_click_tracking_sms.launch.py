@@ -6,6 +6,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     sms_pvid = ExecuteProcess(
         cmd=[
+            "smsrun",
             "pvid",
             "video_path=sms::ClickTrackVideoDemo.mp4",
             "fps=15",
@@ -14,12 +15,13 @@ def generate_launch_description():
     )
 
     sms_click_ctl = ExecuteProcess(
-        cmd=["pclicktrackctl"],
+        cmd=["smsrun", "pclicktrackctl"],
         output="screen",
     )
 
     sms_detect = ExecuteProcess(
         cmd=[
+            "smsrun",
             "pyolo11rk",
             "--job-name=click_detect",
             "model_path=sms::visdrone2019_det-yolo11n_i640_c10-20250731.rknn",
@@ -33,6 +35,7 @@ def generate_launch_description():
 
     sms_track = ExecuteProcess(
         cmd=[
+            "smsrun",
             "pocvsot",
             "--job-name=click_track",
             "show_selection_win=0",
