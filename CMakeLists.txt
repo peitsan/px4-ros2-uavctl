@@ -12,11 +12,15 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
-find_path(SPIRECV_INCLUDE_DIR sv_world.h PATHS /usr/local/include /usr/include /opt/SpireCV/include /home/ubuntu/SpireCV/include /root/SpireCV/include)
-find_library(SPIRECV_LIBRARY spirecv PATHS /usr/local/lib /usr/lib /opt/SpireCV/lib /home/ubuntu/SpireCV/lib /root/SpireCV/lib)
+find_path(SPIRECV_INCLUDE_DIR sv_world.h PATHS /usr/local/include /usr/include /opt/SpireCV/include /home/ubuntu/SpireCV/include /root/SpireCV/include /home/ubuntu/spirecv-pro/include /root/spirecv-pro/include $ENV{HOME}/spirecv-pro/include)
+find_library(SPIRECV_LIBRARY spirecv PATHS /usr/local/lib /usr/lib /opt/SpireCV/lib /home/ubuntu/SpireCV/lib /root/SpireCV/lib /home/ubuntu/spirecv-pro/lib /root/spirecv-pro/lib $ENV{HOME}/spirecv-pro/lib)
 
-if(NOT SPIRECV_INCLUDE_DIR OR NOT SPIRECV_LIBRARY)
-	message(FATAL_ERROR "SpireCV not found. Ensure sv_world.h and libspirecv are installed.")
+set(SPIRECV_FOUND FALSE)
+if(SPIRECV_INCLUDE_DIR AND SPIRECV_LIBRARY)
+	set(SPIRECV_FOUND TRUE)
+	message(STATUS "Found SpireCV: ${SPIRECV_INCLUDE_DIR}, ${SPIRECV_LIBRARY}")
+else()
+	message(WARNING "SpireCV not found. qr_tracker_spirecv will be disabled.")
 endif()
 find_package(image_view_msgs QUIET)
 
@@ -51,13 +55,19 @@ add_executable(offboard_tracker_manager
 	src/px4_hexctl/src/offboard_tracker_manager.cpp
 )
 
+add_executable(sms_click_target_bridge
+	src/px4_hexctl/src/sms_click_target_bridge.cpp
+)
+
 add_executable(qr_tracker
 	src/px4_hexctl/src/qr_tracker.cpp
 )
 
-add_executable(qr_tracker_spirecv
-	src/px4_hexctl/src/qr_tracker_spirecv.cpp
-)
+if(SPIRECV_FOUND)
+	add_executable(qr_tracker_spirecv
+		src/px4_hexctl/src/qr_tracker_spirecv.cpp
+	)
+endif()
 
 add_executable(qr_tracker_alt
 	src/px4_hexctl/src/qr_tracker_alt.cpp
@@ -72,19 +82,22 @@ target_link_libraries(qr_tracker
 	cv_bridge::cv_bridge
 )
 
-target_link_libraries(qr_tracker_spirecv
-	PRIVATE
-	offboard_control_lib
-	${OpenCV_LIBRARIES}
-	${SPIRECV_LIBRARY}
-	cv_bridge::cv_bridge
-)
+if(SPIRECV_FOUND)
+	target_link_libraries(qr_tracker_spirecv
+		PRIVATE
+		offboard_control_lib
+		${OpenCV_LIBRARIES}
+		${SPIRECV_LIBRARY}
+		cv_bridge::cv_bridge
+	)
 
-target_include_directories(qr_tracker_spirecv PRIVATE ${SPIRECV_INCLUDE_DIR})
+	target_include_directories(qr_tracker_spirecv PRIVATE ${SPIRECV_INCLUDE_DIR})
 
-ament_target_dependencies(qr_tracker_spirecv geometry_msgs)
+	ament_target_dependencies(qr_tracker_spirecv geometry_msgs)
+endif()
 ament_target_dependencies(offboard_tracker_manager geometry_msgs)
-target_link_libraries(offboard_tracker_manager PRIVATE offboard_control_lib)
+target_link_libraries(offboard_tracker_manager offboard_control_lib)
+ament_target_dependencies(sms_click_target_bridge rclcpp geometry_msgs)
 if(image_view_msgs_FOUND)
   ament_target_dependencies(qr_tracker image_view_msgs)
   target_compile_definitions(qr_tracker PRIVATE HAS_IMAGE_VIEW_MSGS=1)
@@ -93,13 +106,20 @@ target_link_libraries(qr_tracker_alt
 	offboard_control_lib
 )
 
-install(TARGETS
+set(PX4_HEXCTL_TARGETS
 	offboard_takeoff
 	offboard_circle
 	qr_tracker
 	qr_tracker_alt
-	qr_tracker_spirecv
 	offboard_tracker_manager
+	sms_click_target_bridge
+)
+if(SPIRECV_FOUND)
+	list(APPEND PX4_HEXCTL_TARGETS qr_tracker_spirecv)
+endif()
+
+install(TARGETS
+	${PX4_HEXCTL_TARGETS}
 	DESTINATION lib/${PROJECT_NAME}
 )
 

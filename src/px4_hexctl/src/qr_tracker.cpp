@@ -91,8 +91,9 @@ public:
         #endif
 
         // ArUco Dictionary
-        dictionary_ = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
-        parameters_ = cv::aruco::DetectorParameters::create();
+        dictionary_ = cv::makePtr<cv::aruco::Dictionary>(
+            cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250));
+        parameters_ = cv::makePtr<cv::aruco::DetectorParameters>();
 
         // Timer for Control Loop (20Hz)
         timer_ = this->create_wall_timer(50ms, std::bind(&QRTracker::control_loop, this));
