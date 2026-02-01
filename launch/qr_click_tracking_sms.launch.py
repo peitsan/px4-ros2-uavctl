@@ -1,9 +1,21 @@
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess, TimerAction
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_prefix
+import os
 
 
 def generate_launch_description():
+    start_smscore = LaunchConfiguration("start_smscore")
+
+    smscore = ExecuteProcess(
+        cmd=["smscore"],
+        output="screen",
+        condition=IfCondition(start_smscore),
+    )
+
     sms_pvid = ExecuteProcess(
         cmd=[
             "smsrun",
@@ -44,31 +56,32 @@ def generate_launch_description():
         output="screen",
     )
 
-    bridge_node = Node(
-        package="px4_hexctl",
-        executable="sms_click_target_bridge",
-        name="sms_click_target_bridge",
+    bridge_exe = os.path.join(
+        get_package_prefix("px4_hexctl"),
+        "lib",
+        "px4_hexctl",
+        "sms_click_target_bridge",
+    )
+    bridge_node = ExecuteProcess(
+        cmd=[
+            bridge_exe,
+            "--config",
+            os.path.expanduser("~/spirecv-pro/params/spirecv2/default_params.json"),
+            "--job-name",
+            "click_bridge",
+            "--ip",
+            "127.0.0.1",
+            "--port",
+            "9094",
+            "target_x=0.0",
+            "target_y=0.0",
+            "target_z=0.0",
+            "target_valid=false",
+            "frame_id=base_link",
+            "publish_rate_hz=20.0",
+            "target_topic=/qr_tracker/expected_position",
+        ],
         output="screen",
-        parameters=[{
-            "target_x": 0.0,
-            "target_y": 0.0,
-            "target_z": 0.0,
-            "target_valid": False,
-            "frame_id": "base_link",
-            "publish_rate_hz": 20.0,
-            "target_topic": "/qr_tracker/expected_position",
-            "publish_cmd_vel": True,
-            "cmd_vel_topic": "/qr_tracker/cmd_vel_body",
-            "kpx_track": 0.2,
-            "kpy_track": 0.2,
-            "kpz_track": 0.2,
-            "tracking_delta_x": 2.0,
-            "tracking_delta_y": 0.0,
-            "tracking_delta_z": 0.0,
-            "track_z": False,
-            "max_vxy": 1.0,
-            "max_vz": 0.8,
-        }],
     )
 
     offboard_node = Node(
@@ -85,7 +98,13 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        sms_pvid,
+        DeclareLaunchArgument(
+            "start_smscore",
+            default_value="true",
+            description="Start SpireMS smscore service before SMS nodes",
+        ),
+        smscore,
+        TimerAction(period=0.5, actions=[sms_pvid]),
         TimerAction(period=0.5, actions=[sms_click_ctl]),
         TimerAction(period=1.0, actions=[sms_detect]),
         TimerAction(period=1.5, actions=[sms_track]),
