@@ -9,8 +9,15 @@ find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_path(SPIRECV_INCLUDE_DIR sv_world.h PATHS /usr/local/include /usr/include /opt/SpireCV/include /home/ubuntu/SpireCV/include /root/SpireCV/include)
+find_library(SPIRECV_LIBRARY spirecv PATHS /usr/local/lib /usr/lib /opt/SpireCV/lib /home/ubuntu/SpireCV/lib /root/SpireCV/lib)
+
+if(NOT SPIRECV_INCLUDE_DIR OR NOT SPIRECV_LIBRARY)
+	message(FATAL_ERROR "SpireCV not found. Ensure sv_world.h and libspirecv are installed.")
+endif()
 find_package(image_view_msgs QUIET)
 
 include_directories(
@@ -40,8 +47,16 @@ add_executable(offboard_circle
 	src/px4_hexctl/src/offboard_circle.cpp
 )
 
+add_executable(offboard_tracker_manager
+	src/px4_hexctl/src/offboard_tracker_manager.cpp
+)
+
 add_executable(qr_tracker
 	src/px4_hexctl/src/qr_tracker.cpp
+)
+
+add_executable(qr_tracker_spirecv
+	src/px4_hexctl/src/qr_tracker_spirecv.cpp
 )
 
 add_executable(qr_tracker_alt
@@ -56,6 +71,20 @@ target_link_libraries(qr_tracker
 	${OpenCV_LIBRARIES}
 	cv_bridge::cv_bridge
 )
+
+target_link_libraries(qr_tracker_spirecv
+	PRIVATE
+	offboard_control_lib
+	${OpenCV_LIBRARIES}
+	${SPIRECV_LIBRARY}
+	cv_bridge::cv_bridge
+)
+
+target_include_directories(qr_tracker_spirecv PRIVATE ${SPIRECV_INCLUDE_DIR})
+
+ament_target_dependencies(qr_tracker_spirecv geometry_msgs)
+ament_target_dependencies(offboard_tracker_manager geometry_msgs)
+target_link_libraries(offboard_tracker_manager PRIVATE offboard_control_lib)
 if(image_view_msgs_FOUND)
   ament_target_dependencies(qr_tracker image_view_msgs)
   target_compile_definitions(qr_tracker PRIVATE HAS_IMAGE_VIEW_MSGS=1)
@@ -69,6 +98,8 @@ install(TARGETS
 	offboard_circle
 	qr_tracker
 	qr_tracker_alt
+	qr_tracker_spirecv
+	offboard_tracker_manager
 	DESTINATION lib/${PROJECT_NAME}
 )
 

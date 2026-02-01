@@ -7,7 +7,7 @@
 # === Paths ===
 PX4_PATH="/home/ubuntu/PX4-Autopilot"
 WORLD_NAME="aruco_6X6_250"
-WORLD_SOURCE="$WS_PATH/world/aruco_6X6_250.world"
+WORLD_SOURCE="/home/ubuntu/Desktop/px4-ros2-uavctl/world/aruco_6X6_250.world"
 PROMETHEUS_MODELS="/home/ubuntu/Prometheus/Simulator/gazebo_simulator/gazebo_models"
 WS_PATH="/home/ubuntu/Desktop/px4-ros2-uavctl"
 GZ_SIM_RESOURCE_PATH=/home/ubuntu/PX4-Autopilot/Tools/simulation/gz/models
@@ -43,7 +43,7 @@ gnome-terminal --tab --title="🛫 PX4 SITL (x500)" -- bash -c "
     cp '$WORLD_SOURCE' '$PX4_PATH/Tools/simulation/gz/worlds/aruco_6X6_250.sdf'
     
     cd '$PX4_PATH';
-    export GZ_SIM_RESOURCE_PATH=\$GZ_SIM_RESOURCE_PATH:\$PX4_PATH/Tools/simulation/gz/models:\$PROMETHEUS_MODELS/texture
+    export GZ_SIM_RESOURCE_PATH=\$GZ_SIM_RESOURCE_PATH:\$PX4_PATH/Tools/simulation/gz/models:\$PROMETHEUS_MODELS:\$PROMETHEUS_MODELS/texture:/usr/share/gz/gz-sim7/models:/usr/share/ignition/ignition-gazebo6/models
     PX4_GZ_WORLD='$WORLD_NAME' make px4_sitl gz_x500_mono_cam;
     exec bash
 " &

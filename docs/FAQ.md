@@ -396,11 +396,11 @@ ssh orangepi@192.168.3.17 "ls -la /dev/ttyUSB* /dev/ttyACM*"
 
 当前启动的 MicroXRCEAgent:
 ```bash
-MicroXRCEAgent serial -D /dev/ttyUSB0 -b 115200
+MicroXRCEAgent serial -D /dev/ttyUSB0 -b 921600
 ```
 
 **波特率可能需要调整。** 常见的 PX4 波特率:
-- `115200` - 标准配置
+- `921600` - 标准配置
 - `921600` - 某些飞控使用
 - `57600` - 旧版本
 

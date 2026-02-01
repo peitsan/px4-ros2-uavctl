@@ -24,7 +24,7 @@ REMOTE_ROS_DISTRO="humble"
 # MicroXRCEAgent 配置（在香橙派上运行）
 AGENT_TRANSPORT="serial"  # serial 或 udp4
 AGENT_PORT="/dev/ttyUSB0"  # 串口设备，或 UDP 端口号
-AGENT_BAUDRATE="115200"    # 串口波特率
+AGENT_BAUDRATE="921600"    # 串口波特率
 
 # === 颜色输出 ===
 RED='\033[0;31m'

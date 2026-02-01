@@ -49,7 +49,7 @@ cp "$WORLD_SOURCE" "$PX4_PATH/Tools/simulation/gz/worlds/aruco_6X6_250.sdf"
 
 cd "$PX4_PATH"
 # Ensure the model path is included and no trailing colons
-export GZ_SIM_RESOURCE_PATH="$PX4_PATH/Tools/simulation/gz/models:$PROMETHEUS_MODELS/texture"
+export GZ_SIM_RESOURCE_PATH="$PX4_PATH/Tools/simulation/gz/models:$PROMETHEUS_MODELS:$PROMETHEUS_MODELS/texture:/usr/share/gz/gz-sim7/models:/usr/share/ignition/ignition-gazebo6/models"
 export PX4_GZ_WORLD="$WORLD_NAME"
 
 # Clean up any potential leftover lock files from previous runs
