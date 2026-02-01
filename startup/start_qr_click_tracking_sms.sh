@@ -28,7 +28,7 @@ command -v gnome-terminal >/dev/null 2>&1 || { echo "❌ gnome-terminal not foun
 # 1) Start SMS pipeline + ROS2 nodes (single launch)
 gnome-terminal --tab --title="🚀 SMS Click Tracking" -- bash -c "
   source /opt/ros/$ROS_DISTRO/setup.bash;
-  source $WS_PATH/install/setup.bash;
+  source install/setup.bash;
   ros2 launch px4_hexctl qr_click_tracking_sms.launch.py;
   exec bash
 " &
