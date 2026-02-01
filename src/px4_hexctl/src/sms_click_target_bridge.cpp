@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <string>
+#include <thread>
 
 class SmsClickTargetBridge : public sms::BaseNode {
 public:
@@ -20,8 +21,6 @@ public:
         frame_id_ = this->get_param("frame_id", std::string("base_link"));
         publish_rate_hz_ = this->get_param("publish_rate_hz", 20.0);
         target_topic_ = this->get_param("target_topic", std::string("/qr_tracker/expected_position"));
-
-        target_pub_ = sms::Publisher(target_topic_, "geometry_msgs::Point3");
         this->params_help();
     }
 
