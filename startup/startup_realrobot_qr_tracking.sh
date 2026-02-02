@@ -71,7 +71,7 @@ start_sms_tracking() {
     # 远程启动命令：先 source 环境，再启动 launch 文件
     REMOTE_CMD="source /opt/ros/$REMOTE_ROS_DISTRO/setup.bash; \
                 source $REMOTE_WORKSPACE_PATH/install/setup.bash; \
-                ros2 launch realsense_camera rs_lt_launch.py & \
+                ros2 launch realsense2_camera rs_lt_launch.py & \
                 ros2 launch px4_hexctl qr_click_tracking_sms.launch.py start_image_view:=false"
 
     gnome-terminal --tab --title="🎯 SMS Tracking (Remote)" -- bash -c "

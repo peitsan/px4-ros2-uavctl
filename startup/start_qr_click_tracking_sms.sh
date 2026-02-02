@@ -83,7 +83,7 @@ start_sms_tracking() {
     open_terminal "🚀 SMS Click Tracking" "
       source /opt/ros/$ROS_DISTRO/setup.bash;
       source $WS_PATH/install/setup.bash;
-      ros2 launch realsense_camera rs_lt_launch.py &
+      ros2 launch realsense2_camera rs_lt_launch.py &
       ros2 launch px4_hexctl qr_click_tracking_sms.launch.py start_image_view:=true;
       exec bash
     "
