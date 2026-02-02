@@ -14,16 +14,20 @@ public:
     OffboardTrackerManager()
         : Node("offboard_tracker_manager") {
         declare_parameter("cmd_vel_topic", "/qr_tracker/cmd_vel_body");
-        declare_parameter("takeoff_alt", 1.5);
+        declare_parameter("takeoff_alt", 1.2);
         declare_parameter("command_timeout", 0.5);
         declare_parameter("enable_adaptive_liftoff", false);
         declare_parameter("takeoff_thrust", 0.68);
+        declare_parameter("takeoff_mode", "attitude");
+        declare_parameter("hold_altitude", true);
 
         cmd_vel_topic_ = get_parameter("cmd_vel_topic").as_string();
         takeoff_alt_ = get_parameter("takeoff_alt").as_double();
         command_timeout_ = get_parameter("command_timeout").as_double();
         enable_adaptive_liftoff_ = get_parameter("enable_adaptive_liftoff").as_bool();
         takeoff_thrust_ = get_parameter("takeoff_thrust").as_double();
+        takeoff_mode_ = get_parameter("takeoff_mode").as_string();
+        hold_altitude_ = get_parameter("hold_altitude").as_bool();
 
         auto vehicle = std::make_shared<Vehicle>();
         drone_ = vehicle->drone();
@@ -66,12 +70,21 @@ private:
                     home_z_initialized_ = true;
                 }
                 double target_z = home_z_ + takeoff_alt_;
-                if (drone_->get_local_position().z < target_z - 0.2) {
-                    drone_->update_position_setpoint(0.0, 0.0, target_z, 0.0);
-                    return;
+
+                if (takeoff_mode_ == "attitude") {
+                    if (drone_->get_local_position().z < target_z - 0.1) {
+                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_);
+                        return;
+                    }
+                    takeoff_done_ = true;
+                } else {
+                    if (drone_->get_local_position().z < target_z - 0.2) {
+                        drone_->update_position_setpoint(0.0, 0.0, target_z, 0.0);
+                        return;
+                    }
+                    takeoff_done_ = true;
                 }
-                takeoff_done_ = true;
-            } else if (enable_adaptive_liftoff_) {
+            } else if (enable_adaptive_liftoff_ || takeoff_mode_ == "attitude") {
                 drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_);
                 return;
             }
@@ -82,12 +95,24 @@ private:
         }
 
         if (!have_cmd_) {
+            if (hold_altitude_ && drone_->is_position_valid() && home_z_initialized_) {
+                double target_z = home_z_ + takeoff_alt_;
+                auto pos = drone_->get_local_position();
+                drone_->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
+                return;
+            }
             drone_->update_velocity_setpoint(0.0, 0.0, 0.0, 0.0);
             return;
         }
 
         double dt = (now() - last_cmd_time_).seconds();
         if (dt > command_timeout_) {
+            if (hold_altitude_ && drone_->is_position_valid() && home_z_initialized_) {
+                double target_z = home_z_ + takeoff_alt_;
+                auto pos = drone_->get_local_position();
+                drone_->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
+                return;
+            }
             drone_->update_velocity_setpoint(0.0, 0.0, 0.0, 0.0);
             return;
         }
@@ -114,6 +139,8 @@ private:
     double command_timeout_ = 0.5;
     bool enable_adaptive_liftoff_ = false;
     double takeoff_thrust_ = 0.68;
+    std::string takeoff_mode_ = "attitude";
+    bool hold_altitude_ = true;
 
     bool takeoff_done_ = false;
     bool home_z_initialized_ = false;

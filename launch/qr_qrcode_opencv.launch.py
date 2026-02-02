@@ -51,9 +51,11 @@ def generate_launch_description():
         output="screen",
         parameters=[{
             "cmd_vel_topic": "/qr_tracker/cmd_vel_body",
-            "takeoff_alt": 1.5,
+            "takeoff_alt": 1.2,
             "command_timeout": 0.5,
             "enable_adaptive_liftoff": False,
+            "takeoff_mode": "attitude",
+            "hold_altitude": True,
         }],
     )
 
