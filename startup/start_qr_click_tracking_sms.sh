@@ -27,12 +27,24 @@ NC='\033[0m'
 
 if command -v xfce4-terminal >/dev/null 2>&1; then
   TERMINAL_CMD="xfce4-terminal"
+  TERMINAL_KIND="xfce"
 elif command -v gnome-terminal >/dev/null 2>&1; then
   TERMINAL_CMD="gnome-terminal"
+  TERMINAL_KIND="gnome"
 else
   echo "❌ xfce4-terminal/gnome-terminal not found"
   exit 1
 fi
+
+open_terminal() {
+    local title="$1"
+    local body="$2"
+    if [ "$TERMINAL_KIND" = "xfce" ]; then
+        $TERMINAL_CMD --title="$title" --command="bash -c '$body'" &
+    else
+        $TERMINAL_CMD --tab --title="$title" -- bash -c "$body" &
+    fi
+}
 
 start_micro_agent() {
     echo -e "${YELLOW}=== 1️⃣ 启动 MicroXRCEAgent ===${NC}"
@@ -41,11 +53,11 @@ start_micro_agent() {
         CMD="source /opt/ros/$ROS_DISTRO/setup.bash && MicroXRCEAgent udp4 -p $AGENT_PORT"
     fi
 
-    $TERMINAL_CMD --tab --title="📡 MicroXRCEAgent" -- bash -c "
-        echo '📡 启动 MicroXRCEAgent...';
-        $CMD;
-        echo 'Agent 已停止，按 Enter 关闭...'; read;
-    " &
+    open_terminal "📡 MicroXRCEAgent" "
+      echo '📡 启动 MicroXRCEAgent...';
+      $CMD;
+      echo 'Agent 已停止，按 Enter 关闭...'; read;
+    "
     AGENT_PID=$!
     sleep 3
 }
@@ -68,13 +80,13 @@ fi
 start_sms_tracking() {
     # 1) Start Realsense + SMS pipeline + ROS2 nodes
     # NOTE: rqt_image_view（GUI 在本机启动）
-    $TERMINAL_CMD --tab --title="🚀 SMS Click Tracking" -- bash -c "
+    open_terminal "🚀 SMS Click Tracking" "
       source /opt/ros/$ROS_DISTRO/setup.bash;
       source $WS_PATH/install/setup.bash;
       ros2 launch realsense_camera rs_lt_launch.py &
       ros2 launch px4_hexctl qr_click_tracking_sms.launch.py start_image_view:=true;
       exec bash
-    " &
+    "
     TRACK_PID=$!
     sleep 2
 }
@@ -83,11 +95,11 @@ start_local_rqt_image_view() {
     if [ "$START_LOCAL_RQT" != true ]; then
         return
     fi
-    $TERMINAL_CMD --tab --title="🖼️ RQT Image View" -- bash -c "
+    open_terminal "🖼️ RQT Image View" "
         source /opt/ros/$LOCAL_ROS_DISTRO/setup.bash;
         rqt --standalone rqt_image_view --force-discover;
         exec bash
-    " &
+    "
     RQT_PID=$!
     sleep 1
 }
