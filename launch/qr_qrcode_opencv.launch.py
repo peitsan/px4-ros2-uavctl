@@ -30,6 +30,7 @@ def generate_launch_description():
         parameters=[{
             "image_topic": "/camera/d435i/color/image_raw",
             "cmd_vel_topic": "/qr_tracker/cmd_vel_body",
+            "target_pos_topic": "/qr_tracker/relative_position",
             "qr_size_m": 0.2,
             "target_distance_m": 0.8,
             "min_distance_m": 0.6,
@@ -37,6 +38,7 @@ def generate_launch_description():
             "max_forward_speed": 0.6,
             "publish_debug_image": True,
             "debug_image_topic": "/qr_tracker/debug_image",
+            "publish_velocity": False,
             "camera_fx": 554.0,
             "camera_fy": 554.0,
             "camera_cx": 320.0,

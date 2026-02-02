@@ -1,6 +1,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/point_stamped.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
@@ -15,6 +16,7 @@ public:
     QrCodeOpenCvTracker() : Node("qr_qrcode_opencv") {
         declare_parameter("image_topic", std::string("/camera"));
         declare_parameter("cmd_vel_topic", std::string("/qr_tracker/cmd_vel_body"));
+        declare_parameter("target_pos_topic", std::string("/qr_tracker/relative_position"));
         declare_parameter("qr_size_m", 0.2);
         declare_parameter("target_distance_m", 0.8);
         declare_parameter("min_distance_m", 0.6);
@@ -24,6 +26,7 @@ public:
         declare_parameter("max_forward_speed", 0.6);
         declare_parameter("max_lateral_speed", 0.5);
         declare_parameter("max_vertical_speed", 0.5);
+        declare_parameter("publish_velocity", false);
         declare_parameter("publish_debug_image", true);
         declare_parameter("debug_image_topic", std::string("/qr_tracker/debug_image"));
         declare_parameter("camera_fx", 554.0);
@@ -33,6 +36,7 @@ public:
 
         image_topic_ = get_parameter("image_topic").as_string();
         cmd_vel_topic_ = get_parameter("cmd_vel_topic").as_string();
+        target_pos_topic_ = get_parameter("target_pos_topic").as_string();
         qr_size_m_ = get_parameter("qr_size_m").as_double();
         target_distance_m_ = get_parameter("target_distance_m").as_double();
         min_distance_m_ = get_parameter("min_distance_m").as_double();
@@ -42,6 +46,7 @@ public:
         max_forward_speed_ = get_parameter("max_forward_speed").as_double();
         max_lateral_speed_ = get_parameter("max_lateral_speed").as_double();
         max_vertical_speed_ = get_parameter("max_vertical_speed").as_double();
+        publish_velocity_ = get_parameter("publish_velocity").as_bool();
         publish_debug_image_ = get_parameter("publish_debug_image").as_bool();
         debug_image_topic_ = get_parameter("debug_image_topic").as_string();
         camera_fx_ = get_parameter("camera_fx").as_double();
@@ -59,6 +64,7 @@ public:
             image_topic_, 10, std::bind(&QrCodeOpenCvTracker::image_callback, this, std::placeholders::_1));
 
         cmd_pub_ = create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic_, 10);
+        target_pos_pub_ = create_publisher<geometry_msgs::msg::PointStamped>(target_pos_topic_, 10);
         if (publish_debug_image_) {
             debug_pub_ = create_publisher<sensor_msgs::msg::Image>(debug_image_topic_, 10);
         }
@@ -134,6 +140,7 @@ private:
 
     void control_loop() {
         geometry_msgs::msg::Twist cmd{};
+        geometry_msgs::msg::PointStamped target_msg{};
         bool publish = false;
 
         {
@@ -160,21 +167,38 @@ private:
                 cmd.linear.x = vx;
                 cmd.linear.y = vy;
                 cmd.linear.z = vz;
+
+                target_msg.header.stamp = now();
+                target_msg.header.frame_id = "body";
+                target_msg.point.x = distance - target_distance_m_;
+                target_msg.point.y = ex * distance;
+                target_msg.point.z = -ey * distance;
                 publish = true;
             }
         }
 
         if (!publish) {
             cmd.linear.x = 0.0;
+            cmd.linear.y = 0.0;
+            cmd.linear.z = 0.0;
+            target_msg.header.stamp = now();
+            target_msg.header.frame_id = "body";
+            target_msg.point.x = 0.0;
+            target_msg.point.y = 0.0;
+            target_msg.point.z = 0.0;
         }
 
-        cmd_pub_->publish(cmd);
+        if (publish_velocity_) {
+            cmd_pub_->publish(cmd);
+        }
+        target_pos_pub_->publish(target_msg);
     }
 
     std::string image_topic_;
     std::string cmd_vel_topic_;
-    double qr_size_m_ = 0.12; //12 cm
-    double target_distance_m_ = 2.0;
+    std::string target_pos_topic_;
+    double qr_size_m_ = 0.2;
+    double target_distance_m_ = 0.8;
     double min_distance_m_ = 0.6;
     double kp_distance_ = 0.5;
     double max_forward_speed_ = 0.6;
@@ -183,6 +207,7 @@ private:
     double max_lateral_speed_ = 0.5;
     double max_vertical_speed_ = 0.5;
     bool publish_debug_image_ = true;
+    bool publish_velocity_ = false;
     std::string debug_image_topic_ = "/qr_tracker/debug_image";
     double camera_fx_ = 554.0;
     double camera_fy_ = 554.0;
@@ -191,6 +216,7 @@ private:
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr target_pos_pub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr debug_pub_;
     rclcpp::TimerBase::SharedPtr timer_;
 

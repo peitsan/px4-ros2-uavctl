@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/point_stamped.hpp>
 #include <px4_msgs/msg/vehicle_command.hpp>
 
 #include "px4_hexctl/offboard_control.hpp"
@@ -11,6 +12,7 @@
 #include <csignal>
 #include <atomic>
 #include <mutex>
+#include <cmath>
 
 using namespace std::chrono_literals;
 
@@ -27,6 +29,13 @@ struct CmdState {
     bool have_cmd{false};
     std::mutex mutex;
     rclcpp::Time last_log_time{0, 0, RCL_ROS_TIME};
+};
+
+struct TargetState {
+    geometry_msgs::msg::PointStamped last_target{};
+    rclcpp::Time last_time{0, 0, RCL_ROS_TIME};
+    bool have_target{false};
+    std::mutex mutex;
 };
 
 struct StartupResult {
@@ -155,6 +164,7 @@ int main(int argc, char* argv[]) {
 
     auto node = std::make_shared<rclcpp::Node>("offboard_tracker_manager");
     node->declare_parameter("cmd_vel_topic", "/qr_tracker/cmd_vel_body");
+    node->declare_parameter("target_pos_topic", "/qr_tracker/relative_position");
     node->declare_parameter("takeoff_alt", 1.2);
     node->declare_parameter("command_timeout", 0.5);
     node->declare_parameter("takeoff_thrust", 0.68);
@@ -162,6 +172,7 @@ int main(int argc, char* argv[]) {
     node->declare_parameter("hover_thrust", 0.58);
 
     const auto cmd_vel_topic = node->get_parameter("cmd_vel_topic").as_string();
+    const auto target_pos_topic = node->get_parameter("target_pos_topic").as_string();
     const auto takeoff_alt = node->get_parameter("takeoff_alt").as_double();
     const auto command_timeout = node->get_parameter("command_timeout").as_double();
     const auto takeoff_thrust = node->get_parameter("takeoff_thrust").as_double();
@@ -176,6 +187,7 @@ int main(int argc, char* argv[]) {
     auto drone = vehicle->drone();
 
     CmdState cmd_state;
+    TargetState target_state;
     auto cmd_sub = node->create_subscription<geometry_msgs::msg::Twist>(
         cmd_vel_topic, 10,
         [&cmd_state, &node](const geometry_msgs::msg::Twist::SharedPtr msg) {
@@ -188,6 +200,15 @@ int main(int argc, char* argv[]) {
                 RCLCPP_INFO(node->get_logger(), "✅ move command received: vx=%.3f vy=%.3f vz=%.3f", msg->linear.x, msg->linear.y, msg->linear.z);
                 cmd_state.last_log_time = now_time;
             }
+        });
+
+    auto target_sub = node->create_subscription<geometry_msgs::msg::PointStamped>(
+        target_pos_topic, 10,
+        [&target_state](const geometry_msgs::msg::PointStamped::SharedPtr msg) {
+            std::lock_guard<std::mutex> guard(target_state.mutex);
+            target_state.last_target = *msg;
+            target_state.last_time = rclcpp::Clock(RCL_ROS_TIME).now();
+            target_state.have_target = true;
         });
 
     (void)cmd_sub;
@@ -229,12 +250,22 @@ int main(int argc, char* argv[]) {
         geometry_msgs::msg::Twist cmd;
         bool use_cmd = false;
         rclcpp::Time last_time;
+        geometry_msgs::msg::PointStamped target;
+        bool use_target = false;
+        rclcpp::Time target_time;
 
         {
             std::lock_guard<std::mutex> guard(cmd_state.mutex);
             cmd = cmd_state.last_cmd;
             use_cmd = cmd_state.have_cmd;
             last_time = cmd_state.last_time;
+        }
+
+        {
+            std::lock_guard<std::mutex> guard(target_state.mutex);
+            target = target_state.last_target;
+            use_target = target_state.have_target;
+            target_time = target_state.last_time;
         }
 
         if (use_cmd) {
@@ -244,27 +275,37 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        if (use_target) {
+            double dt = (node->now() - target_time).seconds();
+            if (dt > command_timeout) {
+                use_target = false;
+            }
+        }
+
         if (startup.xy_valid) {
             auto pos = drone->get_local_position();
             double target_z = startup.home_z + takeoff_alt;
 
-            if (!use_cmd) {
-                drone->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
-            } else {
+            if (use_target) {
+                double tx = pos.x + target.point.x;
+                double ty = pos.y + target.point.y;
+                double tz = target_z + target.point.z;
+                drone->update_position_setpoint(tx, ty, tz, 0.0);
+            } else if (use_cmd) {
                 double vx = cmd.linear.x;
                 double vy = cmd.linear.y;
                 double vz = cmd.linear.z;
                 drone->update_velocity_setpoint(vx, vy, vz, 0.0);
+            } else {
+                drone->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
             }
         } else {
-            if (!use_cmd) {
-                drone->update_attitude_setpoint(0.0, 0.0, 0.0, hover_thrust);
-            } else {
-                double vx = cmd.linear.x;
-                double vy = cmd.linear.y;
-                double vz = -cmd.linear.z;
-                drone->update_velocity_setpoint(vx, vy, vz, 0.0);
+            bool has_xy_cmd = std::abs(cmd.linear.x) > 1e-3 || std::abs(cmd.linear.y) > 1e-3;
+            if (use_cmd && has_xy_cmd) {
+                RCLCPP_WARN_THROTTLE(node->get_logger(), *node->get_clock(), 2000,
+                    "⚠️ XY invalid, ignoring velocity command and holding attitude hover.");
             }
+            drone->update_attitude_setpoint(0.0, 0.0, 0.0, hover_thrust);
         }
 
         rate.sleep();
