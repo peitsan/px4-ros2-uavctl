@@ -173,7 +173,7 @@ private:
 
     std::string image_topic_;
     std::string cmd_vel_topic_;
-    double qr_size_m_ = 0.2;
+    double qr_size_m_ = 0.12; //12 cm
     double target_distance_m_ = 2.0;
     double min_distance_m_ = 0.6;
     double kp_distance_ = 0.5;
