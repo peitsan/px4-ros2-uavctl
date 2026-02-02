@@ -40,6 +40,7 @@ public:
         timer_ = create_wall_timer(50ms, std::bind(&OffboardTrackerManager::control_loop, this));
 
         RCLCPP_INFO(get_logger(), "🚀 Offboard tracker manager started. cmd_vel_topic=%s", cmd_vel_topic_.c_str());
+        startup_stage_ = StartupStage::INIT;
     }
 
 private:
@@ -59,72 +60,127 @@ private:
         bool is_armed = (status.arming_state == 2);
 
         if (!startup_ready_) {
-            if (!control_mode_set_) {
-                if (!drone_->is_position_valid()) {
-                    drone_->set_control_mode("attitude");
-                    drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
-                } else {
-                    drone_->set_control_mode("position");
-                    drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
-                }
-                control_mode_set_ = true;
-            }
-
-            if (prewarm_count_ < prewarm_target_) {
-                if (takeoff_mode_ == "attitude" || !drone_->is_position_valid()) {
-                    drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_ * 0.0);
-                } else {
-                    drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
-                }
-                prewarm_count_++;
-                return;
-            }
-
             auto now_time = now();
-            if ((now_time - last_request_time_).seconds() >= 3.0) {
-                last_request_time_ = now_time;
-                if (!is_offboard) {
-                    drone_->publish_vehicle_command(
-                        px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
-                } else if (!is_armed) {
-                    drone_->arm();
+            switch (startup_stage_) {
+                case StartupStage::INIT: {
+                    if (!drone_->is_position_valid()) {
+                        RCLCPP_WARN(get_logger(), "⚠️ EKF XY invalid. Using ATTITUDE mode for arming.");
+                        drone_->set_control_mode("attitude");
+                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
+                    } else {
+                        RCLCPP_INFO(get_logger(), "📍 EKF valid. Using POSITION mode.");
+                        drone_->set_control_mode("position");
+                        drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                    }
+                    prewarm_end_time_ = now_time + rclcpp::Duration::from_seconds(1.0);
+                    startup_stage_ = StartupStage::PREWARM;
+                    RCLCPP_INFO(get_logger(), "📡 Pre-warming control signals (1 second)...");
+                    return;
                 }
-            }
+                case StartupStage::PREWARM: {
+                    if (takeoff_mode_ == "attitude" || !drone_->is_position_valid()) {
+                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
+                    } else {
+                        drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                    }
+                    if (now_time >= prewarm_end_time_) {
+                        startup_stage_ = StartupStage::REQUESTS;
+                        last_request_time_ = now_time;
+                        last_print_time_ = now_time;
+                        RCLCPP_INFO(get_logger(), "⏳ Starting OFFBOARD & ARM sequence...");
+                    }
+                    return;
+                }
+                case StartupStage::REQUESTS: {
+                    if ((now_time - last_print_time_).seconds() >= 1.5) {
+                        if (status.timestamp == 0) {
+                            RCLCPP_WARN(get_logger(), "⚠️ No VehicleStatus yet. Check fmu/out topics.");
+                        } else {
+                            RCLCPP_INFO(get_logger(), "DEBUG: nav_state=%d, arming_state=%d, offboard=%s, armed=%s",
+                                status.nav_state, status.arming_state, is_offboard ? "Y" : "N", is_armed ? "Y" : "N");
+                        }
+                        last_print_time_ = now_time;
+                    }
 
-            if (is_offboard && is_armed) {
-                startup_ready_ = true;
+                    if ((now_time - last_request_time_).seconds() >= 3.0) {
+                        last_request_time_ = now_time;
+                        if (!is_offboard) {
+                            RCLCPP_INFO(get_logger(), "🔄 Requesting OFFBOARD mode...");
+                            drone_->publish_vehicle_command(
+                                px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
+                        } else if (!is_armed) {
+                            RCLCPP_INFO(get_logger(), "🔓 Requesting ARM...");
+                            drone_->arm();
+                        }
+                    }
+
+                    if (is_offboard && is_armed) {
+                        if (!drone_->is_position_valid()) {
+                            RCLCPP_WARN(get_logger(), "🚀 [ADAPTIVE] EKF not ready. Attitude liftoff...");
+                            liftoff_start_time_ = now_time;
+                            liftoff_burst_end_time_ = now_time + rclcpp::Duration::from_seconds(1.0);
+                            startup_stage_ = StartupStage::ADAPTIVE_LIFTOFF;
+                        } else {
+                            if (!home_z_initialized_) {
+                                home_z_ = drone_->get_local_position().z;
+                                home_z_initialized_ = true;
+                            }
+                            stabilize_end_time_ = now_time + rclcpp::Duration::from_seconds(0.5);
+                            startup_stage_ = StartupStage::STABILIZE;
+                            RCLCPP_INFO(get_logger(), "📍 EKF valid. Stabilizing at target altitude...");
+                        }
+                    }
+                    return;
+                }
+                case StartupStage::ADAPTIVE_LIFTOFF: {
+                    if (now_time <= liftoff_burst_end_time_) {
+                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.68);
+                        return;
+                    }
+
+                    if ((now_time - liftoff_start_time_).seconds() < 5.0) {
+                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.58);
+                        if (drone_->is_position_valid()) {
+                            if (!home_z_initialized_) {
+                                home_z_ = drone_->get_local_position().z;
+                                home_z_initialized_ = true;
+                            }
+                            stabilize_end_time_ = now_time + rclcpp::Duration::from_seconds(0.5);
+                            startup_stage_ = StartupStage::STABILIZE;
+                            RCLCPP_INFO(get_logger(), "📍 EKF recovered. Stabilizing...");
+                        }
+                        return;
+                    }
+
+                    RCLCPP_ERROR(get_logger(), "❌ EKF failed to normalize after liftoff. Landing.");
+                    drone_->land();
+                    startup_failed_ = true;
+                    return;
+                }
+                case StartupStage::STABILIZE: {
+                    if (!home_z_initialized_ && drone_->is_position_valid()) {
+                        home_z_ = drone_->get_local_position().z;
+                        home_z_initialized_ = true;
+                    }
+                    if (home_z_initialized_) {
+                        double target_z = home_z_ + takeoff_alt_;
+                        drone_->set_control_mode("position");
+                        drone_->update_position_setpoint(0.0, 0.0, target_z, 0.0);
+                    }
+                    if (now_time >= stabilize_end_time_) {
+                        startup_ready_ = true;
+                        takeoff_done_ = true;
+                        RCLCPP_INFO(get_logger(), "✅ System Ready & Armed. Holding altitude.");
+                    }
+                    return;
+                }
+                case StartupStage::READY:
+                    break;
             }
             return;
         }
 
-        if (!takeoff_done_) {
-            if (drone_->is_position_valid()) {
-                if (!home_z_initialized_) {
-                    home_z_ = drone_->get_local_position().z;
-                    home_z_initialized_ = true;
-                }
-                double target_z = home_z_ + takeoff_alt_;
-
-                if (takeoff_mode_ == "attitude") {
-                    if (drone_->get_local_position().z < target_z - 0.1) {
-                        drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_);
-                        return;
-                    }
-                    takeoff_done_ = true;
-                } else {
-                    if (drone_->get_local_position().z < target_z - 0.2) {
-                        drone_->update_position_setpoint(0.0, 0.0, target_z, 0.0);
-                        return;
-                    }
-                    takeoff_done_ = true;
-                }
-            } else if (enable_adaptive_liftoff_ || takeoff_mode_ == "attitude") {
-                drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_);
-                return;
-            }
-        }
-
-        if (!takeoff_done_) {
+        if (startup_failed_) {
             return;
         }
 
@@ -180,11 +236,24 @@ private:
     bool home_z_initialized_ = false;
     double home_z_ = 0.0;
 
+    enum class StartupStage {
+        INIT,
+        PREWARM,
+        REQUESTS,
+        ADAPTIVE_LIFTOFF,
+        STABILIZE,
+        READY
+    };
+
+    StartupStage startup_stage_ = StartupStage::INIT;
     bool startup_ready_ = false;
-    bool control_mode_set_ = false;
-    int prewarm_count_ = 0;
-    int prewarm_target_ = 40;
+    bool startup_failed_ = false;
+    rclcpp::Time prewarm_end_time_{0, 0, RCL_ROS_TIME};
     rclcpp::Time last_request_time_{0, 0, RCL_ROS_TIME};
+    rclcpp::Time last_print_time_{0, 0, RCL_ROS_TIME};
+    rclcpp::Time liftoff_start_time_{0, 0, RCL_ROS_TIME};
+    rclcpp::Time liftoff_burst_end_time_{0, 0, RCL_ROS_TIME};
+    rclcpp::Time stabilize_end_time_{0, 0, RCL_ROS_TIME};
 };
 
 int main(int argc, char *argv[]) {
