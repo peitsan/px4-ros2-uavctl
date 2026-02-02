@@ -135,6 +135,21 @@ sudo apt update
 sudo apt install -y ros-humble-rqt-image-view ros-humble-image-view
 ```
 
+---
+
+### 例11：纯 OpenCV4 二维码跟踪（不依赖 SpireCV）
+
+```bash
+ros2 launch px4_hexctl qr_qrcode_opencv.launch.py
+```
+
+**参数说明（可按相机标定调整）：**
+- `image_topic`：相机图像话题（默认 `/camera`）
+- `qr_size_m`：二维码实际边长（米）
+- `target_distance_m`：期望保持距离（米）
+- `min_distance_m`：安全最小距离（米）
+- `kp_distance`：距离控制比例系数
+
 ### 例7：日常开发流程
 
 **场景：** 完成一天的开发工作，需要部署到香橙派进行测试

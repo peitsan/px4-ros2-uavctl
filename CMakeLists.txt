@@ -64,6 +64,10 @@ add_executable(qr_tracker
 	src/px4_hexctl/src/qr_tracker.cpp
 )
 
+add_executable(qr_qrcode_opencv
+	src/px4_hexctl/src/qr_qrcode_opencv.cpp
+)
+
 if(SPIRECV_FOUND)
 	add_executable(qr_tracker_spirecv
 		src/px4_hexctl/src/qr_tracker_spirecv.cpp
@@ -81,6 +85,18 @@ target_link_libraries(qr_tracker
 	offboard_control_lib 
 	${OpenCV_LIBRARIES}
 	cv_bridge::cv_bridge
+)
+
+target_link_libraries(qr_qrcode_opencv
+	PRIVATE
+	${OpenCV_LIBRARIES}
+	cv_bridge::cv_bridge
+)
+
+ament_target_dependencies(qr_qrcode_opencv
+	rclcpp
+	sensor_msgs
+	geometry_msgs
 )
 
 if(SPIRECV_FOUND)
@@ -116,6 +132,7 @@ set(PX4_HEXCTL_TARGETS
 	offboard_takeoff
 	offboard_circle
 	qr_tracker
+	qr_qrcode_opencv
 	qr_tracker_alt
 	offboard_tracker_manager
 	sms_click_target_bridge
