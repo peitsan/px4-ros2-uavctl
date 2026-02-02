@@ -31,7 +31,7 @@ def generate_launch_description():
             "image_topic": "/camera/d435i/color/image_raw",
             "cmd_vel_topic": "/qr_tracker/cmd_vel_body",
             "qr_size_m": 0.2,
-            "target_distance_m": 2.0,
+            "target_distance_m": 0.8,
             "min_distance_m": 0.6,
             "kp_distance": 0.5,
             "max_forward_speed": 0.6,

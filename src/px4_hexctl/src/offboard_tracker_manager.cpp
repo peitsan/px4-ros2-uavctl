@@ -235,7 +235,7 @@ int main(int argc, char* argv[]) {
             } else {
                 double vx = cmd.linear.x;
                 double vy = cmd.linear.y;
-                double vz = -cmd.linear.z;
+                double vz = cmd.linear.z;
                 drone->update_velocity_setpoint(vx, vy, vz, 0.0);
             }
         } else {

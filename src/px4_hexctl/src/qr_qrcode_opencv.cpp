@@ -16,7 +16,7 @@ public:
         declare_parameter("image_topic", std::string("/camera"));
         declare_parameter("cmd_vel_topic", std::string("/qr_tracker/cmd_vel_body"));
         declare_parameter("qr_size_m", 0.2);
-        declare_parameter("target_distance_m", 2.0);
+        declare_parameter("target_distance_m", 0.8);
         declare_parameter("min_distance_m", 0.6);
         declare_parameter("kp_distance", 0.5);
         declare_parameter("kp_lateral", 0.8);
@@ -147,7 +147,7 @@ private:
                 double ey = (last_center_y_ - static_cast<float>(camera_cy_)) / static_cast<float>(camera_fy_);
 
                 double vy = kp_lateral_ * ex;
-                double vz = kp_vertical_ * ey;
+                double vz = -kp_vertical_ * ey;
 
                 if (distance < min_distance_m_) {
                     vx = -std::abs(max_forward_speed_);
