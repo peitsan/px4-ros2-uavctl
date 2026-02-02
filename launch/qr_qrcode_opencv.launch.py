@@ -13,11 +13,14 @@ def generate_launch_description():
     realsense_pkg = get_package_share_directory("realsense2_camera")
     realsense_launch = os.path.join(realsense_pkg, "launch", "rs_lt_launch.py")
 
-    image_view = ExecuteProcess(
-        cmd=["rqt", "--standalone", "rqt_image_view", "--force-discover"],
-        output="screen",
-        condition=IfCondition(start_image_view),
-    )
+        image_view = Node(
+            package="image_view",
+            executable="image_view",
+            name="apriltag_debug_view",
+            output="screen",
+            arguments=["--ros-args", "-r", "image:=/qr_tracker/debug_image"],
+            condition=IfCondition(start_image_view),
+        )
 
     tracker_node = Node(
         package="px4_hexctl",
