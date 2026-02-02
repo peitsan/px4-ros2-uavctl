@@ -13,7 +13,7 @@ def generate_launch_description():
     realsense_pkg = get_package_share_directory("realsense2_camera")
     realsense_launch = os.path.join(realsense_pkg, "launch", "rs_lt_launch.py")
 
-        image_view = Node(
+    image_view = Node(
             package="image_view",
             executable="image_view",
             name="apriltag_debug_view",

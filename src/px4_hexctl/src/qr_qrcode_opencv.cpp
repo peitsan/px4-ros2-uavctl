@@ -19,7 +19,11 @@ public:
         declare_parameter("target_distance_m", 2.0);
         declare_parameter("min_distance_m", 0.6);
         declare_parameter("kp_distance", 0.5);
+        declare_parameter("kp_lateral", 0.8);
+        declare_parameter("kp_vertical", 0.8);
         declare_parameter("max_forward_speed", 0.6);
+        declare_parameter("max_lateral_speed", 0.5);
+        declare_parameter("max_vertical_speed", 0.5);
         declare_parameter("publish_debug_image", true);
         declare_parameter("debug_image_topic", std::string("/qr_tracker/debug_image"));
         declare_parameter("camera_fx", 554.0);
@@ -33,7 +37,11 @@ public:
         target_distance_m_ = get_parameter("target_distance_m").as_double();
         min_distance_m_ = get_parameter("min_distance_m").as_double();
         kp_distance_ = get_parameter("kp_distance").as_double();
+        kp_lateral_ = get_parameter("kp_lateral").as_double();
+        kp_vertical_ = get_parameter("kp_vertical").as_double();
         max_forward_speed_ = get_parameter("max_forward_speed").as_double();
+        max_lateral_speed_ = get_parameter("max_lateral_speed").as_double();
+        max_vertical_speed_ = get_parameter("max_vertical_speed").as_double();
         publish_debug_image_ = get_parameter("publish_debug_image").as_bool();
         debug_image_topic_ = get_parameter("debug_image_topic").as_string();
         camera_fx_ = get_parameter("camera_fx").as_double();
@@ -94,6 +102,25 @@ private:
                     cv::aruco::drawDetectedMarkers(frame, corners, ids);
                     cv::aruco::drawAxis(frame, camera_matrix_, dist_coeffs_, rvecs[best_idx], tvecs[best_idx], qr_size_m_ * 0.5);
                 }
+
+                const auto &best_corners = corners[best_idx];
+                cv::Point2f center(0.0f, 0.0f);
+                for (const auto &pt : best_corners) {
+                    center.x += pt.x;
+                    center.y += pt.y;
+                }
+                center.x /= 4.0f;
+                center.y /= 4.0f;
+
+                {
+                    std::lock_guard<std::mutex> guard(state_mutex_);
+                    last_center_x_ = center.x;
+                    last_center_y_ = center.y;
+                }
+
+                if (publish_debug_image_) {
+                    cv::drawMarker(frame, center, cv::Scalar(0, 255, 0), cv::MARKER_CROSS, 20, 2);
+                }
             }
 
             if (publish_debug_image_ && debug_pub_) {
@@ -116,12 +143,23 @@ private:
                 double error = distance - target_distance_m_;
                 double vx = kp_distance_ * error;
 
+                double ex = (last_center_x_ - static_cast<float>(camera_cx_)) / static_cast<float>(camera_fx_);
+                double ey = (last_center_y_ - static_cast<float>(camera_cy_)) / static_cast<float>(camera_fy_);
+
+                double vy = kp_lateral_ * ex;
+                double vz = kp_vertical_ * ey;
+
                 if (distance < min_distance_m_) {
                     vx = -std::abs(max_forward_speed_);
                 }
 
                 vx = std::max(-max_forward_speed_, std::min(max_forward_speed_, vx));
+                vy = std::max(-max_lateral_speed_, std::min(max_lateral_speed_, vy));
+                vz = std::max(-max_vertical_speed_, std::min(max_vertical_speed_, vz));
+
                 cmd.linear.x = vx;
+                cmd.linear.y = vy;
+                cmd.linear.z = vz;
                 publish = true;
             }
         }
@@ -140,6 +178,10 @@ private:
     double min_distance_m_ = 0.6;
     double kp_distance_ = 0.5;
     double max_forward_speed_ = 0.6;
+    double kp_lateral_ = 0.8;
+    double kp_vertical_ = 0.8;
+    double max_lateral_speed_ = 0.5;
+    double max_vertical_speed_ = 0.5;
     bool publish_debug_image_ = true;
     std::string debug_image_topic_ = "/qr_tracker/debug_image";
     double camera_fx_ = 554.0;
@@ -159,6 +201,8 @@ private:
     std::mutex state_mutex_;
     rclcpp::Time last_seen_time_{0, 0, RCL_ROS_TIME};
     double last_distance_m_ = 0.0;
+    float last_center_x_ = 0.0f;
+    float last_center_y_ = 0.0f;
     bool has_detection_ = false;
     std::string last_text_;
 };
