@@ -142,6 +142,7 @@ private:
         geometry_msgs::msg::Twist cmd{};
         geometry_msgs::msg::PointStamped target_msg{};
         bool publish = false;
+        bool has_target = false;
 
         {
             std::lock_guard<std::mutex> guard(state_mutex_);
@@ -174,6 +175,7 @@ private:
                 target_msg.point.y = ex * distance;
                 target_msg.point.z = -ey * distance;
                 publish = true;
+                has_target = true;
             }
         }
 
@@ -186,6 +188,17 @@ private:
             target_msg.point.x = 0.0;
             target_msg.point.y = 0.0;
             target_msg.point.z = 0.0;
+        }
+
+        auto now_time = now();
+        if ((now_time - last_log_time_).seconds() >= 0.8) {
+            if (has_target) {
+                RCLCPP_INFO(get_logger(), "📍 relative position: x=%.3f y=%.3f z=%.3f",
+                    target_msg.point.x, target_msg.point.y, target_msg.point.z);
+            } else {
+                RCLCPP_INFO(get_logger(), "📍 relative position: x=0.000 y=0.000 z=0.000 (no detection)");
+            }
+            last_log_time_ = now_time;
         }
 
         if (publish_velocity_) {
@@ -231,6 +244,7 @@ private:
     float last_center_y_ = 0.0f;
     bool has_detection_ = false;
     std::string last_text_;
+    rclcpp::Time last_log_time_{0, 0, RCL_ROS_TIME};
 };
 
 int main(int argc, char *argv[]) {
