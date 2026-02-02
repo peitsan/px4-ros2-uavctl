@@ -88,4 +88,5 @@ private:
      *          用于防止重复关闭和异常关闭
      */
     bool closed_ = false;
+    bool owns_context_ = false;
 };

@@ -11,6 +11,7 @@ Vehicle::Vehicle() {
         auto options = rclcpp::InitOptions();
         options.shutdown_on_signal = false;
         rclcpp::init(0, nullptr, options);
+        owns_context_ = true;
     }
     drone_ = std::make_shared<OffboardControl>();
     executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
@@ -55,7 +56,7 @@ void Vehicle::close() {
     }
 
     // 3️⃣ 关闭 ROS2 
-    if (rclcpp::ok()) {
+    if (owns_context_ && rclcpp::ok()) {
         std::cout << "  - Calling rclcpp::shutdown()..." << std::endl;
         rclcpp::shutdown();
     }
