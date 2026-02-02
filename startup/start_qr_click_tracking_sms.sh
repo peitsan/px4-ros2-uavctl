@@ -118,5 +118,5 @@ trap cleanup SIGINT SIGTERM
 # === 执行流程 ===
 
 start_micro_agent
-start_local_rqt_image_view
+# start_local_rqt_image_view
 start_sms_tracking
