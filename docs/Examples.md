@@ -109,6 +109,32 @@ $ ./deploy/deploy_offboard.sh -m "修复陀螺仪校准" -n
 
 ## 实际工作流示例
 
+### 例10：SMS 点击跟踪（自动弹出 image_view）
+
+```bash
+# 本地一键启动（含 image_view 弹窗）
+./startup/start_qr_click_tracking_sms.sh
+```
+
+**说明：**
+- 启动后会弹出 `rqt_image_view` 窗口，用于鼠标点击目标。
+- 在 `rqt_image_view` 中选择当前图像话题（例如 `/camera` 或实际发布的话题）。
+- 左键选择目标，右键取消跟踪。
+
+**仅启动 launch（可关闭弹窗）：**
+
+```bash
+# 关闭 image_view 弹窗（无GUI/远程环境）
+ros2 launch px4_hexctl qr_click_tracking_sms.launch.py start_image_view:=false
+```
+
+**依赖安装：**
+
+```bash
+sudo apt update
+sudo apt install -y ros-humble-rqt-image-view ros-humble-image-view
+```
+
 ### 例7：日常开发流程
 
 **场景：** 完成一天的开发工作，需要部署到香橙派进行测试

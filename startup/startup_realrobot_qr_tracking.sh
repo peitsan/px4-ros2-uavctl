@@ -14,6 +14,10 @@ LOCAL_WORKSPACE_PATH="$HOME/Desktop/px4-ros2-uavctl"
 QGC_PATH="$HOME/bin/QGroundControl-x86_64.AppImage"
 LOCAL_ROS_DISTRO="humble"
 
+# 本机相机与可视化
+START_LOCAL_REALSENSE=true
+START_LOCAL_RQT=true
+
 # === 远端香橙派配置 ===
 REMOTE_USER="orangepi"
 REMOTE_IP="192.168.3.17"
@@ -68,8 +72,7 @@ start_sms_tracking() {
     # 远程启动命令：先 source 环境，再启动 launch 文件
     REMOTE_CMD="source /opt/ros/$REMOTE_ROS_DISTRO/setup.bash; \
                 source $REMOTE_WORKSPACE_PATH/install/setup.bash; \
-                export DISPLAY=:0; \
-                ros2 launch px4_hexctl qr_click_tracking_sms.launch.py"
+                ros2 launch px4_hexctl qr_click_tracking_sms.launch.py start_image_view:=false"
 
     gnome-terminal --tab --title="🎯 SMS Tracking (Remote)" -- bash -c "
         echo '🎯 连接香橙派并启动 SMS 跟随...';
@@ -78,6 +81,34 @@ start_sms_tracking() {
     " &
     TRACK_PID=$!
     sleep 2
+}
+
+start_local_realsense() {
+    if [ "$START_LOCAL_REALSENSE" != true ]; then
+        return
+    fi
+    echo -e "${YELLOW}=== 0️⃣ 启动本机 RealSense 相机 ===${NC}"
+    gnome-terminal --tab --title="📷 RealSense (Local)" -- bash -c "
+        source /opt/ros/$LOCAL_ROS_DISTRO/setup.bash;
+        ros2 launch realsense_camera rs_lt_launch.py;
+        exec bash
+    " &
+    RS_PID=$!
+    sleep 2
+}
+
+start_local_rqt_image_view() {
+    if [ "$START_LOCAL_RQT" != true ]; then
+        return
+    fi
+    echo -e "${YELLOW}=== 0️⃣ 启动本机 RQT Image View ===${NC}"
+    gnome-terminal --tab --title="🖼️ RQT Image View (Local)" -- bash -c "
+        source /opt/ros/$LOCAL_ROS_DISTRO/setup.bash;
+        rqt --standalone rqt_image_view --force-discover;
+        exec bash
+    " &
+    RQT_PID=$!
+    sleep 1
 }
 
 start_qgroundcontrol() {
@@ -91,7 +122,7 @@ start_qgroundcontrol() {
 
 cleanup() {
     echo -e "\n${RED}=== 停止远程任务 ===${NC}"
-    kill $AGENT_PID $TRACK_PID $QGC_PID 2>/dev/null || true
+    kill $AGENT_PID $TRACK_PID $QGC_PID $RS_PID $RQT_PID 2>/dev/null || true
     ssh "${REMOTE_HOST}" "pkill -f 'MicroXRCEAgent\|qr_click_tracking_sms\|pvid\|pyolo\|pocvsot' 2>/dev/null || true" &
     exit 0
 }
@@ -99,6 +130,8 @@ trap cleanup SIGINT SIGTERM
 
 # === 执行流程 ===
 start_micro_agent
+start_local_realsense
+start_local_rqt_image_view
 start_sms_tracking
 
 read -p "启动本机 QGroundControl? (y/n): " -n 1 -r
