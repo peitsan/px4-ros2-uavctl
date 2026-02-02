@@ -9,6 +9,7 @@ import os
 
 def generate_launch_description():
     start_smscore = LaunchConfiguration("start_smscore")
+    start_image_view = LaunchConfiguration("start_image_view")
 
     smscore = ExecuteProcess(
         cmd=["smscore"],
@@ -29,6 +30,12 @@ def generate_launch_description():
     sms_click_ctl = ExecuteProcess(
         cmd=["smsrun", "pclicktrackctl"],
         output="screen",
+    )
+
+    image_view = ExecuteProcess(
+        cmd=["rqt", "--standalone", "rqt_image_view", "--force-discover"],
+        output="screen",
+        condition=IfCondition(start_image_view),
     )
 
     sms_detect = ExecuteProcess(
@@ -103,7 +110,13 @@ def generate_launch_description():
             default_value="true",
             description="Start SpireMS smscore service before SMS nodes",
         ),
+        DeclareLaunchArgument(
+            "start_image_view",
+            default_value="true",
+            description="Open rqt_image_view window for click tracking",
+        ),
         smscore,
+        TimerAction(period=0.2, actions=[image_view]),
         TimerAction(period=0.5, actions=[sms_pvid]),
         TimerAction(period=0.5, actions=[sms_click_ctl]),
         TimerAction(period=1.0, actions=[sms_detect]),
