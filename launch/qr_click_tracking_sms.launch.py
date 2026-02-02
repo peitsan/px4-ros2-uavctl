@@ -60,6 +60,7 @@ def generate_launch_description():
             "show_selection_win=1",
             "realtime_det=1",
         ],
+        
         output="screen",
     )
 

@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <px4_msgs/msg/vehicle_command.hpp>
 
 #include "px4_hexctl/offboard_control.hpp"
 #include "px4_hexctl/vehicle.hpp"
@@ -57,9 +58,42 @@ private:
         bool is_offboard = (status.nav_state == 14);
         bool is_armed = (status.arming_state == 2);
 
-        if (!is_offboard || !is_armed) {
-            drone_->arm();
-            drone_->engage_offboard_mode();
+        if (!startup_ready_) {
+            if (!control_mode_set_) {
+                if (!drone_->is_position_valid()) {
+                    drone_->set_control_mode("attitude");
+                    drone_->update_attitude_setpoint(0.0, 0.0, 0.0, 0.0);
+                } else {
+                    drone_->set_control_mode("position");
+                    drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                }
+                control_mode_set_ = true;
+            }
+
+            if (prewarm_count_ < prewarm_target_) {
+                if (takeoff_mode_ == "attitude" || !drone_->is_position_valid()) {
+                    drone_->update_attitude_setpoint(0.0, 0.0, 0.0, takeoff_thrust_ * 0.0);
+                } else {
+                    drone_->update_position_setpoint(0.0, 0.0, 0.0, 0.0);
+                }
+                prewarm_count_++;
+                return;
+            }
+
+            auto now_time = now();
+            if ((now_time - last_request_time_).seconds() >= 3.0) {
+                last_request_time_ = now_time;
+                if (!is_offboard) {
+                    drone_->publish_vehicle_command(
+                        px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
+                } else if (!is_armed) {
+                    drone_->arm();
+                }
+            }
+
+            if (is_offboard && is_armed) {
+                startup_ready_ = true;
+            }
             return;
         }
 
@@ -145,6 +179,12 @@ private:
     bool takeoff_done_ = false;
     bool home_z_initialized_ = false;
     double home_z_ = 0.0;
+
+    bool startup_ready_ = false;
+    bool control_mode_set_ = false;
+    int prewarm_count_ = 0;
+    int prewarm_target_ = 40;
+    rclcpp::Time last_request_time_{0, 0, RCL_ROS_TIME};
 };
 
 int main(int argc, char *argv[]) {
