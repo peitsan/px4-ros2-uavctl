@@ -204,9 +204,27 @@ int main(int argc, char* argv[]) {
     rclcpp::executors::SingleThreadedExecutor exec;
     exec.add_node(node);
     rclcpp::WallRate rate(20.0);
+    rclcpp::Time last_recover_request{0, 0, RCL_ROS_TIME};
 
     while (rclcpp::ok() && !g_signal_triggered) {
         exec.spin_some();
+
+        auto status = drone->get_vehicle_status();
+        bool is_offboard = (status.nav_state == 14);
+        bool is_armed = (status.arming_state == 2);
+        auto now_time = node->now();
+
+        if ((!is_offboard || !is_armed) && (now_time - last_recover_request).seconds() >= 3.0) {
+            last_recover_request = now_time;
+            if (!is_offboard) {
+                RCLCPP_WARN(node->get_logger(), "⚠️ OFFBOARD lost, requesting OFFBOARD...");
+                drone->publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0);
+            }
+            if (!is_armed) {
+                RCLCPP_WARN(node->get_logger(), "⚠️ ARM lost, requesting ARM...");
+                drone->arm();
+            }
+        }
 
         geometry_msgs::msg::Twist cmd;
         bool use_cmd = false;
