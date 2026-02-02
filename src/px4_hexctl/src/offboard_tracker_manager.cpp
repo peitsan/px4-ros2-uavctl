@@ -31,12 +31,15 @@ struct CmdState {
 struct StartupResult {
     bool success{false};
     double home_z{0.0};
+    bool xy_valid{false};
 };
 
 StartupResult startup_sequence(
     const std::shared_ptr<OffboardControl> &drone,
     double takeoff_alt,
-    double takeoff_thrust) {
+    double takeoff_thrust,
+    bool allow_xy_invalid,
+    double hover_thrust) {
 
     StartupResult result;
 
@@ -107,9 +110,18 @@ StartupResult startup_sequence(
                 drone->update_position_setpoint(0.0, 0.0, target_z, 0.0);
                 std::this_thread::sleep_for(500ms);
                 result.success = true;
+                result.xy_valid = true;
             } else {
-                std::cout << "❌ EKF failed to normalize after liftoff. Safety Landing..." << std::endl;
-                drone->land();
+                if (allow_xy_invalid) {
+                    std::cout << "⚠️ EKF XY still invalid. Continue in ATTITUDE hover mode." << std::endl;
+                    drone->set_control_mode("attitude");
+                    drone->update_attitude_setpoint(0.0, 0.0, 0.0, hover_thrust);
+                    result.success = true;
+                    result.xy_valid = false;
+                } else {
+                    std::cout << "❌ EKF failed to normalize after liftoff. Safety Landing..." << std::endl;
+                    drone->land();
+                }
             }
             break;
         }
@@ -145,11 +157,15 @@ int main(int argc, char* argv[]) {
     node->declare_parameter("takeoff_alt", 1.2);
     node->declare_parameter("command_timeout", 0.5);
     node->declare_parameter("takeoff_thrust", 0.68);
+    node->declare_parameter("allow_xy_invalid", true);
+    node->declare_parameter("hover_thrust", 0.58);
 
     const auto cmd_vel_topic = node->get_parameter("cmd_vel_topic").as_string();
     const auto takeoff_alt = node->get_parameter("takeoff_alt").as_double();
     const auto command_timeout = node->get_parameter("command_timeout").as_double();
     const auto takeoff_thrust = node->get_parameter("takeoff_thrust").as_double();
+    const auto allow_xy_invalid = node->get_parameter("allow_xy_invalid").as_bool();
+    const auto hover_thrust = node->get_parameter("hover_thrust").as_double();
 
     std::cout << "════════════════════════════════════════════════════════" << std::endl;
     std::cout << "🚀 PX4 Offboard Tracker Manager" << std::endl;
@@ -170,14 +186,14 @@ int main(int argc, char* argv[]) {
 
     (void)cmd_sub;
 
-    auto startup = startup_sequence(drone, takeoff_alt, takeoff_thrust);
+    auto startup = startup_sequence(drone, takeoff_alt, takeoff_thrust, allow_xy_invalid, hover_thrust);
     if (!startup.success || g_signal_triggered) {
         vehicle->close();
         if (rclcpp::ok()) rclcpp::shutdown();
         return 0;
     }
 
-    std::cout << "✅ Hovering at 1.2m, waiting for /qr_tracker/cmd_vel_body" << std::endl;
+    std::cout << "✅ Hovering, waiting for /qr_tracker/cmd_vel_body" << std::endl;
 
     rclcpp::executors::SingleThreadedExecutor exec;
     exec.add_node(node);
@@ -204,16 +220,27 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        auto pos = drone->get_local_position();
-        double target_z = startup.home_z + takeoff_alt;
+        if (startup.xy_valid) {
+            auto pos = drone->get_local_position();
+            double target_z = startup.home_z + takeoff_alt;
 
-        if (!use_cmd) {
-            drone->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
+            if (!use_cmd) {
+                drone->update_position_setpoint(pos.x, pos.y, target_z, 0.0);
+            } else {
+                double vx = cmd.linear.x;
+                double vy = cmd.linear.y;
+                double vz = -cmd.linear.z;
+                drone->update_velocity_setpoint(vx, vy, vz, 0.0);
+            }
         } else {
-            double vx = cmd.linear.x;
-            double vy = cmd.linear.y;
-            double vz = -cmd.linear.z;
-            drone->update_velocity_setpoint(vx, vy, vz, 0.0);
+            if (!use_cmd) {
+                drone->update_attitude_setpoint(0.0, 0.0, 0.0, hover_thrust);
+            } else {
+                double vx = cmd.linear.x;
+                double vy = cmd.linear.y;
+                double vz = -cmd.linear.z;
+                drone->update_velocity_setpoint(vx, vy, vz, 0.0);
+            }
         }
 
         rate.sleep();
