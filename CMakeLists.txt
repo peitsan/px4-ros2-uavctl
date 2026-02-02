@@ -88,7 +88,6 @@ target_link_libraries(qr_tracker
 )
 
 target_link_libraries(qr_qrcode_opencv
-	PRIVATE
 	${OpenCV_LIBRARIES}
 	cv_bridge::cv_bridge
 )
