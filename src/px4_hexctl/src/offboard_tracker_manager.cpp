@@ -26,6 +26,7 @@ struct CmdState {
     rclcpp::Time last_time{0, 0, RCL_ROS_TIME};
     bool have_cmd{false};
     std::mutex mutex;
+    rclcpp::Time last_log_time{0, 0, RCL_ROS_TIME};
 };
 
 struct StartupResult {
@@ -177,11 +178,16 @@ int main(int argc, char* argv[]) {
     CmdState cmd_state;
     auto cmd_sub = node->create_subscription<geometry_msgs::msg::Twist>(
         cmd_vel_topic, 10,
-        [&cmd_state](const geometry_msgs::msg::Twist::SharedPtr msg) {
+        [&cmd_state, &node](const geometry_msgs::msg::Twist::SharedPtr msg) {
             std::lock_guard<std::mutex> guard(cmd_state.mutex);
             cmd_state.last_cmd = *msg;
             cmd_state.last_time = rclcpp::Clock(RCL_ROS_TIME).now();
             cmd_state.have_cmd = true;
+            auto now_time = node->now();
+            if ((now_time - cmd_state.last_log_time).seconds() >= 0.8) {
+                RCLCPP_INFO(node->get_logger(), "✅ move command received: vx=%.3f vy=%.3f vz=%.3f", msg->linear.x, msg->linear.y, msg->linear.z);
+                cmd_state.last_log_time = now_time;
+            }
         });
 
     (void)cmd_sub;
