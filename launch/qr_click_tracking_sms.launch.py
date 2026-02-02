@@ -57,7 +57,7 @@ def generate_launch_description():
             "smsrun",
             "pocvsot",
             "--job-name=click_track",
-            "show_selection_win=0",
+            "show_selection_win=1",
             "realtime_det=1",
         ],
         output="screen",
