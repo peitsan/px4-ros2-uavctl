@@ -16,7 +16,7 @@ LOCAL_ROS_DISTRO="humble"
 
 # === 远端香橙派配置 ===
 REMOTE_USER="orangepi"
-REMOTE_IP="192.168.3.17"
+REMOTE_IP="192.168.5.163"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 REMOTE_WORKSPACE_PATH="/home/orangepi/uav_ws"
 REMOTE_ROS_DISTRO="humble"

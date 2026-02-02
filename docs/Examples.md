@@ -243,10 +243,10 @@ $ ./deploy/deploy_offboard.sh -m "v1.2.0-release"
 是否在远端执行编译和部署？(y/n) y
 
 # 步骤4：验证部署（可选）
-$ ssh orangepi@192.168.3.17
-orangepi@192.168.3.17:~$ cd px4-ros2-vehicle-offboardcontrol
-orangepi@192.168.3.17:~/px4-ros2-vehicle-offboardcontrol$ source install/setup.bash
-orangepi@192.168.3.17:~/px4-ros2-vehicle-offboardcontrol$ ros2 launch ...
+$ ssh orangepi@192.168.5.163
+orangepi@192.168.5.163:~$ cd px4-ros2-vehicle-offboardcontrol
+orangepi@192.168.5.163:~/px4-ros2-vehicle-offboardcontrol$ source install/setup.bash
+orangepi@192.168.5.163:~/px4-ros2-vehicle-offboardcontrol$ ros2 launch ...
 ```
 
 ---
@@ -263,7 +263,7 @@ $ ./deploy/deploy_offboard.sh
 是否在远端执行编译和部署？(y/n) n
 
 # 然后手动在香橙派上编译：
-$ ssh orangepi@192.168.3.17
+$ ssh orangepi@192.168.5.163
 $ cd /home/orangepi/uav_ws/src/px4_hexctl
 $ source /opt/ros/humble/setup.bash
 $ colcon build --symlink-install
@@ -344,17 +344,17 @@ nothing to commit, working tree clean
 
 ```bash
 # 检查SSH连接
-$ ssh -v orangepi@192.168.3.17
+$ ssh -v orangepi@192.168.5.163
 
 # 如果显示 "Permission denied"，尝试手动输入密码
-$ sshpass -p "orangepi" ssh orangepi@192.168.3.17 "echo OK"
+$ sshpass -p "orangepi" ssh orangepi@192.168.5.163 "echo OK"
 
 # 配置SSH密钥（一次性）
 $ ssh-keygen -t ed25519
-$ ssh-copy-id orangepi@192.168.3.17
+$ ssh-copy-id orangepi@192.168.5.163
 
 # 再次测试
-$ ssh orangepi@192.168.3.17 "echo OK"
+$ ssh orangepi@192.168.5.163 "echo OK"
 ```
 
 ---

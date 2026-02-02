@@ -80,11 +80,11 @@ do_check_status() {
     
     echo ""
     echo "2. 检查网络连接"
-    ping -c 1 192.168.3.17 > /dev/null 2>&1 && echo "✓ 香橙派网络连接正常" || echo "✗ 香橙派网络连接失败"
+    ping -c 1 192.168.5.163 > /dev/null 2>&1 && echo "✓ 香橙派网络连接正常" || echo "✗ 香橙派网络连接失败"
     
     echo ""
     echo "3. 检查SSH连接"
-    ssh -o ConnectTimeout=5 -o BatchMode=yes orangepi@192.168.3.17 "echo '✓ SSH连接正常'" 2>/dev/null || \
+    ssh -o ConnectTimeout=5 -o BatchMode=yes orangepi@192.168.5.163 "echo '✓ SSH连接正常'" 2>/dev/null || \
         echo "✗ SSH连接失败，请检查凭证或SSH配置"
 }
 
