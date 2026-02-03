@@ -78,6 +78,10 @@ add_executable(qr_tracker_alt
 	src/px4_hexctl/src/qr_tracker_alt.cpp
 )
 
+add_executable(takeoff_fixedpoint
+	src/px4_hexctl/src/takeoff_fixedpoint.cpp
+)
+
 target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
 target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
 target_link_libraries(qr_tracker 
@@ -127,6 +131,17 @@ target_link_libraries(qr_tracker_alt
 	offboard_control_lib
 )
 
+target_link_libraries(takeoff_fixedpoint
+	PRIVATE
+	rclcpp::rclcpp
+	${px4_msgs_TARGETS}
+)
+
+ament_target_dependencies(takeoff_fixedpoint
+	rclcpp
+	px4_msgs
+)
+
 set(PX4_HEXCTL_TARGETS
 	offboard_takeoff
 	offboard_circle
@@ -135,6 +150,7 @@ set(PX4_HEXCTL_TARGETS
 	qr_tracker_alt
 	offboard_tracker_manager
 	sms_click_target_bridge
+	takeoff_fixedpoint
 )
 if(SPIRECV_FOUND)
 	list(APPEND PX4_HEXCTL_TARGETS qr_tracker_spirecv)

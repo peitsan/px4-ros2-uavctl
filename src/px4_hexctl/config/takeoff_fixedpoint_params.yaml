@@ -1,0 +1,58 @@
+/**
+ * @file takeoff_fixedpoint_params.yaml
+ * @brief takeoff_fixedpoint 节点的参数配置示例
+ * 
+ * 使用方式：
+ * ros2 run px4_hexctl takeoff_fixedpoint --ros-args -p target_height_m:=1.0 -p max_vertical_speed:=0.15
+ * 
+ * 或使用配置文件：
+ * ros2 run px4_hexctl takeoff_fixedpoint --ros-args --params-file config/takeoff_fixedpoint_params.yaml
+ */
+
+takeoff_fixedpoint:
+  ros__parameters:
+    # 目标起飞高度（米）
+    target_height_m: 1.0
+
+    # PID 控制参数
+    kp_height: 0.5          # 比例系数 - 降低以减缓响应速度
+    ki_height: 0.05         # 积分系数 - 用于消除稳态误差
+    kd_height: 0.05         # 微分系数 - 用于抑制超调
+
+    # 速度和加速度限制（六轴无人机）
+    max_vertical_speed: 0.15  # 最大竖直速度 (m/s) - 已从 0.5 降至 0.15
+    max_vertical_accel: 0.1   # 最大竖直加速度 (m/s²) - 防止电机突跃
+
+    # 控制容差和安全边界
+    height_tolerance: 0.1              # 高度误差容差 (m) - 低于此值认为已到达目标
+    height_safety_margin: 0.5          # 安全高度余量 (m) - 超过此值时强制降速
+    emergency_stop_height: 1.5         # 紧急停止高度 (m) - 超过此高度立即停止
+
+    # 平滑上升参数
+    takeoff_ramp_rate: 0.05            # 起飞加速度 (m/s²) - 平滑上升斜坡
+    enable_accel_ramp: true            # 是否启用加速度斜坡 (防止突变)
+    ramp_update_interval_ms: 100       # 加速度斜坡更新间隔 (ms)
+
+    # 话题配置（通常不需要修改，除非改变 PX4 配置）
+    local_position_topic: "/fmu/out/vehicle_local_position"
+    vehicle_status_topic: "/fmu/out/vehicle_status"
+    offboard_mode_topic: "/fmu/in/offboard_control_mode"
+    trajectory_setpoint_topic: "/fmu/in/trajectory_setpoint"
+
+# 调试配置建议：
+# 
+# 场景1：天花板低（如 1.2m）
+#   - 降低 target_height_m 至 0.8m
+#   - 降低 max_vertical_speed 至 0.1m/s
+#   - 降低 max_vertical_accel 至 0.05m/s²
+#   - 提高 height_safety_margin 至 0.2m
+#
+# 场景2：需要更快起飞
+#   - 提高 max_vertical_speed 至 0.2m/s
+#   - 提高 max_vertical_accel 至 0.15m/s²
+#   - 提高 kp_height 至 0.7
+#
+# 场景3：起飞抖动或超调
+#   - 降低 kp_height 至 0.3
+#   - 提高 kd_height 至 0.1
+#   - 降低 max_vertical_accel 至 0.08m/s²
