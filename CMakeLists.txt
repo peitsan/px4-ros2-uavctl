@@ -131,12 +131,6 @@ target_link_libraries(qr_tracker_alt
 	offboard_control_lib
 )
 
-target_link_libraries(takeoff_fixedpoint
-	PRIVATE
-	rclcpp::rclcpp
-	${px4_msgs_TARGETS}
-)
-
 ament_target_dependencies(takeoff_fixedpoint
 	rclcpp
 	px4_msgs
