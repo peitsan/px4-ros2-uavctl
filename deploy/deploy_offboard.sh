@@ -34,7 +34,7 @@ set -e  # 遇到错误立即退出
 
 # 远端香橙派信息
 REMOTE_USER="orangepi"
-REMOTE_IP="192.168.5.163"
+REMOTE_IP="192.168.3.17"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 REMOTE_PASSWORD="orangepi"
 REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"

@@ -20,7 +20,7 @@ set -e
 
 # 远端信息
 REMOTE_USER="orangepi"
-REMOTE_IP="192.168.5.163"
+REMOTE_IP="192.168.3.17"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 WORKSPACE_ROOT="/home/orangepi/uav_ws"
 

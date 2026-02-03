@@ -4,7 +4,7 @@
 # 在远端(香橙派)上运行此脚本来启动 Offboard Control
 # ================================================================
 
-REMOTE_HOST="orangepi@192.168.5.163"
+REMOTE_HOST="orangepi@192.168.3.17"
 WORKSPACE_PATH="/home/orangepi/uav_ws"
 
 echo "🚀 正在远端启动 Offboard Control 节点..."

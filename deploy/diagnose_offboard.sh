@@ -6,7 +6,7 @@
 
 set -e
 
-REMOTE_HOST="orangepi@192.168.5.163"
+REMOTE_HOST="orangepi@192.168.3.17"
 REMOTE_WORKSPACE="/home/orangepi/uav_ws"
 
 # 颜色定义
@@ -106,7 +106,7 @@ if [ "$AGENT_STATUS" -eq 0 ]; then
     echo -e "${RED}❌ 主要问题：MicroXRCEAgent 未运行${NC}"
     echo -e "${YELLOW}   解决步骤：${NC}"
     echo -e "   1. 启动本机的 startup_realrobot.sh（会远程启动 MicroXRCEAgent）"
-    echo -e "   2. 或手动在香橙派上启动: ssh orangepi@192.168.5.163 'MicroXRCEAgent serial -D /dev/ttyUSB0 -b 921600'"
+    echo -e "   2. 或手动在香橙派上启动: ssh orangepi@192.168.3.17 'MicroXRCEAgent serial -D /dev/ttyUSB0 -b 921600'"
     echo -e "   3. 确认飞控已通电并通过串口连接到香橙派"
 elif [ "$POSITION_DATA" = "" ]; then
     echo -e "${RED}❌ 主要问题：未收到位置数据${NC}"
@@ -121,9 +121,9 @@ fi
 echo -e "\n${BLUE}================================================================${NC}"
 echo -e "${YELLOW}更多命令帮助：${NC}"
 echo -e "   # 查看实时位置数据"
-echo -e "   ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_local_position_v1'"
+echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_local_position_v1'"
 echo -e "\n   # 查看飞控状态"
-echo -e "   ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_status'"
+echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_status'"
 echo -e "\n   # 手动启动 Offboard Control 节点"
-echo -e "   ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'"
+echo -e "   ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'"
 echo -e "\n${BLUE}================================================================${NC}"
