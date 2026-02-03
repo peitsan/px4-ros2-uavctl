@@ -162,7 +162,6 @@ private:
                 trajectory.acceleration[1] = 0.0f;
                 trajectory.acceleration[2] = 0.0f;
                 trajectory.yaw = 0.0f;
-                trajectory.yaw_rate = 0.0f;
                 trajectory.timestamp = timestamp_;
 
                 offboard_control_mode_pub_->publish(offboard_mode);
@@ -241,7 +240,6 @@ private:
             trajectory.acceleration[1] = 0.0f;
             trajectory.acceleration[2] = 0.0f;
             trajectory.yaw = 0.0f;
-            trajectory.yaw_rate = 0.0f;
             trajectory.timestamp = timestamp_;
 
             // 每次循环输出调试日志（每 0.4s 输出一次）
