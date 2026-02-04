@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="x500_d435i">
+  
+  <!-- Include D435i camera macro for gz-sim7 -->
+  <xacro:include filename="$(find realsense_ros_gazebo)/xacro/depthcam.xacro"/>
+  
+  <!-- Reference PX4 x500 base model from gz-sim -->
+  <!-- This drone model is loaded via the GZ SDF model: model://x500_realsense_d435i -->
+  <!-- But we can enhance it with additional URDF configurations if needed -->
+  
+  <!-- Base link of the UAV -->
+  <link name="base_link">
+    <inertial>
+      <mass value="2.244"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.02142" ixy="0.0" ixz="0.0" iyy="0.02142" iyz="0.0" izz="0.04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.38 0.38 0.1"/>
+      </geometry>
+      <material name="DarkGray">
+        <color rgba="0.3 0.3 0.3 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.38 0.38 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- D435i Camera Integration for gz-sim7 -->
+  <!-- Position: Front-mounted, 12cm forward, 3cm right, 24.2cm up -->
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="d435_bottom_screw_frame"/>
+    <origin xyz="0.12 0.03 0.242" rpy="0 0 0"/>
+  </joint>
+
+  <!-- D435i Camera using updated gz-sim7 compatible macro -->
+  <xacro:realsense_d435 sensor_name="d435" parent_link="base_link" rate="30">
+    <origin xyz="0.12 0.03 0.242" rpy="0 0 0"/>
+  </xacro:realsense_d435>
+
+  <!-- Gazebo plugins for gz-sim7 -->
+  <gazebo>
+    <!-- Dynamics plugin for UAV flight physics -->
+    <plugin filename="gz-sim-multicopter-motor-model-system"
+            name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>x500</robotNamespace>
+      <joint0Name>rotor_0_joint</joint0Name>
+      <joint1Name>rotor_1_joint</joint1Name>
+      <joint2Name>rotor_2_joint</joint2Name>
+      <joint3Name>rotor_3_joint</joint3Name>
+      <linkName>base_link</linkName>
+      <motorNumber>0</motorNumber>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1100.0</maxRotVelocity>
+      <motorConstant>8.54858e-06</motorConstant>
+      <momentConstant>0.016</momentConstant>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1100.0</maxRotVelocity>
+      <motorConstant>8.54858e-06</motorConstant>
+      <momentConstant>0.016</momentConstant>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1100.0</maxRotVelocity>
+      <motorConstant>8.54858e-06</motorConstant>
+      <momentConstant>0.016</momentConstant>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorNumber>3</motorNumber>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1100.0</maxRotVelocity>
+      <motorConstant>8.54858e-06</motorConstant>
+      <momentConstant>0.016</momentConstant>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+    </plugin>
+
+    <!-- Joint state publisher for gz-sim7 -->
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+    </plugin>
+
+    <!-- Link state publisher for gz-sim7 -->
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <dimensions>3</dimensions>
+      <publish_link_pose>true</publish_link_pose>
+    </plugin>
+  </gazebo>
+
+</robot>

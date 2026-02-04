@@ -28,7 +28,7 @@ def generate_launch_description():
         name="qr_qrcode_opencv",
         output="screen",
         parameters=[{
-            "image_topic": "/camera/d435i/color/image_raw",
+            "image_topic": "/camera/camera/color/image_raw",
             "cmd_vel_topic": "/qr_tracker/cmd_vel_body",
             "target_pos_topic": "/qr_tracker/relative_position",
             "qr_size_m": 0.2,

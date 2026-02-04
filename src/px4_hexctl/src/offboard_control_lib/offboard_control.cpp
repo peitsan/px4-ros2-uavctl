@@ -5,6 +5,9 @@
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_local_position.hpp>
 #include <px4_msgs/msg/vehicle_status.hpp>
+#include <px4_msgs/msg/vehicle_attitude.hpp>
+#include <px4_msgs/msg/vehicle_imu.hpp>
+#include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <px4_msgs/msg/vehicle_attitude_setpoint.hpp>
 #include <px4_msgs/msg/goto_setpoint.hpp>
 #include "px4_hexctl/offboard_control.hpp"
@@ -74,11 +77,23 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
         namespace_ + "/fmu/out/vehicle_status_v1", sensor_qos,
         std::bind(&OffboardControl::vehicle_status_callback, this, std::placeholders::_1));
 
+    vehicle_attitude_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleAttitude>(
+        namespace_ + "/fmu/out/vehicle_attitude", sensor_qos,
+        std::bind(&OffboardControl::vehicle_attitude_callback, this, std::placeholders::_1));
+
+    vehicle_imu_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleImu>(
+        namespace_ + "/fmu/out/vehicle_imu", sensor_qos,
+        std::bind(&OffboardControl::vehicle_imu_callback, this, std::placeholders::_1));
+
+    vehicle_odometry_subscriber_ = this->create_subscription<px4_msgs::msg::VehicleOdometry>(
+        namespace_ + "/fmu/out/vehicle_odometry", sensor_qos,
+        std::bind(&OffboardControl::vehicle_odometry_callback, this, std::placeholders::_1));
+
     RCLCPP_INFO(this->get_logger(), "[SUB] Status subscribers established (Binding to /fmu/out/vehicle_status_v1)");
 
     // State variables
     offboard_setpoint_counter_ = 0;
-    takeoff_height_ = 2.0;
+    takeoff_height_ = 1.0; // Default takeoff height
     home_position_ = {0.0, 0.0, 0.0};
     vehicle_local_position_enu_ = px4_msgs::msg::VehicleLocalPosition();
     vehicle_local_position_received_ = false;
@@ -93,13 +108,44 @@ OffboardControl::OffboardControl(const std::string& prefix, const std::string& n
     // Target
     target_ = {0.0, 0.0, 0.0, 0.0};
 
+    reset_imu_estimator(0.0);
+
     RCLCPP_INFO(this->get_logger(), "✅ [INIT] OffboardControl initialized successfully!");
 }
 
 OffboardControl::~OffboardControl() {
-    if (heartbeat_thread_.joinable()) {
-        stop_heartbeat_ = true;
-        heartbeat_thread_.join();
+    RCLCPP_INFO(this->get_logger(), "🛑 [CLEANUP] Shutting down OffboardControl...");
+    
+    // 停止起飞线程
+    if (takeoff_thread_.joinable()) {
+        takeoff_running_ = false;
+        takeoff_thread_.join();
+        RCLCPP_INFO(this->get_logger(), "✅ Takeoff thread stopped");
+    }
+    
+    // 执行安全着陆和解锁
+    try {
+        // 短暂延迟以确保所有话题处理完毕
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        
+        // 发送着陆命令
+        RCLCPP_WARN(this->get_logger(), "🛬 Sending LAND command...");
+        publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_NAV_LAND, 
+                                0.0,    // abort alt
+                                0,      // land mode
+                                0.0, 0.0, NAN, NAN, 0.0);
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        
+        // 发送解锁命令
+        RCLCPP_WARN(this->get_logger(), "🔒 Sending DISARM command...");
+        publish_vehicle_command(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        
+        RCLCPP_INFO(this->get_logger(), "✅ [CLEANUP] Shutdown complete");
+    } catch (const std::exception& e) {
+        RCLCPP_ERROR(this->get_logger(), "❌ [CLEANUP] Exception during shutdown: %s", e.what());
     }
 }
 
@@ -124,6 +170,14 @@ void OffboardControl::heartbeat_thread_start() {
     heartbeat_hz_ = 20;
     heartbeat_thread_ = std::thread(&OffboardControl::heartbeat_loop, this);
     RCLCPP_INFO(this->get_logger(), "🔁 [HEARTBEAT] Started heartbeat thread at %d Hz", heartbeat_hz_);
+}
+
+void OffboardControl::stop_heartbeat() {
+    stop_heartbeat_ = true;
+    if (heartbeat_thread_.joinable()) {
+        heartbeat_thread_.join();
+        RCLCPP_INFO(this->get_logger(), "✅ Heartbeat thread stopped");
+    }
 }
 
 void OffboardControl::heartbeat_loop() {
@@ -287,6 +341,148 @@ void OffboardControl::vehicle_status_callback(const px4_msgs::msg::VehicleStatus
     }
     std::string log_msg = "[STATUS] nav_state=" + std::to_string(msg->nav_state) + " (was " + old_nav + "), arming_state=" + std::to_string(msg->arming_state) + " (was " + old_arm + ")";
     throttle_log(5.0, log_msg, "info", "status");
+}
+
+void OffboardControl::vehicle_attitude_callback(const px4_msgs::msg::VehicleAttitude::SharedPtr msg) {
+    std::lock_guard<std::mutex> guard(lock_);
+    vehicle_attitude_ = *msg;
+    vehicle_attitude_received_ = true;
+}
+
+void OffboardControl::reset_imu_estimator(double z0) {
+    std::lock_guard<std::mutex> guard(lock_);
+    imu_z_ = z0;
+    imu_vz_ = 0.0;
+    imu_bias_z_ = 0.0;
+    imu_last_timestamp_ = 0;
+    imu_estimator_initialized_ = false;
+}
+
+void OffboardControl::vehicle_imu_callback(const px4_msgs::msg::VehicleImu::SharedPtr msg) {
+    if (!vehicle_attitude_received_) {
+        return;
+    }
+
+    px4_msgs::msg::VehicleAttitude attitude;
+    bool pos_valid;
+    double pos_z;
+    {
+        std::lock_guard<std::mutex> guard(lock_);
+        attitude = vehicle_attitude_;
+        pos_valid = vehicle_local_position_received_ && z_valid_;
+        pos_z = vehicle_local_position_enu_.z;
+    }
+
+    if (imu_last_timestamp_ == 0) {
+        imu_last_timestamp_ = msg->timestamp;
+        if (!imu_estimator_initialized_ && pos_valid) {
+            imu_z_ = pos_z;
+            imu_estimator_initialized_ = true;
+        }
+        return;
+    }
+
+    double dt = (msg->timestamp - imu_last_timestamp_) * 1e-6;
+    imu_last_timestamp_ = msg->timestamp;
+    if (dt <= 0.0 || dt > 0.1) {
+        return;
+    }
+
+    const double dt_imu = (msg->delta_velocity_dt > 1e-6) ? msg->delta_velocity_dt : dt;
+
+    const double qw = attitude.q[0];
+    const double qx = attitude.q[1];
+    const double qy = attitude.q[2];
+    const double qz = attitude.q[3];
+
+    const double r11 = 1.0 - 2.0 * (qy * qy + qz * qz);
+    const double r12 = 2.0 * (qx * qy - qz * qw);
+    const double r13 = 2.0 * (qx * qz + qy * qw);
+    const double r21 = 2.0 * (qx * qy + qz * qw);
+    const double r22 = 1.0 - 2.0 * (qx * qx + qz * qz);
+    const double r23 = 2.0 * (qy * qz - qx * qw);
+    const double r31 = 2.0 * (qx * qz - qy * qw);
+    const double r32 = 2.0 * (qy * qz + qx * qw);
+    const double r33 = 1.0 - 2.0 * (qx * qx + qy * qy);
+
+    const double ax_b = msg->delta_velocity[0] / dt_imu;
+    const double ay_b = msg->delta_velocity[1] / dt_imu;
+    const double az_b = msg->delta_velocity[2] / dt_imu;
+
+    const double ax_n = r11 * ax_b + r12 * ay_b + r13 * az_b;
+    const double ay_n = r21 * ax_b + r22 * ay_b + r23 * az_b;
+    const double az_n = r31 * ax_b + r32 * ay_b + r33 * az_b;
+
+    const double g = 9.80665;
+    const double az_n_lin = az_n - g;
+    const double az_enu = -az_n_lin;
+
+    if (!imu_estimator_initialized_) {
+        if (pos_valid) {
+            imu_z_ = pos_z;
+        }
+        imu_vz_ = 0.0;
+        imu_bias_z_ = 0.0;
+        imu_estimator_initialized_ = true;
+    }
+
+    const double az_corr = az_enu - imu_bias_z_;
+    imu_vz_ += az_corr * dt;
+    imu_z_ += imu_vz_ * dt;
+
+    if (pos_valid) {
+        const double error = pos_z - imu_z_;
+        const double k_pos = 0.02;
+        const double k_bias = 0.001;
+        if (std::abs(imu_vz_) < 0.3) {
+            imu_z_ += k_pos * error;
+            imu_bias_z_ -= k_bias * error;
+        }
+    }
+
+    if (std::abs(az_corr) < 0.2 && std::abs(imu_vz_) < 0.1) {
+        imu_vz_ *= 0.9;
+    }
+}
+
+void OffboardControl::vehicle_odometry_callback(const px4_msgs::msg::VehicleOdometry::SharedPtr msg) {
+    if (msg->pose_frame != px4_msgs::msg::VehicleOdometry::POSE_FRAME_NED) {
+        std::lock_guard<std::mutex> guard(lock_);
+        vehicle_odometry_received_ = false;
+        return;
+    }
+    auto [x_enu, y_enu, z_enu] = ned_to_enu(msg->position[0], msg->position[1], msg->position[2]);
+    std::lock_guard<std::mutex> guard(lock_);
+    odom_z_raw_enu_ = z_enu;
+    odom_raw_initialized_ = true;
+    if (!odom_offset_initialized_) {
+        odom_z_offset_ = z_enu;
+        odom_offset_initialized_ = true;
+        RCLCPP_INFO(this->get_logger(), "📌 ODOM Z offset initialized: %.3f m", odom_z_offset_);
+    }
+    const double z_rel = z_enu - odom_z_offset_;
+    if (!odom_z_filtered_initialized_) {
+        odom_z_filtered_ = z_rel;
+        odom_z_filtered_initialized_ = true;
+    } else {
+        const double jump = std::abs(z_rel - odom_z_filtered_);
+        if (jump > 0.3) {
+            throttle_log(1.0,
+                "[ODOM] Ignoring Z spike: z_rel=" + std::to_string(z_rel) +
+                " filtered=" + std::to_string(odom_z_filtered_),
+                "warn", "odom_spike");
+            return;
+        }
+        if (jump >= 0.03) {
+            const double alpha = 0.35;
+            odom_z_filtered_ = alpha * z_rel + (1.0 - alpha) * odom_z_filtered_;
+        }
+    }
+    vehicle_odometry_enu_ = *msg;
+    vehicle_odometry_enu_.position[0] = x_enu;
+    vehicle_odometry_enu_.position[1] = y_enu;
+    vehicle_odometry_enu_.position[2] = odom_z_filtered_;
+    vehicle_odometry_received_ = (msg->timestamp > 0);
 }
 
 void OffboardControl::arm() {
@@ -496,6 +692,29 @@ void OffboardControl::publish_trajectory_setpoint(
 
     if (!velocity.empty()) {
         auto [vx_ned, vy_ned, vz_ned] = enu_to_ned(velocity[0], velocity[1], velocity[2]);
+        
+        // ============ 电机安全限速：限制爬升和下降速度 ============
+        // 防止 PX4 位置控制器自动计算的速度过大导致电机过载
+        // 注意：位置控制模式下 velocity[] 为空，此限制仅在显式速度模式时生效
+        double max_vz_up = 0.6;      // 最大爬升速度 0.6 m/s
+        double max_vz_down = 0.6;    // 最大下降速度 0.6 m/s
+        double max_vxy = 1.0;         // 最大水平速度 1.0 m/s (提高灵敏度)
+        
+        // 限制垂直速度
+        if (vz_ned < -max_vz_up) {    // 向上爬升（NED中负向）
+            vz_ned = -max_vz_up;
+        } else if (vz_ned > max_vz_down) {  // 向下下降（NED中正向）
+            vz_ned = max_vz_down;
+        }
+        
+        // 限制水平速度（XY向量限制）
+        double vxy_mag = std::sqrt(vx_ned * vx_ned + vy_ned * vy_ned);
+        if (vxy_mag > max_vxy) {
+            double scale = max_vxy / vxy_mag;
+            vx_ned *= scale;
+            vy_ned *= scale;
+        }
+        
         msg.velocity = {static_cast<float>(vx_ned), 
                 static_cast<float>(vy_ned), 
                 static_cast<float>(vz_ned)};
@@ -583,35 +802,245 @@ bool OffboardControl::takeoff(double takeoff_height, double timeout) {
         return false;
     }
 
+    if (!vehicle_local_position_received_) {
+        RCLCPP_WARN(this->get_logger(), "⚠️ No position yet; waiting to initialize home position...");
+        auto wait_start = std::chrono::system_clock::now();
+        while (!vehicle_local_position_received_ && rclcpp::ok() &&
+               std::chrono::duration<double>(std::chrono::system_clock::now() - wait_start).count() < 3.0) {
+            std::this_thread::sleep_for(100ms);
+        }
+    }
+
+    if (!imu_estimator_initialized_) {
+        auto imu_wait_start = std::chrono::steady_clock::now();
+        while (!imu_estimator_initialized_ && rclcpp::ok() &&
+               std::chrono::duration<double>(std::chrono::steady_clock::now() - imu_wait_start).count() < 1.0) {
+            std::this_thread::sleep_for(50ms);
+        }
+    }
+
+    double home_x;
+    double home_y;
     double home_z;
     {
         std::lock_guard<std::mutex> guard(lock_);
-        home_z = home_position_[2];
+        if (!vehicle_local_position_received_) {
+            RCLCPP_ERROR(this->get_logger(), "❌ Home position not initialized! Position data missing.");
+            return false;
+        }
+        if (vehicle_odometry_received_ && odom_raw_initialized_) {
+            odom_z_offset_ = odom_z_raw_enu_;
+            odom_offset_initialized_ = true;
+            odom_z_filtered_ = 0.0;
+            odom_z_filtered_initialized_ = true;
+            RCLCPP_INFO(this->get_logger(), "📌 ODOM Z offset reset at takeoff: %.3f m", odom_z_offset_);
+        }
+        const double local_x = vehicle_local_position_enu_.x;
+        const double local_y = vehicle_local_position_enu_.y;
+        const double local_z = vehicle_local_position_enu_.z;
+        const bool local_z_valid = z_valid_;
+        const bool odom_ready = vehicle_odometry_received_;
+        const double odom_z = odom_ready ? vehicle_odometry_enu_.position[2] : 0.0;
+        const bool odom_z_reasonable = std::abs(odom_z) < 1.0;
+        const bool imu_ready = imu_estimator_initialized_ && !odom_ready;
+        const double imu_z = imu_ready ? imu_z_ : 0.0;
+        const bool local_z_reasonable = std::abs(local_z) < 1.0;
+
+        home_x = local_x;
+        home_y = local_y;
+        if (odom_ready && odom_z_reasonable) {
+            home_z = odom_z;
+        } else if (imu_ready) {
+            home_z = imu_z;
+        } else if (local_z_valid && local_z_reasonable) {
+            home_z = local_z;
+        } else {
+            home_z = 0.0;
+            RCLCPP_WARN(this->get_logger(), "⚠️ Local Z invalid/unreasonable (z=%.3f, valid=%d); using home_z=0.0 m.",
+                        local_z, local_z_valid);
+        }
+
+        home_position_ = {local_x, local_y, home_z};
+
+        if (imu_ready && std::abs(imu_z - local_z) > 0.3) {
+            RCLCPP_WARN(this->get_logger(), "⚠️ IMU height differs from local_z by %.3f m; using IMU height as home_z.",
+                        imu_z - local_z);
+        }
+        RCLCPP_INFO(this->get_logger(), "📍 Using home_z = %.3f m", home_z);
     }
     double target_alt = home_z + takeoff_height;
     double current_heading = vehicle_local_position_received_ ? vehicle_local_position_enu_.heading : 0.0;
-    update_position_setpoint(home_position_[0], home_position_[1], target_alt, current_heading);
+    const bool use_odom_height = vehicle_odometry_received_;
+    const bool use_imu_height = !use_odom_height && imu_estimator_initialized_;
+    if (use_odom_height) {
+        RCLCPP_INFO(this->get_logger(), "🧭 Using ODOM height for takeoff control.");
+    } else if (use_imu_height) {
+        RCLCPP_INFO(this->get_logger(), "🧭 Using IMU height estimator for takeoff control.");
+    } else {
+        RCLCPP_WARN(this->get_logger(), "⚠️ IMU/ODOM not ready; using local position height.");
+    }
+    
+    RCLCPP_INFO(this->get_logger(), "🛫 Starting smooth takeoff: home=%.3f m → target=%.3f m (+%.3f m)", 
+                home_z, target_alt, takeoff_height);
 
-    RCLCPP_INFO(this->get_logger(), "🛫 Starting takeoff to %f m (from %f m)", target_alt, home_z);
+    set_control_mode("velocity");
 
-    auto start = std::chrono::system_clock::now().time_since_epoch().count() / 1e9;
-    while (rclcpp::ok() && (std::chrono::system_clock::now().time_since_epoch().count() / 1e9 - start) < timeout) {
+    const double safety_max_relative_alt = 3.0;
+    const double omega = 1.2;
+    const double zeta = 0.9;
+    const double kp = 0.9;
+    const double ki = 0.15;
+    const double kd = 0.25;
+    const double max_vz_up = 0.6;
+    const double max_vz_down = 0.8;
+    const double descend_boost_error = 0.10;
+    const double descend_min_vz = -0.3;
+    const double integral_limit = 0.6;
+    const double settle_error = 0.05;
+    const double settle_velocity = 0.05;
+    const double settle_time = 0.8;
+
+    double z_ref = home_z;
+    double z_ref_dot = 0.0;
+    double integral = 0.0;
+    double last_error = 0.0;
+    double stable_elapsed = 0.0;
+
+    auto start = std::chrono::steady_clock::now();
+    auto last_time = start;
+
+    while (rclcpp::ok() && std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count() < timeout) {
+        auto now = std::chrono::steady_clock::now();
+        double dt = std::chrono::duration<double>(now - last_time).count();
+        if (dt <= 0.0) {
+            dt = 0.02;
+        }
+        last_time = now;
+
         double current_z;
         {
             std::lock_guard<std::mutex> guard(lock_);
-            current_z = vehicle_local_position_enu_.z;
+            if (use_imu_height) {
+                current_z = imu_z_;
+            } else if (use_odom_height) {
+                current_z = vehicle_odometry_enu_.position[2];
+            } else {
+                current_z = vehicle_local_position_enu_.z;
+            }
         }
-        double remaining = target_alt - current_z;
-        throttle_log(1.0, "[TAKEOFF] Altitude: " + std::to_string(current_z) + "/" + std::to_string(target_alt) + " m, Δ=" + std::to_string(remaining) + " m", "info", "takeoff");
-        if (remaining <= 0.1) {
-            RCLCPP_INFO(this->get_logger(), "✅ Takeoff complete!");
-            return true;
+
+        double relative_alt = current_z - home_z;
+        if (relative_alt > safety_max_relative_alt) {
+            const double local_z = vehicle_local_position_enu_.z;
+            const double imu_z = imu_z_;
+            const double odom_z = vehicle_odometry_enu_.position[2];
+            RCLCPP_WARN(this->get_logger(),
+                        "⚠️ Safety ceiling reached: relative_alt=%.3f m > %.2f m (odom=%.3f, local=%.3f, imu=%.3f, home=%.3f). Initiating LAND.",
+                        relative_alt, safety_max_relative_alt, odom_z, local_z, imu_z, home_z);
+            land();
+            return false;
         }
-        std::this_thread::sleep_for(100ms);
+
+        double ref_error = target_alt - z_ref;
+        double z_ref_ddot = omega * omega * ref_error - 2.0 * zeta * omega * z_ref_dot;
+        z_ref_dot += z_ref_ddot * dt;
+        z_ref += z_ref_dot * dt;
+        if (z_ref > target_alt) {
+            z_ref = target_alt;
+            if (z_ref_dot > 0.0) {
+                z_ref_dot = 0.0;
+            }
+        }
+
+        double target_error = target_alt - current_z;
+        double error = z_ref - current_z;
+        integral += error * dt;
+        if (integral > integral_limit) {
+            integral = integral_limit;
+        } else if (integral < -integral_limit) {
+            integral = -integral_limit;
+        }
+        if (target_error < 0.0) {
+            integral = std::min(integral, 0.0);
+        }
+        double derivative = (error - last_error) / dt;
+        last_error = error;
+
+        double vz_cmd = z_ref_dot + kp * error + ki * integral + kd * derivative;
+        if (vz_cmd > max_vz_up) {
+            vz_cmd = max_vz_up;
+        } else if (vz_cmd < -max_vz_down) {
+            vz_cmd = -max_vz_down;
+        }
+        if (target_error < -descend_boost_error && vz_cmd > descend_min_vz) {
+            vz_cmd = descend_min_vz;
+        }
+
+        update_velocity_setpoint(0.0, 0.0, vz_cmd, 0.0);
+
+        if (std::abs(target_error) <= settle_error) {
+            stable_elapsed += dt;
+            if (stable_elapsed >= settle_time) {
+                set_control_mode("position");
+                update_position_setpoint(home_x, home_y, target_alt, current_heading);
+                RCLCPP_INFO(this->get_logger(), "✅ Takeoff complete! Stable hover at %.3f m (target: %.3f m)", current_z, target_alt);
+                return true;
+            }
+        } else {
+            stable_elapsed = 0.0;
+        }
+
+        throttle_log(1.0,
+            "[TAKEOFF] Alt=" + std::to_string(current_z) +
+            "/" + std::to_string(target_alt) + " m, err=" + std::to_string(target_error) +
+            " m, vz_cmd=" + std::to_string(vz_cmd),
+            "info", "takeoff");
+
+        std::this_thread::sleep_for(50ms);
     }
 
-    RCLCPP_WARN(this->get_logger(), "⚠️ Takeoff timed out!");
+    double final_z;
+    {
+        std::lock_guard<std::mutex> guard(lock_);
+        if (use_imu_height) {
+            final_z = imu_z_;
+        } else if (use_odom_height) {
+            final_z = vehicle_odometry_enu_.position[2];
+        } else {
+            final_z = vehicle_local_position_enu_.z;
+        }
+    }
+
+    RCLCPP_WARN(this->get_logger(), "⚠️ Takeoff timed out! Final altitude: %.3f m (target: %.3f m, error: %.3f m)",
+                final_z, target_alt, target_alt - final_z);
+    set_control_mode("position");
+    update_position_setpoint(home_x, home_y, final_z, current_heading);
     return false;
+}
+
+void OffboardControl::start_takeoff_async(double takeoff_height, double timeout) {
+    if (takeoff_running_) {
+        RCLCPP_WARN(this->get_logger(), "⚠️ Takeoff already running!");
+        return;
+    }
+    
+    takeoff_running_ = true;
+    takeoff_height_ = takeoff_height;
+    
+    if (takeoff_thread_.joinable()) {
+        takeoff_thread_.join();
+    }
+    
+    takeoff_thread_ = std::thread(&OffboardControl::takeoff_async_loop, this, takeoff_height, timeout);
+    RCLCPP_INFO(this->get_logger(), "🚀 [ASYNC] Takeoff thread started (height=%.3f m, timeout=%.1f s)", takeoff_height, timeout);
+}
+
+void OffboardControl::takeoff_async_loop(double takeoff_height, double timeout) {
+    const bool ok = takeoff(takeoff_height, timeout);
+    if (!ok) {
+        RCLCPP_WARN(this->get_logger(), "⚠️ [ASYNC] Takeoff failed or timed out");
+    }
+    takeoff_running_ = false;
 }
 
 // 1) 全局（WGS84）起飞命令：VEHICLE_CMD_NAV_TAKEOFF (22)

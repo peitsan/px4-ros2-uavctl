@@ -19,8 +19,8 @@ class QRTrackerSpireCV : public rclcpp::Node {
 public:
     QRTrackerSpireCV()
         : Node("qr_tracker_spirecv") {
-        declare_parameter("rgb_topic", "/camera/d435i/color/image_raw");
-        declare_parameter("depth_topic", "/camera/d435i/depth/image_rect_raw");
+        declare_parameter("rgb_topic", "/camera/camera/color/image_raw");
+        declare_parameter("depth_topic", "/camera/camera/depth/image_rect_raw");
         declare_parameter("target_id", 1);
         declare_parameter("takeoff_alt", 1.5);
         declare_parameter("kpx_track", 0.2);

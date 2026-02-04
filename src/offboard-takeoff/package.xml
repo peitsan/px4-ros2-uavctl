@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>offboard_single_position</name>
+  <version>0.0.1</version>
+  <description>offboard_single_position package for drone</description>
+
+  <maintainer email="you@example.com">Your Name</maintainer>
+
+  <license>MIT</license>
+
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>mavros_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <depend>action_msgs</depend>
+  <depend>tf2</depend>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

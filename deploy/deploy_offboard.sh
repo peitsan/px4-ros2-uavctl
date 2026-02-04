@@ -18,7 +18,8 @@
 #   -h, --help          显示帮助信息
 #   -d, --date MMDD     指定日期（格式MMDD，默认为系统当前日期）
 #   -m, --message MSG   指定git提交信息（默认为upload-MMDD）
-#   -n, --no-commit     跳过git提交步骤，仅推送现有代码
+#   -c, --commit        执行git提交（默认不提交）
+#   -n, --no-commit     跳过git提交步骤，仅推送现有代码（默认）
 #   -s, --skip-ssh      仅进行本地git操作，不进行远端推送
 #
 # @author [Your Name]
@@ -67,7 +68,8 @@ ${BLUE}===============================================================${NC}
   -h, --help              显示此帮助信息
   -d, --date MMDD         指定日期（格式MMDD，如0128）
   -m, --message MSG       指定git提交信息
-  -n, --no-commit         跳过git提交，仅推送代码
+    -c, --commit            执行git提交（默认不提交）
+    -n, --no-commit         跳过git提交，仅推送代码（默认）
   -s, --skip-ssh          仅进行本地git操作，不推送到远端
 
 示例：
@@ -248,6 +250,9 @@ sync_code_to_remote() {
         --exclude='.DS_Store' \
         --exclude='deploy' \
         --exclude='docs' \
+        --exclude='realsense_ros_gazebo' \
+        --exclude='offboard-takeoff' \
+        --exclude='mavros2-realsense2-vinsfusion2' \
         '${LOCAL_PROJECT_PATH}/' \
         '${REMOTE_HOST}:${REMOTE_PROJECT_PATH}/'"
     
@@ -262,6 +267,28 @@ sync_code_to_remote() {
     else
         log_error "代码同步失败"
         exit 1
+    fi
+
+    # 额外同步 VINS-Fusion-ROS2 到远端工作空间根目录
+    if [ -d "${LOCAL_PROJECT_PATH}/src/VINS-Fusion-ROS2" ]; then
+        log_info "同步 VINS-Fusion-ROS2 到远端..."
+        local vins_rsync_cmd="rsync -avz --delete \
+            --exclude='.git' \
+            '${LOCAL_PROJECT_PATH}/src/VINS-Fusion-ROS2/' \
+            '${REMOTE_HOST}:/home/orangepi/uav_ws/src/VINS-Fusion-ROS2/'"
+        if [ $USE_SSHPASS -eq 1 ]; then
+            sshpass -p "${REMOTE_PASSWORD}" bash -c "${vins_rsync_cmd}"
+        else
+            bash -c "${vins_rsync_cmd}"
+        fi
+        if [ $? -eq 0 ]; then
+            log_info "VINS-Fusion-ROS2 同步成功✓"
+        else
+            log_error "VINS-Fusion-ROS2 同步失败"
+            exit 1
+        fi
+    else
+        log_warn "未找到 src/VINS-Fusion-ROS2，跳过同步"
     fi
 }
 
@@ -392,7 +419,7 @@ main() {
     # 初始化变量
     CUSTOM_DATE=""
     CUSTOM_MESSAGE=""
-    SKIP_COMMIT=0
+    SKIP_COMMIT=1
     SKIP_SSH=0
     USE_SSHPASS=0
     
@@ -410,6 +437,10 @@ main() {
             -m|--message)
                 CUSTOM_MESSAGE="$2"
                 shift 2
+                ;;
+            -c|--commit)
+                SKIP_COMMIT=0
+                shift
                 ;;
             -n|--no-commit)
                 SKIP_COMMIT=1

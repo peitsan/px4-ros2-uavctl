@@ -16,8 +16,8 @@ def generate_launch_description():
         name='qr_tracker_spirecv',
         output='screen',
         parameters=[{
-            'rgb_topic': '/camera/d435i/color/image_raw',
-            'depth_topic': '/camera/d435i/depth/image_rect_raw',
+            'rgb_topic': '/camera/camera/color/image_raw',
+            'depth_topic': '/camera/camera/depth/image_rect_raw',
             'target_id': 1,
             'takeoff_alt': 1.5,
             'tracking_delta_x': 2.5,

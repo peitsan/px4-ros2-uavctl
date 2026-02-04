@@ -44,9 +44,16 @@ target_link_libraries(offboard_control_lib
 	Eigen3::Eigen
 )
 
+add_executable(offboard_arm
+	src/px4_hexctl/src/offboard_arm.cpp
+)
+
+target_link_libraries(offboard_arm offboard_control_lib)
+
 add_executable(offboard_takeoff
 	src/px4_hexctl/src/offboard_takeoff.cpp
 )
+
 
 add_executable(offboard_circle
 	src/px4_hexctl/src/offboard_circle.cpp
@@ -64,9 +71,9 @@ add_executable(qr_tracker
 	src/px4_hexctl/src/qr_tracker.cpp
 )
 
-add_executable(qr_qrcode_opencv
-	src/px4_hexctl/src/qr_qrcode_opencv.cpp
-)
+# add_executable(qr_qrcode_opencv
+# 	src/px4_hexctl/src/qr_qrcode_opencv.cpp
+# )
 
 if(SPIRECV_FOUND)
 	add_executable(qr_tracker_spirecv
@@ -82,8 +89,14 @@ add_executable(takeoff_fixedpoint
 	src/px4_hexctl/src/takeoff_fixedpoint.cpp
 )
 
+add_executable(offboard_single_position_xrdds
+	src/px4_hexctl/src/offboard_single_position_xrdds.cpp
+)
+
 target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
+
 target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
+target_link_libraries(offboard_single_position_xrdds offboard_control_lib)
 target_link_libraries(qr_tracker 
 	PRIVATE 
 	offboard_control_lib 
@@ -91,16 +104,23 @@ target_link_libraries(qr_tracker
 	cv_bridge::cv_bridge
 )
 
-target_link_libraries(qr_qrcode_opencv
-	${OpenCV_LIBRARIES}
-	cv_bridge::cv_bridge
-)
+# target_link_libraries(qr_qrcode_opencv
+# 	${OpenCV_LIBRARIES}
+# 	cv_bridge::cv_bridge
+# )
 
-ament_target_dependencies(qr_qrcode_opencv
+# ament_target_dependencies(qr_qrcode_opencv
+# 	rclcpp
+# 	sensor_msgs
+# 	geometry_msgs
+# )
+
+ament_target_dependencies(offboard_arm
 	rclcpp
 	sensor_msgs
 	geometry_msgs
 )
+
 
 if(SPIRECV_FOUND)
 	target_link_libraries(qr_tracker_spirecv
@@ -136,15 +156,23 @@ ament_target_dependencies(takeoff_fixedpoint
 	px4_msgs
 )
 
+
+ament_target_dependencies(offboard_single_position_xrdds
+	rclcpp
+	px4_msgs
+)
+
 set(PX4_HEXCTL_TARGETS
+	offboard_arm
 	offboard_takeoff
 	offboard_circle
 	qr_tracker
-	qr_qrcode_opencv
+	# qr_qrcode_opencv
 	qr_tracker_alt
 	offboard_tracker_manager
 	sms_click_target_bridge
 	takeoff_fixedpoint
+	offboard_single_position_xrdds
 )
 if(SPIRECV_FOUND)
 	list(APPEND PX4_HEXCTL_TARGETS qr_tracker_spirecv)

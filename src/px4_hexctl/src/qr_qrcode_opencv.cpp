@@ -188,7 +188,12 @@ private:
             // 使用 OpenCV ArUco 模块检测 DICT_APRILTAG_36h11 字典中的标记
             std::vector<int> ids;
             std::vector<std::vector<cv::Point2f>> corners;
+#if (CV_VERSION_MAJOR > 4) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
+            cv::aruco::ArucoDetector detector(*dictionary_, *detector_params_);
+            detector.detectMarkers(frame, corners, ids);
+#else
             cv::aruco::detectMarkers(frame, dictionary_, corners, ids, detector_params_);
+#endif
 
             if (!ids.empty()) {
                 // ===== 6DOF 位姿估计 =====
@@ -224,8 +229,7 @@ private:
                 if (publish_debug_image_) {
                     // 绘制所有检测到的标记轮廓
                     cv::aruco::drawDetectedMarkers(frame, corners, ids);
-                    // 绘制选中标记的坐标轴 (用于可视化 6DOF 位姿)
-                    cv::aruco::drawAxis(frame, camera_matrix_, dist_coeffs_, rvecs[best_idx], tvecs[best_idx], qr_size_m_ * 0.5);
+                    // 注：drawAxis 在 OpenCV 4.7+ 中已移除
                 }
 
                 // ===== 计算标记中心 =====
@@ -397,9 +401,11 @@ private:
 
     // ========== OpenCV ArUco 参数 ==========
     /// AprilTag 36h11 字典 (标准 4x4 位码)
-    cv::Ptr<cv::aruco::Dictionary> dictionary_ = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_APRILTAG_36h11);
+    cv::Ptr<cv::aruco::Dictionary> dictionary_ =
+        cv::aruco::getPredefinedDictionary(cv::aruco::DICT_APRILTAG_36h11);
     /// 检测器参数 (使用默认值)
-    cv::Ptr<cv::aruco::DetectorParameters> detector_params_ = cv::aruco::DetectorParameters::create();
+    cv::Ptr<cv::aruco::DetectorParameters> detector_params_ =
+        cv::aruco::DetectorParameters::create();
     /// 摄像头内参矩阵 K
     cv::Mat camera_matrix_;
     /// 摄像头畸变系数

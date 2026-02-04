@@ -1,11 +1,11 @@
 # SpireCV ArUco Tracker (PX4 Real Robot)
 
 ## Overview
-This node uses **SpireCV** to detect ArUco markers from the **D435i RGB stream** and commands PX4 Offboard **velocity setpoints** to follow the target in the **forward/left/right** directions while maintaining fixed altitude.
+This node uses **SpireCV** to detect ArUco markers from the **camera RGB stream** and commands PX4 Offboard **velocity setpoints** to follow the target in the **forward/left/right** directions while maintaining fixed altitude.
 
 ## Topics
-- RGB: `/camera/d435i/color/image_raw`
-- Depth: `/camera/d435i/depth/image_rect_raw`
+- RGB: `/camera/camera/color/image_raw`
+- Depth: `/camera/camera/depth/image_rect_raw`
 
 ## Run
 ```bash

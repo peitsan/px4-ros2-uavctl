@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="x500_d435i_full">
+  
+  <xacro:property name="PI" value="3.14159265"/>
+  
+  <!-- ============ BASE UAV MODEL ============ -->
+  <!-- X500 Quadrotor Frame -->
+  <link name="base_link">
+    <inertial>
+      <mass value="2.244"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.02142" ixy="0.0" ixz="0.0" iyy="0.02142" iyz="0.0" izz="0.04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.38 0.38 0.1"/>
+      </geometry>
+      <material name="DarkGray">
+        <color rgba="0.3 0.3 0.3 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.38 0.38 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ============ D435i CAMERA MOUNTING ============ -->
+  <!-- Main camera optical frame link -->
+  <joint name="d435_bottom_screw_frame_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="d435_bottom_screw_frame"/>
+    <origin xyz="0.12 0.03 0.08" rpy="0 0 0"/>
+  </joint>
+
+  <link name="d435_bottom_screw_frame">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://depth_d435/meshes/d435.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ============ SENSORS DEFINITION ============ -->
+  
+  <!-- IMU Sensor (on base_link) -->
+  <gazebo reference="base_link">
+    <sensor name="imu_sensor" type="imu">
+      <ignition_frame_id>base_link</ignition_frame_id>
+      <always_on>1</always_on>
+      <update_rate>200</update_rate>
+      <visualize>false</visualize>
+      <topic>imu</topic>
+      <imu>
+        <enable_orientation>0</enable_orientation>
+        <angular_velocity>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.009</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.00025</precision>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.009</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.00025</precision>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.009</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.00025</precision>
+            </noise>
+          </z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.021</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.005</precision>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.021</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.005</precision>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.021</stddev>
+              <bias_mean>0.00075</bias_mean>
+              <bias_stddev>0.005</bias_stddev>
+              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+              <precision>0.005</precision>
+            </noise>
+          </z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <!-- RGB Camera Sensor (from D435i) -->
+  <gazebo reference="d435_bottom_screw_frame">
+    <sensor name="color_camera" type="camera">
+      <ignition_frame_id>d435_bottom_screw_frame</ignition_frame_id>
+      <optical_frame_id>d435_color_optical_frame</optical_frame_id>
+      <camera>
+        <horizontal_fov>1.2217304763960899</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB_INT8</format>
+        </image>
+        <camera_info_topic>camera/color/camera_info</camera_info_topic>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>false</visualize>
+      <topic>camera/color/image_raw</topic>
+    </sensor>
+  </gazebo>
+
+  <!-- Depth Camera Sensor (from D435i) -->
+  <joint name="d435_depth_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="d435_depth_frame"/>
+    <origin xyz="0.12 0.03 0.08" rpy="0 0 0"/>
+  </joint>
+
+  <link name="d435_depth_frame"/>
+
+  <gazebo reference="d435_depth_frame">
+    <sensor name="depth_camera" type="depth_camera">
+      <ignition_frame_id>d435_depth_frame</ignition_frame_id>
+      <camera>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>L8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>300</far>
+        </clip>
+        <lens>
+          <intrinsics>
+            <fx>277.1</fx>
+            <fy>277.1</fy>
+            <cx>640</cx>
+            <cy>360</cy>
+            <s>0</s>
+          </intrinsics>
+        </lens>
+        <distortion>
+          <k1>0.104207</k1>
+          <k2>-0.255558</k2>
+          <k3>0.128694</k3>
+          <p1>0.000512</p1>
+          <p2>0.000319</p2>
+          <center>0.5 0.5</center>
+        </distortion>
+        <noise>
+          <type>gaussian</type>
+          <mean>0</mean>
+          <stddev>0.003</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>false</visualize>
+      <topic>camera/depth/image_rect_raw</topic>
+    </sensor>
+  </gazebo>
+
+  <!-- IR Left Sensor (from D435i) -->
+  <joint name="d435_infra1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="d435_infra1_frame"/>
+    <origin xyz="0.12 0.03 0.08" rpy="0 0 0"/>
+  </joint>
+
+  <link name="d435_infra1_frame"/>
+
+  <gazebo reference="d435_infra1_frame">
+    <sensor name="infra1_camera" type="camera">
+      <ignition_frame_id>d435_infra1_frame</ignition_frame_id>
+      <camera>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>L8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>false</visualize>
+      <topic>camera/infra1/image_rect_raw</topic>
+    </sensor>
+  </gazebo>
+
+  <!-- IR Right Sensor (from D435i) -->
+  <joint name="d435_infra2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="d435_infra2_frame"/>
+    <origin xyz="0.12 0.03 0.08" rpy="0 0 0"/>
+  </joint>
+
+  <link name="d435_infra2_frame"/>
+
+  <gazebo reference="d435_infra2_frame">
+    <sensor name="infra2_camera" type="camera">
+      <ignition_frame_id>d435_infra2_frame</ignition_frame_id>
+      <camera>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>L8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>false</visualize>
+      <topic>camera/infra2/image_rect_raw</topic>
+    </sensor>
+  </gazebo>
+
+  <!-- ============ GAZEBO PLUGINS ============ -->
+  <gazebo>
+    <!-- Physics engine -->
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics">
+    </plugin>
+
+    <!-- Sensors system -->
+    <plugin filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Joint state publisher for gz-sim7 -->
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+    </plugin>
+
+    <!-- Link state publisher (odometry) for gz-sim7 -->
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+      <dimensions>3</dimensions>
+    </plugin>
+
+    <!-- User commands (for interactive control) -->
+    <plugin filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <!-- Scene broadcaster for tf publication -->
+    <plugin filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- IMU system -->
+    <plugin filename="gz-sim-imu-system"
+            name="gz::sim::systems::Imu">
+    </plugin>
+  </gazebo>
+
+</robot>

@@ -6,6 +6,9 @@
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_local_position.hpp>
 #include <px4_msgs/msg/vehicle_status.hpp>
+#include <px4_msgs/msg/vehicle_attitude.hpp>
+#include <px4_msgs/msg/vehicle_imu.hpp>
+#include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <px4_msgs/msg/vehicle_attitude_setpoint.hpp>
 #include <px4_msgs/msg/goto_setpoint.hpp>
 
@@ -42,10 +45,11 @@ public:
     void disarm();
     void engage_offboard_mode(int prewarm_count = 10, double prewarm_timeout = 5.0);
     bool takeoff(double takeoff_height = 2.0, double timeout = 20.0);
+    void start_takeoff_async(double takeoff_height = 2.0, double timeout = 20.0);
     bool hover(double duration, double timeout = -1.0);
     bool land(double latitude = NAN, double longitude = NAN, double altitude = 0.0,
               double yaw = NAN, double abort_alt = 0.0, int land_mode = 0, double timeout = 60.0);
-    void stop_heartbeat() {stop_heartbeat_ = true;}
+    void stop_heartbeat();
     bool simulated_land(double descent_rate, double ground_tolerance, double timeout);
     bool fly_to_trajectory_setpoint(double x, double y, double z, double yaw, double timeout);
     
@@ -82,6 +86,20 @@ public:
         return (vehicle_local_position_enu_.timestamp > 0 && xy_valid_ && z_valid_); 
     }
 
+    /**
+     * @brief Check if XY position is valid
+     */
+    bool is_xy_valid() const {
+        return (vehicle_local_position_enu_.timestamp > 0 && xy_valid_);
+    }
+
+    /**
+     * @brief Check if Z position (height) is valid
+     */
+    bool is_z_valid() const {
+        return (vehicle_local_position_enu_.timestamp > 0 && z_valid_);
+    }
+
     void publish_vehicle_command(uint16_t command, double param1 = 0.0, double param2 = 0.0,
                                  double param3 = 0.0, double param4 = 0.0, double param5 = 0.0,
                                  double param6 = 0.0, double param7 = 0.0);
@@ -92,6 +110,7 @@ private:
     // ...existing code...
     void throttle_log(double interval_sec, const std::string &msg, const std::string &level = "info", const std::string &tag = "default");
     void heartbeat_loop();
+    void takeoff_async_loop(double takeoff_height, double timeout);
     void publish_offboard_control_heartbeat_signal(const std::string &control_mode);
     void publish_trajectory_setpoint(std::vector<double> position = {},
                                      std::vector<double> velocity = {},
@@ -110,6 +129,10 @@ private:
     // Callbacks
     void vehicle_local_position_callback(const px4_msgs::msg::VehicleLocalPosition::SharedPtr msg);
     void vehicle_status_callback(const px4_msgs::msg::VehicleStatus::SharedPtr msg);
+    void vehicle_attitude_callback(const px4_msgs::msg::VehicleAttitude::SharedPtr msg);
+    void vehicle_imu_callback(const px4_msgs::msg::VehicleImu::SharedPtr msg);
+    void vehicle_odometry_callback(const px4_msgs::msg::VehicleOdometry::SharedPtr msg);
+    void reset_imu_estimator(double z0);
 
     // Publishers
     rclcpp::Publisher<px4_msgs::msg::OffboardControlMode>::SharedPtr offboard_control_mode_publisher_;
@@ -122,6 +145,9 @@ private:
     rclcpp::Subscription<px4_msgs::msg::VehicleLocalPosition>::SharedPtr vehicle_local_position_subscriber_;
     rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::SharedPtr vehicle_status_subscriber_;
     rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::SharedPtr vehicle_status_alt_subscriber_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleAttitude>::SharedPtr vehicle_attitude_subscriber_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleImu>::SharedPtr vehicle_imu_subscriber_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::SharedPtr vehicle_odometry_subscriber_;
 
     // Internal state
     std::string namespace_;
@@ -130,11 +156,37 @@ private:
     std::array<double, 3> home_position_;
     px4_msgs::msg::VehicleLocalPosition vehicle_local_position_enu_;
     px4_msgs::msg::VehicleStatus vehicle_status_;
+    px4_msgs::msg::VehicleAttitude vehicle_attitude_;
+    px4_msgs::msg::VehicleOdometry vehicle_odometry_enu_;
     bool vehicle_local_position_received_;
+    bool vehicle_odometry_received_ = false;
+    bool odom_offset_initialized_ = false;
+    double odom_z_offset_ = 0.0;
+    bool odom_z_filtered_initialized_ = false;
+    double odom_z_filtered_ = 0.0;
+    bool odom_raw_initialized_ = false;
+    double odom_z_raw_enu_ = 0.0;
+    bool vehicle_attitude_received_ = false;
     bool is_takeoff_complete_;
     bool target_reached_;
     double takeoff_height_;
     int offboard_setpoint_counter_;
+
+    // IMU-based vertical estimator (ENU z)
+    bool imu_estimator_initialized_ = false;
+    double imu_z_ = 0.0;
+    double imu_vz_ = 0.0;
+    double imu_bias_z_ = 0.0;
+    uint64_t imu_last_timestamp_ = 0;
+    
+    // Takeoff async state
+    std::thread takeoff_thread_;
+    std::atomic<bool> takeoff_running_{false};
+
+    // Flight controller status monitoring
+    std::atomic<bool> fmu_status_error_{false};
+    std::string last_fmu_error_message_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::SharedPtr fmu_status_subscriber_;
 
     // Heartbeat
     std::thread heartbeat_thread_;

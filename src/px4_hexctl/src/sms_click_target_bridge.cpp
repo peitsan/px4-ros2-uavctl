@@ -10,7 +10,7 @@ public:
         const std::string &job_name,
         const std::string &param_file,
         const std::string &ip = "127.0.0.1",
-        int port = 9094,
+        int port = 29094,
         const nlohmann::json &kwargs = {})
         : sms::BaseNode("SmsClickTargetBridge", job_name, param_file, ip, port, kwargs),
           target_pub_("/qr_tracker/expected_position", "geometry_msgs::Point3") {
