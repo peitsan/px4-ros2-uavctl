@@ -64,7 +64,7 @@
 
 1. **检查用户名和密码**
    ```bash
-   ssh orangepi@192.168.3.17
+   ssh orangepi@192.168.5.163
    # 输入密码：orangepi
    ```
 
@@ -77,14 +77,14 @@
 3. **配置SSH密钥认证**
    ```bash
    ssh-keygen -t ed25519
-   ssh-copy-id orangepi@192.168.3.17
+   ssh-copy-id orangepi@192.168.5.163
    ```
 
 ---
 
 ### Q5: SSH连接超时
 
-**问题描述：** `ssh: connect to host 192.168.3.17 port 22: Connection timed out`
+**问题描述：** `ssh: connect to host 192.168.5.163 port 22: Connection timed out`
 
 **原因可能：**
 - 网络连接问题
@@ -95,7 +95,7 @@
 
 1. **检查网络连接**
    ```bash
-   ping 192.168.3.17
+   ping 192.168.5.163
    ```
 
 2. **检查IP地址**
@@ -125,7 +125,7 @@
 2. **或配置SSH密钥** - 推荐方式
    ```bash
    ssh-keygen -t ed25519
-   ssh-copy-id orangepi@192.168.3.17
+   ssh-copy-id orangepi@192.168.5.163
    ```
 
 ---
@@ -203,7 +203,7 @@ git commit -m "resolve merge conflict"
 - 有大量修改
 
 **解决方案：**
-- 检查网络连接：`ping 192.168.3.17`
+- 检查网络连接：`ping 192.168.5.163`
 - 首次同步可能需要更长时间
 - 配置带宽限制（如需要）
 
@@ -219,14 +219,14 @@ git commit -m "resolve merge conflict"
 
 1. **检查ROS2是否安装**
    ```bash
-   ssh orangepi@192.168.3.17
+   ssh orangepi@192.168.5.163
    source /opt/ros/humble/setup.bash
    ros2 --version
    ```
 
 2. **手动编译测试**
    ```bash
-   ssh orangepi@192.168.3.17
+   ssh orangepi@192.168.5.163
    cd /home/orangepi/uav_ws/src/px4_hexctl
    source /opt/ros/humble/setup.bash
    colcon build --symlink-install
@@ -299,7 +299,7 @@ git commit -m "resolve merge conflict"
 编辑 `deploy/deploy_config.sh`：
 ```bash
 DEPLOY_REMOTE_USER="orangepi"
-DEPLOY_REMOTE_IP="192.168.3.17"
+DEPLOY_REMOTE_IP="192.168.5.163"
 DEPLOY_REMOTE_PASSWORD="orangepi"
 DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 ```
@@ -312,12 +312,12 @@ DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 
 1. **检查网络**
    ```bash
-   ping 192.168.3.17
+   ping 192.168.5.163
    ```
 
 2. **检查SSH**
    ```bash
-   ssh orangepi@192.168.3.17 "echo OK"
+   ssh orangepi@192.168.5.163 "echo OK"
    ```
 
 3. **检查Git**
@@ -379,7 +379,7 @@ DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
 
 ```bash
 # 在香橙派上检查串口设备
-ssh orangepi@192.168.3.17 "ls -la /dev/ttyUSB* /dev/ttyACM*"
+ssh orangepi@192.168.5.163 "ls -la /dev/ttyUSB* /dev/ttyACM*"
 
 # 应该看到至少一个设备，例如:
 # crw-rw---- 1 root dialout 188, 0  /dev/ttyUSB0
@@ -415,7 +415,7 @@ MicroXRCEAgent serial -D /dev/ttyUSB0 -b 921600
 
 ```bash
 # 在香橙派上启动 MicroXRCEAgent，查看连接信息
-ssh orangepi@192.168.3.17 
+ssh orangepi@192.168.5.163 
 MicroXRCEAgent serial -D /dev/ttyUSB0 -b 115200 -v5
 ```
 
@@ -428,7 +428,7 @@ MicroXRCEAgent serial -D /dev/ttyUSB0 -b 115200 -v5
 ```bash
 # 错误：Permission denied: /dev/ttyUSB0
 # 解决：
-ssh orangepi@192.168.3.17 "sudo usermod -a -G dialout orangepi"
+ssh orangepi@192.168.5.163 "sudo usermod -a -G dialout orangepi"
 # 然后重新登录 SSH
 ```
 
@@ -473,10 +473,10 @@ ls -la /dev/ttyUSB*
 解决:
 ```bash
 # 验证位置数据
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_local_position_v1' &
+ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic echo /fmu/out/vehicle_local_position_v1' &
 
 # 在另一个终端,启动 Offboard Control
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'
+ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 run px4_hexctl offboard_control_main'
 ```
 
 位置数据应该继续输出。
@@ -488,13 +488,13 @@ ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 run px4_he
 bash ~/Desktop/px4-ros2-uavctl/deploy/diagnose_offboard.sh
 
 # 实时监控位置数据
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/out/vehicle_local_position_v1'
+ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/out/vehicle_local_position_v1'
 
 # 实时监控飞控状态
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/out/vehicle_status'
+ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/out/vehicle_status'
 
 # 检查 Offboard 信号发送
-ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/in/offboard_control_mode'
+ssh orangepi@192.168.5.163 'source ~/uav_ws/install/setup.bash && ros2 topic hz /fmu/in/offboard_control_mode'
 ```
 
 ## 最后的检查清单
@@ -514,7 +514,7 @@ ssh orangepi@192.168.3.17 'source ~/uav_ws/install/setup.bash && ros2 topic hz /
    ```bash
    # PX4 日志（在 QGC 中下载）
    # ROS2 日志
-   ssh orangepi@192.168.3.17 'cat ~/.ros/log/latest/offboard_control_center/0/stderr.log'
+   ssh orangepi@192.168.5.163 'cat ~/.ros/log/latest/offboard_control_center/0/stderr.log'
    ```
 
 2. 检查飞控固件版本和配置

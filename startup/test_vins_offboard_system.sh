@@ -67,9 +67,9 @@ echo "════════════════════════�
 echo "3️⃣  Checking VINS Configuration"
 echo "═══════════════════════════════════════════════════════════"
 
-VINS_CONFIG="$WS_PATH/src/VINS-Fusion-ROS2/config/realsense_d435i/realsense_stereo_imu_config.yaml"
+VINS_CONFIG="$WS_PATH/third_party/VINS-Fusion-ROS2/config/realsense_d435i/realsense_stereo_imu_config.yaml"
 check_file "$VINS_CONFIG"
-check_dir "$WS_PATH/src/VINS-Fusion-ROS2/install"
+check_dir "$WS_PATH/third_party/VINS-Fusion-ROS2/install"
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"

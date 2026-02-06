@@ -20,9 +20,13 @@
 .
 ├── deploy/               # 🚀 部署脚本 (rsync + ssh + colcon)
 ├── docs/                 # 📚 详细文档与故障排除
-├── src/                  # �� 源代码
-│   ├── px4_hexctl/       # C++ 核心库与示例 (offboard_circle 等)
-│   └── py_script/        # Python 参考脚本
+├── src/                  # ✅ ROS2 源码包（均参与编译）
+│   ├── px4_hexctl/       # C++ 核心库与示例 + Python 脚本
+│   ├── depth_d435/       # D435i 传感器仿真包
+│   ├── offboard-takeoff/ # Offboard 起飞示例包
+│   └── px4_control/      # 控制与可视化包
+├── third_party/          # 第三方/可选依赖（默认不编译）
+│   └── VINS-Fusion-ROS2/
 ├── startup/              # ⚡ 启动脚本 (远程启动 Agent 与 任务)
 └── CMakeLists.txt        # 构建配置
 ```

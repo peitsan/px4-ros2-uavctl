@@ -8,7 +8,7 @@ set -e
 
 # === Configuration ===
 WS_PATH="/home/ubuntu/Desktop/px4-ros2-uavctl"
-VINS_CONFIG="$WS_PATH/src/VINS-Fusion-ROS2/config/realsense_d435i/realsense_stereo_imu_config.yaml"
+VINS_CONFIG="$WS_PATH/third_party/VINS-Fusion-ROS2/config/realsense_d435i/realsense_stereo_imu_config.yaml"
 export ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
 
 # === Colors ===
@@ -34,7 +34,7 @@ echo ""
 # === Setup ROS2 Environment ===
 cd "$WS_PATH"
 source /opt/ros/humble/setup.bash
-source ./src/VINS-Fusion-ROS2/install/setup.bash
+source ./third_party/VINS-Fusion-ROS2/install/setup.bash
 source ./install/setup.bash  # Source local workspace
 
 echo -e "${GREEN}✅ ROS2 environment sourced${NC}"

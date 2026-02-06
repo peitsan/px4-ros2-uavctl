@@ -35,7 +35,7 @@ set -e  # 遇到错误立即退出
 
 # 远端香橙派信息
 REMOTE_USER="orangepi"
-REMOTE_IP="192.168.3.17"
+REMOTE_IP="192.168.5.163"
 REMOTE_HOST="${REMOTE_USER}@${REMOTE_IP}"
 REMOTE_PASSWORD="orangepi"
 REMOTE_PROJECT_PATH="/home/orangepi/uav_ws/src/px4_hexctl"
@@ -253,7 +253,7 @@ sync_code_to_remote() {
         --exclude='realsense_ros_gazebo' \
         --exclude='offboard-takeoff' \
         --exclude='mavros2-realsense2-vinsfusion2' \
-        '${LOCAL_PROJECT_PATH}/' \
+        '${LOCAL_PROJECT_PATH}/src/px4_hexctl/' \
         '${REMOTE_HOST}:${REMOTE_PROJECT_PATH}/'"
     
     if [ $USE_SSHPASS -eq 1 ]; then
@@ -270,12 +270,12 @@ sync_code_to_remote() {
     fi
 
     # 额外同步 VINS-Fusion-ROS2 到远端工作空间根目录
-    if [ -d "${LOCAL_PROJECT_PATH}/src/VINS-Fusion-ROS2" ]; then
+    if [ -d "${LOCAL_PROJECT_PATH}/third_party/VINS-Fusion-ROS2" ]; then
         log_info "同步 VINS-Fusion-ROS2 到远端..."
         local vins_rsync_cmd="rsync -avz --delete \
             --exclude='.git' \
-            '${LOCAL_PROJECT_PATH}/src/VINS-Fusion-ROS2/' \
-            '${REMOTE_HOST}:/home/orangepi/uav_ws/src/VINS-Fusion-ROS2/'"
+            '${LOCAL_PROJECT_PATH}/third_party/VINS-Fusion-ROS2/' \
+            '${REMOTE_HOST}:/home/orangepi/uav_ws/third_party/VINS-Fusion-ROS2/'"
         if [ $USE_SSHPASS -eq 1 ]; then
             sshpass -p "${REMOTE_PASSWORD}" bash -c "${vins_rsync_cmd}"
         else
@@ -288,7 +288,7 @@ sync_code_to_remote() {
             exit 1
         fi
     else
-        log_warn "未找到 src/VINS-Fusion-ROS2，跳过同步"
+        log_warn "未找到 third_party/VINS-Fusion-ROS2，跳过同步"
     fi
 }
 

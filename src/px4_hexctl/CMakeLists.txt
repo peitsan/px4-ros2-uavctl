@@ -26,15 +26,15 @@ endif()
 find_package(image_view_msgs QUIET)
 
 include_directories(
-	src/px4_hexctl/include
+	include
 	${px4_msgs_INCLUDE_DIRS}
 	${EIGEN3_INCLUDE_DIRS}
 	${OpenCV_INCLUDE_DIRS}
 )
 
 add_library(offboard_control_lib
-	src/px4_hexctl/src/offboard_control_lib/offboard_control.cpp
-	src/px4_hexctl/src/offboard_control_lib/vehicle.cpp
+	src/offboard_control_lib/offboard_control.cpp
+	src/offboard_control_lib/vehicle.cpp
 )
 
 target_link_libraries(offboard_control_lib
@@ -45,58 +45,58 @@ target_link_libraries(offboard_control_lib
 )
 
 add_executable(offboard_arm
-	src/px4_hexctl/src/offboard_arm.cpp
+	src/offboard_arm.cpp
 )
 
 target_link_libraries(offboard_arm offboard_control_lib)
 
 add_executable(offboard_takeoff
-	src/px4_hexctl/src/offboard_takeoff.cpp
+	src/offboard_takeoff.cpp
 )
 
 
 add_executable(offboard_circle
-	src/px4_hexctl/src/offboard_circle.cpp
+	src/offboard_circle.cpp
 )
 
 add_executable(offboard_tracker_manager
-	src/px4_hexctl/src/offboard_tracker_manager.cpp
+	src/offboard_tracker_manager.cpp
 )
 
 add_executable(sms_click_target_bridge
-	src/px4_hexctl/src/sms_click_target_bridge.cpp
+	src/sms_click_target_bridge.cpp
 )
 
 add_executable(qr_tracker
-	src/px4_hexctl/src/qr_tracker.cpp
+	src/qr_tracker.cpp
 )
 
 # add_executable(qr_qrcode_opencv
-# 	src/px4_hexctl/src/qr_qrcode_opencv.cpp
+# 	src/qr_qrcode_opencv.cpp
 # )
 
 if(SPIRECV_FOUND)
 	add_executable(qr_tracker_spirecv
-		src/px4_hexctl/src/qr_tracker_spirecv.cpp
+		src/qr_tracker_spirecv.cpp
 	)
 endif()
 
 add_executable(qr_tracker_alt
-	src/px4_hexctl/src/qr_tracker_alt.cpp
+	src/qr_tracker_alt.cpp
 )
 
 add_executable(takeoff_fixedpoint
-	src/px4_hexctl/src/takeoff_fixedpoint.cpp
+	src/takeoff_fixedpoint.cpp
 )
 
-add_executable(offboard_single_position_xrdds
-	src/px4_hexctl/src/offboard_single_position_xrdds.cpp
-)
+# add_executable(offboard_single_position_xrdds
+# 	src/offboard_single_position_xrdds.cpp
+# )
 
 target_link_libraries(offboard_takeoff PRIVATE offboard_control_lib)
 
 target_link_libraries(offboard_circle PRIVATE offboard_control_lib)
-target_link_libraries(offboard_single_position_xrdds offboard_control_lib)
+# target_link_libraries(offboard_single_position_xrdds offboard_control_lib)
 target_link_libraries(qr_tracker 
 	PRIVATE 
 	offboard_control_lib 
@@ -157,10 +157,10 @@ ament_target_dependencies(takeoff_fixedpoint
 )
 
 
-ament_target_dependencies(offboard_single_position_xrdds
-	rclcpp
-	px4_msgs
-)
+# ament_target_dependencies(offboard_single_position_xrdds
+# 	rclcpp
+# 	px4_msgs
+# )
 
 set(PX4_HEXCTL_TARGETS
 	offboard_arm
@@ -172,7 +172,7 @@ set(PX4_HEXCTL_TARGETS
 	offboard_tracker_manager
 	sms_click_target_bridge
 	takeoff_fixedpoint
-	offboard_single_position_xrdds
+	# offboard_single_position_xrdds
 )
 if(SPIRECV_FOUND)
 	list(APPEND PX4_HEXCTL_TARGETS qr_tracker_spirecv)
@@ -188,16 +188,22 @@ install(TARGETS
 	DESTINATION lib
 )
 
-install(DIRECTORY src/px4_hexctl/include/
+install(DIRECTORY include/
 	DESTINATION include/
 )
 
 install(PROGRAMS
-	src/py_script/main.py
-	src/py_script/main2.py
-	src/py_script/main_srv.py
-	src/py_script/offboard_control_lib.py
-	src/py_script/test_rect.py
+	px4_hexctl/vins_offboard_hover.py
+	DESTINATION lib/${PROJECT_NAME}
+	RENAME vins_offboard_hover
+)
+
+install(PROGRAMS
+	py_script/main.py
+	py_script/main2.py
+	py_script/main_srv.py
+	py_script/offboard_control_lib.py
+	py_script/test_rect.py
 	DESTINATION lib/${PROJECT_NAME}
 )
 

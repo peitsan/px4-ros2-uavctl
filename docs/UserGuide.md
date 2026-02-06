@@ -22,7 +22,7 @@ brew install git openssh rsync        # macOS
 ### 步骤2：配置远端
 
 ```bash
-ssh orangepi@192.168.3.17
+ssh orangepi@192.168.5.163
 mkdir -p /home/orangepi/uav_ws/src/px4_hexctl
 exit
 ```
@@ -64,8 +64,8 @@ deploy\deploy_offboard.bat
 
 ```bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
-ssh-copy-id orangepi@192.168.3.17
-ssh orangepi@192.168.3.17 "echo OK"
+ssh-copy-id orangepi@192.168.5.163
+ssh orangepi@192.168.5.163 "echo OK"
 ```
 
 ### 方案B：密码认证
@@ -96,7 +96,7 @@ ssh orangepi@192.168.3.17 "echo OK"
 
 ## ⚙️ 远端信息
 
-- **IP**: 192.168.3.17
+- **IP**: 192.168.5.163
 - **用户**: orangepi
 - **密码**: orangepi
 - **项目路径**: `/home/orangepi/uav_ws/src/px4_hexctl`
@@ -181,10 +181,10 @@ ssh orangepi@192.168.3.17 "echo OK"
 ssh-keygen -t ed25519
 
 # 复制到远端
-ssh-copy-id orangepi@192.168.3.17
+ssh-copy-id orangepi@192.168.5.163
 
 # 测试连接
-ssh orangepi@192.168.3.17 "echo OK"
+ssh orangepi@192.168.5.163 "echo OK"
 ```
 
 ---
@@ -192,7 +192,7 @@ ssh orangepi@192.168.3.17 "echo OK"
 ## ⚙️ 远端信息
 
 ```
-IP:       192.168.3.17
+IP:       192.168.5.163
 User:     orangepi
 Pass:     orangepi
 Port:     22
@@ -366,10 +366,10 @@ docs/
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
 # 2. 复制到远端
-ssh-copy-id orangepi@192.168.3.17
+ssh-copy-id orangepi@192.168.5.163
 
 # 3. 测试连接（应无需输入密码）
-ssh orangepi@192.168.3.17 "echo OK"
+ssh orangepi@192.168.5.163 "echo OK"
 
 # 4. 运行部署脚本
 ./deploy/deploy_offboard.sh
@@ -497,7 +497,7 @@ docs                # 文档目录
 ```bash
 # 远端信息
 DEPLOY_REMOTE_USER="orangepi"
-DEPLOY_REMOTE_IP="192.168.3.17"
+DEPLOY_REMOTE_IP="192.168.5.163"
 DEPLOY_REMOTE_PASSWORD="orangepi"
 DEPLOY_REMOTE_PROJECT_PATH="/home/orangepi/..."
 
